@@ -14,7 +14,19 @@
             "all": false,
             "shell": {
                 "all": false,
-                "open": true
+                "open": true,
+                "sidecar": true,
+                "scope": [
+                    {
+                        "name": "bin/api/rand_gen",
+                        "sidecar": true,
+                        "args": [
+                            {
+                                "validator": "\\S+"
+                            }
+                        ]
+                    }
+                ]
             }
         },
         "windows": [

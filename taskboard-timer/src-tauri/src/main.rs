@@ -23,7 +23,6 @@ fn increment_count(current_count: i32) -> Result<String, String> {
     }
 }
 
-
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![increment_count])

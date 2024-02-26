@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
+import { Command } from "@tauri-apps/api/shell";
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(10);
 
     const incrementCount = async () => {
         try {
-            const response = await invoke("increment_count", {
-                currentCount: count,
-            });
-            const data = JSON.parse(response as string);
+            const command = Command.sidecar("bin/api/rand_gen", [
+                count.toString(),
+            ]);
+            const output = await command.execute();
+            const data = JSON.parse(output.stdout);
             setCount(data.count);
         } catch (error) {
             console.error("Error incrementing count:", error);
