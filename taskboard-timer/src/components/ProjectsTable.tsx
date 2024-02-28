@@ -26,7 +26,7 @@ const ProjectsTable = () => {
     };
 
     const projectsColumns = [
-        { field: "ID", label: "ID" },
+        { field: "id", label: "ID" },
         { field: "name", label: "Project Name" },
     ];
     return (

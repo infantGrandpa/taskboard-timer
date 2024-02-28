@@ -35,7 +35,7 @@ const DynamicTable = ({ data, columns }: Props) => {
                         <TableRow key={rowIndex}>
                             {columns.map((column, colIndex) => (
                                 <TableCell key={colIndex}>
-                                    {row[column.field].toString()}
+                                    {row[column.field]}
                                 </TableCell>
                             ))}
                         </TableRow>
