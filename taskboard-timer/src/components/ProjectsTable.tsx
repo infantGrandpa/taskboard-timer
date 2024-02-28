@@ -1,22 +1,14 @@
-import { Button, CircularProgress, Stack } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import DynamicTable from "./DynamicTable";
 import AddIcon from "@mui/icons-material/Add";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
-
-type Project = {
-    id: number;
-    name: string;
-};
 
 const ProjectsTable = () => {
     const { data, isLoading, error, refetch } = useProjects();
 
     const addNewProject = async () => {
         const projectData = { name: "My New Project" };
-        /* setError(undefined); */
 
         try {
             const response = await fetch("http://127.0.0.1:5000/add_project", {
@@ -32,14 +24,8 @@ const ProjectsTable = () => {
             refetch();
         } catch (error) {
             console.error("Error adding new project:", error);
-            /* setError("Failed to fetch projects. Please try again."); */
         }
     };
-
-    /* const showError = () => {
-        setError(undefined);
-        setError("This is an error message!");
-    }; */
 
     const projectsColumns = [
         { field: "id", label: "ID" },
@@ -48,20 +34,17 @@ const ProjectsTable = () => {
 
     return (
         <>
-            <Stack direction="row" spacing={2}>
-                <Button
-                    variant="contained"
-                    onClick={addNewProject}
-                    startIcon={<AddIcon />}
-                >
-                    Add New Project
-                </Button>
-            </Stack>
-
             {isLoading && <CircularProgress />}
             {error && <ErrorMessage message={error} />}
 
             {data && <DynamicTable data={data} columns={projectsColumns} />}
+            <Button
+                variant="contained"
+                onClick={addNewProject}
+                startIcon={<AddIcon />}
+            >
+                Add New Project
+            </Button>
         </>
     );
 };
