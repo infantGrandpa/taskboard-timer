@@ -1,7 +1,6 @@
 import "./App.css";
 
 import { Container, Stack } from "@mui/material";
-import Count from "./components/Count";
 import ProjectsTable from "./components/ProjectsTable";
 
 function App() {

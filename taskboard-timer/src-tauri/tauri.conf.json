@@ -50,7 +50,7 @@
                 "icons/icon.icns",
                 "icons/icon.ico"
             ],
-            "externalBin": ["bin/api/rand_gen"]
+            "externalBin": ["bin/api/main"]
         }
     }
 }
