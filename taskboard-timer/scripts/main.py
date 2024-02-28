@@ -25,6 +25,16 @@ def print_all_projects():
     except Exception as e:
         return f'<p>Error querying database: {e}</p>'
 
+@app.route('/api/projects')
+def get_projects():
+    try:
+        projects = Project.query.all()
+        projects_data = [{'id': project.id, 'name': project.name} for project in projects]
+        return jsonify(projects_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/add_project', methods=['POST'])
 def add_project():
     data = request.get_json()
