@@ -7,9 +7,11 @@ export interface Project {
 
 const useProjects = () => {
     const endpoint = "http://127.0.0.1:5000/api/projects";
-    const { data, isLoading, error } = useData<Project[]>({ endpoint });
+    const { data, isLoading, error, refetch } = useData<Project[]>({
+        endpoint,
+    });
 
-    return { data, isLoading, error };
+    return { data, isLoading, error, refetch };
 };
 
 export default useProjects;

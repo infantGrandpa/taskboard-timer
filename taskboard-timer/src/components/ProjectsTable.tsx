@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
-import useProjects from "../hooks/useProject";
+import useProjects from "../hooks/useProjects";
 
 type Project = {
     id: number;
@@ -12,23 +12,7 @@ type Project = {
 };
 
 const ProjectsTable = () => {
-    const [projects, setProjects] = useState<Project[]>([]);
-    /* const [error, setError] = useState<string | undefined>(); */
-
-    const fetchProjects = async () => {
-        /* setError(undefined); */
-        try {
-            const response = await fetch("http://127.0.0.1:5000/api/projects");
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            setProjects(data);
-        } catch (error) {
-            console.error("Error fetching projects:", error);
-            /* setError("Failed to fetch projects. Please try again."); */
-        }
-    };
+    const { data, isLoading, error, refetch } = useProjects();
 
     const addNewProject = async () => {
         const projectData = { name: "My New Project" };
@@ -45,7 +29,7 @@ const ProjectsTable = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            fetchProjects();
+            refetch();
         } catch (error) {
             console.error("Error adding new project:", error);
             /* setError("Failed to fetch projects. Please try again."); */
@@ -62,8 +46,6 @@ const ProjectsTable = () => {
         { field: "name", label: "Project Name" },
     ];
 
-    const { data, isLoading, error } = useProjects();
-
     return (
         <>
             <Stack direction="row" spacing={2}>
@@ -74,16 +56,6 @@ const ProjectsTable = () => {
                 >
                     Add New Project
                 </Button>
-                <Button
-                    variant="outlined"
-                    onClick={fetchProjects}
-                    startIcon={<RefreshIcon />}
-                >
-                    Fetch Projects
-                </Button>
-                {/* <Button variant="outlined" onClick={showError}>
-                    ERROR
-                </Button> */}
             </Stack>
 
             {isLoading && <CircularProgress />}
