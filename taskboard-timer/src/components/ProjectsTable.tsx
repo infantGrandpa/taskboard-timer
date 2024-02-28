@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import DynamicTable from "./DynamicTable";
+import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useState } from "react";
 
@@ -19,9 +20,28 @@ const ProjectsTable = () => {
             }
             const data = await response.json();
             setProjects(data);
-            console.log(data);
         } catch (error) {
             console.error("Error fetching projects:", error);
+        }
+    };
+
+    const addNewProject = async () => {
+        const projectData = { name: "My New Project" };
+
+        try {
+            const response = await fetch("http://127.0.0.1:5000/add_project", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(projectData),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            fetchProjects();
+        } catch (error) {
+            console.error("Error adding new project:", error);
         }
     };
 
@@ -33,6 +53,13 @@ const ProjectsTable = () => {
         <>
             <Button
                 variant="contained"
+                onClick={addNewProject}
+                startIcon={<AddIcon />}
+            >
+                Add New Project
+            </Button>
+            <Button
+                variant="outlined"
                 onClick={fetchProjects}
                 startIcon={<RefreshIcon />}
             >
