@@ -1,9 +1,10 @@
-import { Button, Stack } from "@mui/material";
+import { Button, CircularProgress, Stack } from "@mui/material";
 import DynamicTable from "./DynamicTable";
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
+import useProjects from "../hooks/useProject";
 
 type Project = {
     id: number;
@@ -12,10 +13,10 @@ type Project = {
 
 const ProjectsTable = () => {
     const [projects, setProjects] = useState<Project[]>([]);
-    const [error, setError] = useState<string | undefined>();
+    /* const [error, setError] = useState<string | undefined>(); */
 
     const fetchProjects = async () => {
-        setError(undefined);
+        /* setError(undefined); */
         try {
             const response = await fetch("http://127.0.0.1:5000/api/projects");
             if (!response.ok) {
@@ -25,13 +26,13 @@ const ProjectsTable = () => {
             setProjects(data);
         } catch (error) {
             console.error("Error fetching projects:", error);
-            setError("Failed to fetch projects. Please try again.");
+            /* setError("Failed to fetch projects. Please try again."); */
         }
     };
 
     const addNewProject = async () => {
         const projectData = { name: "My New Project" };
-        setError(undefined);
+        /* setError(undefined); */
 
         try {
             const response = await fetch("http://127.0.0.1:5000/add_project", {
@@ -47,19 +48,22 @@ const ProjectsTable = () => {
             fetchProjects();
         } catch (error) {
             console.error("Error adding new project:", error);
-            setError("Failed to fetch projects. Please try again.");
+            /* setError("Failed to fetch projects. Please try again."); */
         }
     };
 
-    const showError = () => {
+    /* const showError = () => {
         setError(undefined);
         setError("This is an error message!");
-    };
+    }; */
 
     const projectsColumns = [
         { field: "id", label: "ID" },
         { field: "name", label: "Project Name" },
     ];
+
+    const { data, isLoading, error } = useProjects();
+
     return (
         <>
             <Stack direction="row" spacing={2}>
@@ -77,13 +81,15 @@ const ProjectsTable = () => {
                 >
                     Fetch Projects
                 </Button>
-                <Button variant="outlined" onClick={showError}>
+                {/* <Button variant="outlined" onClick={showError}>
                     ERROR
-                </Button>
+                </Button> */}
             </Stack>
 
-            <ErrorMessage message={error} />
-            <DynamicTable data={projects} columns={projectsColumns} />
+            {isLoading && <CircularProgress />}
+            {error && <ErrorMessage message={error} />}
+
+            {data && <DynamicTable data={data} columns={projectsColumns} />}
         </>
     );
 };
