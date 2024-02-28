@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 
@@ -32,7 +34,17 @@ class Project(db.Model):
     name = db.Column(db.String(120), nullable=False)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
 
 with app.app_context():
     db.create_all()
+
+if not app.debug:
+    file_handler = RotatingFileHandler('flask_app.log', maxBytes=10240, backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    ))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Flask application startup')
