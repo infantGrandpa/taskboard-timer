@@ -2,6 +2,16 @@ import { useState } from "react";
 import "./App.css";
 import { Command } from "@tauri-apps/api/shell";
 
+import {
+    Container,
+    Typography,
+    Button,
+    Card,
+    Stack,
+    CardContent,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+
 function App() {
     const [count, setCount] = useState(10);
 
@@ -19,11 +29,26 @@ function App() {
     };
 
     return (
-        <div className="container">
-            <h1>Increase the Count!</h1>
-            <button onClick={incrementCount}>Increase!</button>
-            <p>Count: {count}</p>
-        </div>
+        <Container maxWidth="sm">
+            <Stack spacing={2} justifyContent="center" alignItems="center">
+                <Typography variant="h1">Increase the Count!</Typography>
+                <Button
+                    variant="contained"
+                    onClick={incrementCount}
+                    endIcon={<AddIcon />}
+                >
+                    Increase
+                </Button>
+                <Card sx={{ minWidth: 275 }}>
+                    <CardContent>
+                        <Typography variant="h6">Count</Typography>
+                        <Typography variant="h2" sx={{ fontWeight: "bold" }}>
+                            {count}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </Stack>
+        </Container>
     );
 }
 
