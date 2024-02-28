@@ -12,8 +12,18 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disables modification no
 db = SQLAlchemy(app)  # Initializes the database connection
 
 @app.route('/')
-def hello():
-    return 'Hello, Taskboard Timer!'
+def print_all_projects():
+    try:
+        projects = Project.query.all()
+        projects_str = '<h1>Hello, Taskboard Timer!</h1>'
+        projects_str += '<p>Here are the projects in the database:</p>'
+        projects_str += '<table><th>ID</th><th>Project Name<th>'
+        for project in projects:
+            projects_str += f'<tr><td>{project.id}</td><td>{project.name}</td></tr>'
+        projects_str += '</table>'
+        return projects_str
+    except Exception as e:
+        return f'<p>Error querying database: {e}</p>'
 
 @app.route('/add_project', methods=['POST'])
 def add_project():
