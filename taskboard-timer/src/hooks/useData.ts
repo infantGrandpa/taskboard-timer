@@ -6,6 +6,8 @@ interface Props {
 }
 
 const useData = <T>({ endpoint, onError }: Props) => {
+    endpoint = "http://127.0.0.1:5000/" + endpoint;
+
     const [data, setData] = useState<T | null>(null);
     const [isLoading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
