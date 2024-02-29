@@ -1,9 +1,16 @@
-import { Button, CircularProgress } from "@mui/material";
+import {
+    Button,
+    Card,
+    CardContent,
+    CircularProgress,
+    Typography,
+} from "@mui/material";
 import DynamicTable from "./DynamicTable";
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
 import { addProject } from "../services/projectService";
+import ProjectCard from "./ProjectCard";
 
 const ProjectsTable = () => {
     const { data, isLoading, error, refetch } = useProjects();
@@ -18,17 +25,15 @@ const ProjectsTable = () => {
         }
     };
 
-    const projectsColumns = [
-        { field: "id", label: "ID" },
-        { field: "name", label: "Project Name" },
-    ];
-
     return (
         <>
             {isLoading && <CircularProgress />}
             {error && <ErrorMessage message={error} />}
 
-            {data && <DynamicTable data={data} columns={projectsColumns} />}
+            {data &&
+                data.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                ))}
             <Button
                 variant="contained"
                 onClick={handleAddProject}
