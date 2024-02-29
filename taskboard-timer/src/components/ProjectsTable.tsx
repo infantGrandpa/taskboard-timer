@@ -3,27 +3,18 @@ import DynamicTable from "./DynamicTable";
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
+import { addProject } from "../services/projectService";
 
 const ProjectsTable = () => {
     const { data, isLoading, error, refetch } = useProjects();
 
-    const addNewProject = async () => {
+    const handleAddProject = async () => {
         const projectData = { name: "My New Project" };
-
         try {
-            const response = await fetch("http://127.0.0.1:5000/add_project", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(projectData),
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            await addProject(projectData);
             refetch();
         } catch (error) {
-            console.error("Error adding new project:", error);
+            console.error("Error adding new project: ", error);
         }
     };
 
@@ -40,7 +31,7 @@ const ProjectsTable = () => {
             {data && <DynamicTable data={data} columns={projectsColumns} />}
             <Button
                 variant="contained"
-                onClick={addNewProject}
+                onClick={handleAddProject}
                 startIcon={<AddIcon />}
             >
                 Add New Project
