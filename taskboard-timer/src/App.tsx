@@ -5,7 +5,7 @@ import ProjectsTable from "./components/ProjectsTable";
 
 function App() {
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="xl">
             <Stack spacing={2} justifyContent="center" alignItems="center">
                 {/* <Count /> */}
                 <ProjectsTable />

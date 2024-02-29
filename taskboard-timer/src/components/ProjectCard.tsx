@@ -10,13 +10,16 @@ import { Project } from "../hooks/useProjects";
 
 interface Props {
     project: Project;
+    variant?: string;
 }
 
-const ProjectCard = ({ project }: Props) => {
+const ProjectCard = ({ project, variant }: Props) => {
+    const isFeatured = variant === "featured";
+
     return (
-        <Card sx={{ width: 275 }}>
+        <Card sx={{ my: 1.5, ...(isFeatured && { height: "95%" }) }}>
             <CardContent>
-                <Typography variant="h5" component="div">
+                <Typography variant={isFeatured ? "h4" : "h5"} component="div">
                     {project.name}{" "}
                 </Typography>
                 <Typography variant="body2">
@@ -29,9 +32,14 @@ const ProjectCard = ({ project }: Props) => {
                 direction="row"
                 alignItems="center"
                 justifyContent="space-between"
+                sx={{ ...(isFeatured && { mt: 38 }) }}
             >
                 <CardActions>
-                    <Button disabled size="small" disableElevation>
+                    <Button
+                        disabled
+                        size={isFeatured ? "medium" : "small"}
+                        disableElevation
+                    >
                         Open Project
                     </Button>
                 </CardActions>
