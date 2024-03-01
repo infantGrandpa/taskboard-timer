@@ -1,4 +1,10 @@
-import { CircularProgress, Fab, Typography } from "@mui/material";
+import {
+    CircularProgress,
+    Fab,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
@@ -6,12 +12,14 @@ import { addProject } from "../services/projectService";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import DynamicTable from "./DynamicTable";
+import { useState } from "react";
 
 const ProjectsGrid = () => {
     const { data, isLoading, error, refetch } = useProjects();
+    const [projectName, setProjectName] = useState("");
 
     const handleAddProject = async () => {
-        const projectData = { name: "My New Project" };
+        const projectData = { name: projectName };
         try {
             await addProject(projectData);
             refetch();
@@ -30,7 +38,15 @@ const ProjectsGrid = () => {
             <Typography variant="h2" sx={{ pt: 2 }}>
                 Total Projects: {data?.length}
             </Typography>
-
+            <Stack direction="row">
+                <TextField
+                    id="project-name"
+                    label="Project Name"
+                    variant="standard"
+                    value={projectName}
+                    onChange={(e) => setProjectName(e.target.value)}
+                />
+            </Stack>
             <Fab
                 color="primary"
                 aria-label="add new project"
