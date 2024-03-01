@@ -5,6 +5,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from flask_migrate import Migrate
 from datetime import datetime
+from sqlalchemy.inspection import inspect
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
@@ -35,7 +36,7 @@ def print_all_projects():
 def get_projects():
     try:
         projects = Project.query.all()
-        projects_data = [{'id': project.id, 'name': project.name} for project in projects]
+        projects_data = [project.to_dict() for project in projects]
         return jsonify(projects_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -67,6 +68,9 @@ class Project(db.Model):
     client = db.Column(db.String(120), nullable=True)
     start_date = db.Column(db.Date, nullable=True)
     end_date = db.Column(db.Date, nullable=True)
+    
+    def to_dict(self):
+        return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
 
 if __name__ == '__main__':
     app.run(debug=False)

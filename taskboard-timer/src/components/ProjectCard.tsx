@@ -20,13 +20,16 @@ const ProjectCard = ({ project, variant }: Props) => {
         <Card sx={{ my: 1.5, ...(isFeatured && { height: "95%" }) }}>
             <CardContent>
                 <Typography variant={isFeatured ? "h4" : "h5"} component="div">
-                    {project.name}{" "}
+                    {project.name}
                 </Typography>
-                <Typography variant="body2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Integer sed quam nec erat varius molestie.{" "}
-                    {/* {project.description} */}{" "}
-                </Typography>
+                <Typography variant="subtitle1">{project.client}</Typography>
+                <Typography variant="body2">{project.description}</Typography>
+                {project.start_date && (
+                    <Typography variant="caption">
+                        {project.start_date.toDateString()}
+                        {project.end_date && project.end_date.toDateString()}
+                    </Typography>
+                )}
             </CardContent>
             <Stack
                 direction="row"
