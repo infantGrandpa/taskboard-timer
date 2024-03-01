@@ -4,6 +4,7 @@ from flask_cors import CORS
 import logging
 from logging.handlers import RotatingFileHandler
 from flask_migrate import Migrate
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
@@ -43,14 +44,19 @@ def get_projects():
 @app.route('/api/add_project', methods=['POST'])
 def add_project():
     data = request.get_json()
-    project_name = data['name']
 
-    new_project = Project(name=project_name)
+    start_date_str, _ = data['start_date'].split('T')
+    end_date_str, _ = data['end_date'].split('T')
+
+    start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+    end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+
+    new_project = Project(name=data['name'], description=data['description'], client=data['client'], start_date=start_date, end_date=end_date)
 
     db.session.add(new_project)
     db.session.commit()
 
-    message = f'New Project ({project_name}) added successfully!'
+    message = f'New Project ({new_project.name}) added successfully!'
 
     return jsonify({"message": message}), 201
 

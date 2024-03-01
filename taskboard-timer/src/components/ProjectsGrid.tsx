@@ -8,18 +8,25 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
-import { addProject } from "../services/projectService";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import DynamicTable from "./DynamicTable";
 import { useState } from "react";
+import { addProject, ProjectCreationData } from "../services/projectService";
 
 const ProjectsGrid = () => {
     const { data, isLoading, error, refetch } = useProjects();
     const [projectName, setProjectName] = useState("");
 
     const handleAddProject = async () => {
-        const projectData = { name: projectName };
+        const projectData: ProjectCreationData = {
+            name: projectName,
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed quam nec erat varius molestie.",
+            client: "Just me!",
+            start_date: new Date(2024, 2, 1),
+            end_date: new Date(2024, 11, 31),
+        };
         try {
             await addProject(projectData);
             refetch();
@@ -30,7 +37,11 @@ const ProjectsGrid = () => {
 
     const projectsColumns = [
         { field: "id", label: "ID" },
-        { field: "name", label: "Project Name" },
+        { field: "name", label: "Name" },
+        { field: "description", label: "Description" },
+        { field: "client", label: "Client" },
+        { field: "start_date", label: "Start Date" },
+        { field: "end_date", label: "End Date" },
     ];
 
     return (

@@ -3,6 +3,10 @@ import useData from "./useData";
 export interface Project {
     id: number;
     name: string;
+    description: string;
+    client: string;
+    start_date: Date;
+    end_date: Date;
 }
 
 const useProjects = () => {
