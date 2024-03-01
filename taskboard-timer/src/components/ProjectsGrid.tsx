@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Stack, Typography } from "@mui/material";
+import { CircularProgress, IconButton, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
@@ -6,7 +6,6 @@ import { addProject } from "../services/projectService";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import DynamicTable from "./DynamicTable";
-import Column from "./DynamicTable";
 
 const ProjectsGrid = () => {
     const { data, isLoading, error, refetch } = useProjects();
@@ -28,21 +27,24 @@ const ProjectsGrid = () => {
 
     return (
         <>
-            <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={24}
+            <Typography variant="h2" sx={{ pt: 2 }}>
+                Total Projects: {data?.length}
+            </Typography>
+
+            <IconButton
+                color="primary"
+                aria-label="add new project"
+                size="large"
+                onClick={handleAddProject}
+                sx={{
+                    position: "fixed",
+                    bottom: 24,
+                    right: 24,
+                    bgcolor: "white",
+                }}
             >
-                <Typography>Total: {data?.length}</Typography>
-                <Button
-                    variant="contained"
-                    onClick={handleAddProject}
-                    startIcon={<AddIcon />}
-                >
-                    Add New Project
-                </Button>
-            </Stack>
+                <AddIcon fontSize="large" />
+            </IconButton>
 
             <Grid container spacing={2}>
                 {isLoading && <CircularProgress />}
