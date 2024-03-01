@@ -3,16 +3,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import logging
 from logging.handlers import RotatingFileHandler
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
-
 
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///taskboard.db'  # Defines the database URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disables modification notifications
 
 db = SQLAlchemy(app)  # Initializes the database connection
+
+migrate = Migrate(app, db)
 
 @app.route('/')
 def print_all_projects():
@@ -55,6 +57,10 @@ def add_project():
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    client = db.Column(db.String(120), nullable=True)
+    start_date = db.Column(db.Date, nullable=True)
+    end_date = db.Column(db.Date, nullable=True)
 
 if __name__ == '__main__':
     app.run(debug=False)
