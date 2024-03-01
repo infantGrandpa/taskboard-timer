@@ -1,3 +1,5 @@
+import { Project } from "../hooks/useProjects";
+
 export interface ProjectCreationData {
     name: string;
     description: string;
@@ -25,4 +27,23 @@ const addProject = async (projectData: ProjectCreationData) => {
     }
 };
 
-export { addProject };
+const deleteProject = async (project: Project) => {
+    try {
+        const response = await fetch(
+            `http://127.0.0.1:5000/api/project/${project.id}`,
+            {
+                method: "DELETE",
+            }
+        );
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        console.log("Server response:", responseData.message);
+    } catch (error) {
+        console.error("Error deleting project:", error);
+    }
+};
+
+export { addProject, deleteProject };

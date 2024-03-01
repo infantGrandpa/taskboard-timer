@@ -7,6 +7,7 @@ import {
     Typography,
 } from "@mui/material";
 import { Project } from "../hooks/useProjects";
+import DeleteProjectButton from "./DeleteProjectButton";
 
 interface Props {
     project: Project;
@@ -45,6 +46,7 @@ const ProjectCard = ({ project, variant }: Props) => {
                     >
                         Open Project
                     </Button>
+                    <DeleteProjectButton project={project} />
                 </CardActions>
                 <Typography
                     variant="caption"

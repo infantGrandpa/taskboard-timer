@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy.inspection import inspect
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
+CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS", "DELETE"], "allow_headers": ["Content-Type", "Authorization"]}})
 
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///taskboard.db'  # Defines the database URI
@@ -60,6 +60,18 @@ def add_project():
     message = f'New Project ({new_project.name}) added successfully!'
 
     return jsonify({"message": message}), 201
+
+@app.route('/api/project/<int:project_id>', methods=['DELETE'])
+def delete_project(project_id):
+    project = Project.query.get(project_id)
+    if project:
+        # Will need to later delete sprints and tasks tied to this project
+        db.session.delete(project)
+        db.session.commit()
+        return jsonify({"message": "Project deleted successfully"}), 200
+    else:
+        return jsonify({"error": "Project not found"}), 404
+
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
