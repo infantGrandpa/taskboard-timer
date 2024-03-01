@@ -5,11 +5,13 @@ import { deleteProject } from "../services/projectService";
 
 interface Props {
     project: Project;
+    onDeleteSuccess: () => void;
 }
 
-const DeleteProjectButton = ({ project }: Props) => {
+const DeleteProjectButton = ({ project, onDeleteSuccess }: Props) => {
     const handleDelete = async () => {
         await deleteProject(project);
+        onDeleteSuccess();
     };
 
     return (

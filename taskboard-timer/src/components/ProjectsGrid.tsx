@@ -82,6 +82,7 @@ const ProjectsGrid = () => {
                             variant="featured"
                             key={data[0].id}
                             project={data[0]}
+                            onDelete={refetch}
                         />
                     )}
                 </Grid>
@@ -94,6 +95,7 @@ const ProjectsGrid = () => {
                                 <ProjectCard
                                     key={project.id}
                                     project={project}
+                                    onDelete={refetch}
                                 />
                             ))}
                 </Grid>

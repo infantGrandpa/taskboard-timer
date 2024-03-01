@@ -12,9 +12,10 @@ import DeleteProjectButton from "./DeleteProjectButton";
 interface Props {
     project: Project;
     variant?: string;
+    onDelete: () => void;
 }
 
-const ProjectCard = ({ project, variant }: Props) => {
+const ProjectCard = ({ project, variant, onDelete }: Props) => {
     const isFeatured = variant === "featured";
 
     return (
@@ -46,7 +47,10 @@ const ProjectCard = ({ project, variant }: Props) => {
                     >
                         Open Project
                     </Button>
-                    <DeleteProjectButton project={project} />
+                    <DeleteProjectButton
+                        project={project}
+                        onDeleteSuccess={onDelete}
+                    />
                 </CardActions>
                 <Typography
                     variant="caption"
