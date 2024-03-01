@@ -14,9 +14,7 @@ function App() {
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <Container maxWidth="xl">
-                <Stack spacing={2} justifyContent="center" alignItems="center">
-                    <ProjectsGrid />
-                </Stack>
+                <ProjectsGrid />
             </Container>
         </ThemeProvider>
     );
