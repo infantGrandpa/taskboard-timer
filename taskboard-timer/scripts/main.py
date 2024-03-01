@@ -5,7 +5,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
+
 
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///taskboard.db'  # Defines the database URI
@@ -37,7 +38,7 @@ def get_projects():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/add_project', methods=['POST'])
+@app.route('/api/add_project', methods=['POST'])
 def add_project():
     data = request.get_json()
     project_name = data['name']
