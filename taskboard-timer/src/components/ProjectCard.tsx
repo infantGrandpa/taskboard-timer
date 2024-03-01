@@ -28,8 +28,8 @@ const ProjectCard = ({ project, variant, onDelete }: Props) => {
                 <Typography variant="body2">{project.description}</Typography>
                 {project.start_date && (
                     <Typography variant="caption">
-                        {project.start_date.toDateString()}
-                        {project.end_date && project.end_date.toDateString()}
+                        {project.start_date.toString()}
+                        {project.end_date && project.end_date.toString()}
                     </Typography>
                 )}
             </CardContent>
