@@ -1,10 +1,4 @@
-import {
-    Box,
-    Button,
-    CircularProgress,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { Button, CircularProgress, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
@@ -12,7 +6,7 @@ import { addProject } from "../services/projectService";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 
-const ProjectsTable = () => {
+const ProjectsGrid = () => {
     const { data, isLoading, error, refetch } = useProjects();
 
     const handleAddProject = async () => {
@@ -73,4 +67,4 @@ const ProjectsTable = () => {
     );
 };
 
-export default ProjectsTable;
+export default ProjectsGrid;
