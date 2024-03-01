@@ -1,4 +1,4 @@
-import { CircularProgress, IconButton, Typography } from "@mui/material";
+import { CircularProgress, Fab, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "./ErrorMessage";
 import useProjects from "../hooks/useProjects";
@@ -31,7 +31,7 @@ const ProjectsGrid = () => {
                 Total Projects: {data?.length}
             </Typography>
 
-            <IconButton
+            <Fab
                 color="primary"
                 aria-label="add new project"
                 size="large"
@@ -40,11 +40,10 @@ const ProjectsGrid = () => {
                     position: "fixed",
                     bottom: 24,
                     right: 24,
-                    bgcolor: "white",
                 }}
             >
                 <AddIcon fontSize="large" />
-            </IconButton>
+            </Fab>
 
             <Grid container spacing={2}>
                 {isLoading && <CircularProgress />}

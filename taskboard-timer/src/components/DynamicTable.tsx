@@ -30,7 +30,8 @@ const DynamicTable = ({ data, columns }: Props) => {
                                 variant="head"
                                 sx={{
                                     fontWeight: "bold",
-                                    bgcolor: "#D9D9D9",
+                                    bgcolor: "text.primary",
+                                    color: "background.default",
                                 }}
                             >
                                 {column.label}

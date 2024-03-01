@@ -1,16 +1,24 @@
-import "./App.css";
-
 import { Container, Stack } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import ProjectsGrid from "./components/ProjectsGrid";
+
+const darkTheme = createTheme({
+    palette: {
+        mode: "dark",
+    },
+});
 
 function App() {
     return (
-        <Container maxWidth="xl">
-            <Stack spacing={2} justifyContent="center" alignItems="center">
-                {/* <Count /> */}
-                <ProjectsGrid />
-            </Stack>
-        </Container>
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <Container maxWidth="xl">
+                <Stack spacing={2} justifyContent="center" alignItems="center">
+                    <ProjectsGrid />
+                </Stack>
+            </Container>
+        </ThemeProvider>
     );
 }
 
