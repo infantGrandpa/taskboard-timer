@@ -8,7 +8,7 @@ import {
     Paper,
 } from "@mui/material";
 
-interface Column {
+export interface Column {
     field: string;
     label: string;
 }
@@ -25,7 +25,16 @@ const DynamicTable = ({ data, columns }: Props) => {
                 <TableHead>
                     <TableRow>
                         {columns.map((column, index) => (
-                            <TableCell key={index}>{column.label}</TableCell>
+                            <TableCell
+                                key={index}
+                                variant="head"
+                                sx={{
+                                    fontWeight: "bold",
+                                    bgcolor: "#D9D9D9",
+                                }}
+                            >
+                                {column.label}
+                            </TableCell>
                         ))}
                     </TableRow>
                 </TableHead>

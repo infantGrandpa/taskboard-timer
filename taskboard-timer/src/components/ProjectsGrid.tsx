@@ -5,6 +5,8 @@ import useProjects from "../hooks/useProjects";
 import { addProject } from "../services/projectService";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
+import DynamicTable from "./DynamicTable";
+import Column from "./DynamicTable";
 
 const ProjectsGrid = () => {
     const { data, isLoading, error, refetch } = useProjects();
@@ -18,6 +20,11 @@ const ProjectsGrid = () => {
             console.error("Error adding new project: ", error);
         }
     };
+
+    const projectsColumns = [
+        { field: "id", label: "ID" },
+        { field: "name", label: "Project Name" },
+    ];
 
     return (
         <>
@@ -62,6 +69,17 @@ const ProjectsGrid = () => {
                                 />
                             ))}
                 </Grid>
+                {data && (
+                    <Grid xs={12}>
+                        <Typography variant="h4" sx={{ mb: 1 }}>
+                            All Projects
+                        </Typography>
+                        <DynamicTable
+                            data={data.slice(4)}
+                            columns={projectsColumns}
+                        />
+                    </Grid>
+                )}
             </Grid>
         </>
     );
