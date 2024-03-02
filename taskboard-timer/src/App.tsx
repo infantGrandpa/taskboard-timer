@@ -1,9 +1,16 @@
-import { Container, Stack } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import { Container, CssBaseline } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProjectsGrid from "./components/ProjectsGrid";
 
-const darkTheme = createTheme({
+declare module "@mui/material/styles" {
+    interface Theme {
+        palette: {
+            mode: string;
+        };
+    }
+}
+
+const theme = createTheme({
     palette: {
         mode: "dark",
     },
@@ -11,7 +18,7 @@ const darkTheme = createTheme({
 
 function App() {
     return (
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={theme}>
             <CssBaseline />
             <Container maxWidth="xl">
                 <ProjectsGrid />
