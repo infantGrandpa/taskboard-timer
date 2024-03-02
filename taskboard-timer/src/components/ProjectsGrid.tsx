@@ -10,8 +10,6 @@ import { Link } from "react-router-dom";
 const ProjectsGrid = () => {
     const { data, isLoading, error, refetch } = useProjects();
 
-    console.log(data);
-
     const projectsColumns = [
         { field: "id", label: "ID" },
         { field: "name", label: "Name" },

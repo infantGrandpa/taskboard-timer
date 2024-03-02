@@ -35,9 +35,19 @@ def print_all_projects():
 @app.route('/api/projects')
 def get_projects():
     try:
-        projects = Project.query.all()
-        projects_data = [project.to_dict() for project in projects]
-        return jsonify(projects_data)
+        project_id = request.args.get('id')  # Get 'id' query parameter, if provided
+
+        if project_id:
+            # Assuming 'id' is the primary key, adjust as needed
+            project = Project.query.filter_by(id=project_id).first()
+            if project:
+                return jsonify(project.to_dict())
+            else:
+                return jsonify({"error": "Project not found"}), 404
+        else:
+            projects = Project.query.all()
+            projects_data = [project.to_dict() for project in projects]
+            return jsonify(projects_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

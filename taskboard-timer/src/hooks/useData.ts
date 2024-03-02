@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import axios, { CanceledError } from "axios";
+import axios, { AxiosRequestConfig, CanceledError } from "axios";
 
 const apiClient = axios.create({
     baseURL: "http://127.0.0.1:5000/",
 });
 
-const useData = <T>(endpoint: string, deps?: any[]) => {
+const useData = <T>(
+    endpoint: string,
+    requestConfig?: AxiosRequestConfig,
+    deps?: any[]
+) => {
     const [data, setData] = useState<T[]>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
@@ -18,9 +22,15 @@ const useData = <T>(endpoint: string, deps?: any[]) => {
         apiClient
             .get<T[]>(endpoint, {
                 signal: controller.signal,
+                ...requestConfig,
             })
             .then((res) => {
-                setData(res.data);
+                const responseData = res.data
+                    ? Array.isArray(res.data)
+                        ? res.data
+                        : [res.data]
+                    : [];
+                setData(responseData);
                 setLoading(false);
             })
             .catch((err) => {

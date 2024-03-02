@@ -9,9 +9,21 @@ export interface Project {
     end_date: Date;
 }
 
-const useProjects = () => {
+export interface ProjectQuery {
+    id: number | null | undefined;
+}
+
+const useProjects = (projectQuery?: ProjectQuery) => {
     const endpoint = "api/projects";
-    const { data, isLoading, error, refetch } = useData<Project>(endpoint);
+    const { data, isLoading, error, refetch } = useData<Project>(
+        endpoint,
+        {
+            params: {
+                id: projectQuery?.id,
+            },
+        },
+        [projectQuery]
+    );
 
     return { data, isLoading, error, refetch };
 };
