@@ -9,9 +9,11 @@ export interface ProjectCreationData {
     end_date: Date | null;
 }
 
+type RequestMethod = "POST" | "PUT" | "DELETE";
+
 const handleProjectRequest = async (
     endpoint: string,
-    method: string,
+    method: RequestMethod,
     projectData: any = null
 ) => {
     try {
