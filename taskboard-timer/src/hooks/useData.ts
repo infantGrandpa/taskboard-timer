@@ -1,41 +1,41 @@
 import { useEffect, useState } from "react";
+import axios, { CanceledError } from "axios";
 
-interface Props {
-    endpoint: string;
-    onError?: (message: string) => void;
-}
+const apiClient = axios.create({
+    baseURL: "http://127.0.0.1:5000/",
+});
 
-const useData = <T>({ endpoint, onError }: Props) => {
-    endpoint = "http://127.0.0.1:5000/" + endpoint;
-
-    const [data, setData] = useState<T | null>(null);
+const useData = <T>(endpoint: string, deps?: any[]) => {
+    const [data, setData] = useState<T[]>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
 
-    const fetchData = async () => {
-        setLoading(true);
-        setError(undefined);
-        try {
-            const response = await fetch(endpoint);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const jsonData = await response.json();
-            setData(jsonData);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            setError("Failed to fetch data. Please try again.");
-            if (onError) onError("Failed to fetch data. Please try again."); // Call onError callback if provided
-        } finally {
-            setLoading(false);
-        }
-    };
+    useEffect(
+        () => {
+            const controller = new AbortController();
 
-    useEffect(() => {
-        fetchData();
-    }, [endpoint, onError]);
+            setLoading(true);
 
-    return { data, isLoading, error, refetch: fetchData };
+            apiClient
+                .get<T[]>(endpoint, {
+                    signal: controller.signal,
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    setData(res.data);
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    if (err instanceof CanceledError) return;
+                    setError(err.message);
+                    setLoading(false);
+                });
+            return () => controller.abort();
+        },
+        deps ? [...deps] : []
+    );
+
+    return { data, isLoading, error };
 };
 
 export default useData;
