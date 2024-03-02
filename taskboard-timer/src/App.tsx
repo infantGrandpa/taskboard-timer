@@ -33,7 +33,7 @@ function App() {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Container maxWidth="xl">
+                <Container maxWidth="xl" sx={{ pt: 3 }}>
                     <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<ProjectsGrid />} />

@@ -21,9 +21,7 @@ const ProjectsGrid = () => {
 
     return (
         <>
-            <Typography variant="h2" sx={{ pt: 2 }}>
-                Total Projects: {data?.length}
-            </Typography>
+            <Typography variant="h2">Total Projects: {data?.length}</Typography>
             <Fab
                 component={Link}
                 to="/new-project"
