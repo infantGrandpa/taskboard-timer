@@ -1,11 +1,12 @@
 import { Button, Container, Fab, Stack, TextField } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ProjectCreationData, addProject } from "../services/projectService";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { add } from "date-fns";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import { HomeButton } from "./HomeButton";
 
 const NewProjectForm = () => {
     const [projectName, setProjectName] = useState("");
@@ -45,14 +46,7 @@ const NewProjectForm = () => {
     return (
         <Container maxWidth="sm">
             <Stack direction="row" justifyContent="space-between">
-                <Button
-                    component={Link}
-                    to="/"
-                    variant="outlined"
-                    aria-label="home"
-                >
-                    Home
-                </Button>
+                <HomeButton />
                 <Button
                     variant="outlined"
                     onClick={clearForm}

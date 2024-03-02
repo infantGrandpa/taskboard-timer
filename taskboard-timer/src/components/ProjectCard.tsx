@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Project } from "../hooks/useProjects";
 import DeleteProjectButton from "./DeleteProjectButton";
+import { Link } from "react-router-dom";
 
 interface Props {
     project: Project;
@@ -41,9 +42,10 @@ const ProjectCard = ({ project, variant, onDelete }: Props) => {
             >
                 <CardActions>
                     <Button
-                        disabled
                         size={isFeatured ? "medium" : "small"}
                         disableElevation
+                        component={Link}
+                        to={`/projects/${project.id}`}
                     >
                         Open Project
                     </Button>

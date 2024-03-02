@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NewProjectForm from "./components/NewProjectForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import ProjectView from "./components/ProjectView";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -40,6 +41,10 @@ function App() {
                             <Route
                                 path="/new-project"
                                 element={<NewProjectForm />}
+                            />
+                            <Route
+                                path="/projects/:id"
+                                element={<ProjectView />}
                             />
                         </Routes>
                     </BrowserRouter>
