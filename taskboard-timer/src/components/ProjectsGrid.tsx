@@ -66,7 +66,7 @@ const ProjectsGrid = () => {
                                 />
                             ))}
                 </Grid>
-                {data && (
+                {data && data.length > 4 && (
                     <Grid xs={12}>
                         <Typography variant="h4" sx={{ mb: 1 }}>
                             All Projects
