@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import axios, { AxiosRequestConfig, CanceledError } from "axios";
-
-const apiClient = axios.create({
-    baseURL: "http://127.0.0.1:5000/",
-});
+import { AxiosRequestConfig, CanceledError } from "axios";
+import apiClient from "../services/apiService";
 
 const useData = <T>(
     endpoint: string,
