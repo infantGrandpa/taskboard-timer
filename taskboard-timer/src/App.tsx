@@ -2,6 +2,8 @@ import { Container, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProjectsGrid from "./components/ProjectsGrid";
 import { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NewProjectForm from "./components/NewProjectForm";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -29,7 +31,15 @@ function App() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Container maxWidth="xl">
-                <ProjectsGrid />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<ProjectsGrid />} />
+                        <Route
+                            path="/new-project"
+                            element={<NewProjectForm />}
+                        />
+                    </Routes>
+                </BrowserRouter>
             </Container>
         </ThemeProvider>
     );

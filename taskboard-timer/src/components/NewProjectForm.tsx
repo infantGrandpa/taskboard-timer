@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
+
 const NewProjectForm = () => {
-    return <div>NewProjectForm</div>;
+    return <Link to="/">Home</Link>;
 };
 
 export default NewProjectForm;

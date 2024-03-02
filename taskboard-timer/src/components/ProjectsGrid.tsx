@@ -13,6 +13,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import DynamicTable from "./DynamicTable";
 import { useState } from "react";
 import { addProject, ProjectCreationData } from "../services/projectService";
+import { Link } from "react-router-dom";
 
 const ProjectsGrid = () => {
     const { data, isLoading, error, refetch } = useProjects();
@@ -49,6 +50,7 @@ const ProjectsGrid = () => {
             <Typography variant="h2" sx={{ pt: 2 }}>
                 Total Projects: {data?.length}
             </Typography>
+            <Link to="/new-project">Create New Project</Link>
             <Stack direction="row">
                 <TextField
                     id="project-name"
