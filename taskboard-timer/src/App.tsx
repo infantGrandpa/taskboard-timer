@@ -1,6 +1,7 @@
 import { Container, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProjectsGrid from "./components/ProjectsGrid";
+import { useEffect } from "react";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -17,6 +18,13 @@ const theme = createTheme({
 });
 
 function App() {
+    useEffect(() => {
+        const splashScreen = document.querySelector("splash-screen");
+        if (splashScreen) {
+            splashScreen.remove;
+        }
+    }, []);
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

@@ -1,14 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri + React + TS</title>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tauri + React + TS</title>
+        <style>
+            /* Basic styling for the splash screen */
+            .splash-screen {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                font-size: 2rem;
+                font-family: sans-serif;
+                font-weight: 600;
+            }
+        </style>
+    </head>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <body>
+        <div id="root">
+            <div class="splash-screen">Loading...</div>
+        </div>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
 </html>
