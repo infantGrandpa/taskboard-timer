@@ -11,9 +11,9 @@ export interface Project {
 
 const useProjects = () => {
     const endpoint = "api/projects";
-    const { data, isLoading, error } = useData<Project>(endpoint);
+    const { data, isLoading, error, refetch } = useData<Project>(endpoint);
 
-    return { data, isLoading, error };
+    return { data, isLoading, error, refetch };
 };
 
 export default useProjects;

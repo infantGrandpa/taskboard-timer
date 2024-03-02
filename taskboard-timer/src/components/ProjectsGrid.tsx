@@ -8,7 +8,7 @@ import DynamicTable from "./DynamicTable";
 import { Link } from "react-router-dom";
 
 const ProjectsGrid = () => {
-    const { data, isLoading, error } = useProjects();
+    const { data, isLoading, error, refetch } = useProjects();
 
     console.log(data);
 
@@ -49,7 +49,7 @@ const ProjectsGrid = () => {
                             variant="featured"
                             key={data[0].id}
                             project={data[0]}
-                            onDelete={() => void 0}
+                            onDelete={refetch}
                         />
                     )}
                 </Grid>
@@ -62,7 +62,7 @@ const ProjectsGrid = () => {
                                 <ProjectCard
                                     key={project.id}
                                     project={project}
-                                    onDelete={() => void 0}
+                                    onDelete={refetch}
                                 />
                             ))}
                 </Grid>
