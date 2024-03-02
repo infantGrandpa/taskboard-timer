@@ -1,14 +1,13 @@
 import {
-    Button,
     Card,
-    CardActions,
+    CardActionArea,
     CardContent,
     Stack,
     Typography,
 } from "@mui/material";
 import { Project } from "../hooks/useProjects";
-import DeleteProjectButton from "./DeleteProjectButton";
 import { Link } from "react-router-dom";
+import DateRange from "./DateRange";
 
 interface Props {
     project: Project;
@@ -16,52 +15,46 @@ interface Props {
     onDelete: () => void;
 }
 
-const ProjectCard = ({ project, variant, onDelete }: Props) => {
+const ProjectCard = ({ project, variant }: Props) => {
     const isFeatured = variant === "featured";
 
     return (
         <Card sx={{ my: 1.5, ...(isFeatured && { height: "95%" }) }}>
-            <CardContent>
-                <Typography variant={isFeatured ? "h4" : "h5"} component="div">
-                    {project.name}
-                </Typography>
-                <Typography variant="subtitle1">{project.client}</Typography>
-                <Typography variant="body2">{project.description}</Typography>
-                {project.start_date && (
-                    <Typography variant="caption">
-                        {project.start_date.toString()}
-                        {project.end_date && project.end_date.toString()}
-                    </Typography>
-                )}
-            </CardContent>
-            <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                sx={{ ...(isFeatured && { mt: 38 }) }}
+            <CardActionArea
+                component={Link}
+                to={`/projects/${project.id}`}
+                sx={{ ...(isFeatured && { height: "100%" }) }}
             >
-                <CardActions>
-                    <Button
-                        size={isFeatured ? "medium" : "small"}
-                        disableElevation
-                        component={Link}
-                        to={`/projects/${project.id}`}
+                <CardContent>
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="flex-start"
                     >
-                        Open Project
-                    </Button>
-                    <DeleteProjectButton
-                        project={project}
-                        onDeleteSuccess={onDelete}
+                        <Typography
+                            variant={isFeatured ? "h4" : "h5"}
+                            component="div"
+                        >
+                            {project.name}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                            {project.id}
+                        </Typography>
+                    </Stack>
+                    <Typography variant="subtitle1" color="text.secondary">
+                        {project.client}
+                    </Typography>
+                    <Typography variant="body2">
+                        {project.description}
+                    </Typography>
+                    <DateRange
+                        startDate={project.start_date}
+                        endDate={project.end_date}
+                        variant="subtitle2"
+                        sx={{ pt: 2 }}
                     />
-                </CardActions>
-                <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    sx={{ pr: 1 }}
-                >
-                    {project.id}
-                </Typography>
-            </Stack>
+                </CardContent>
+            </CardActionArea>
         </Card>
     );
 };
