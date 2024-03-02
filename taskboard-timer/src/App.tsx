@@ -4,6 +4,8 @@ import ProjectsGrid from "./components/ProjectsGrid";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NewProjectForm from "./components/NewProjectForm";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -28,20 +30,22 @@ function App() {
     }, []);
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Container maxWidth="xl">
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<ProjectsGrid />} />
-                        <Route
-                            path="/new-project"
-                            element={<NewProjectForm />}
-                        />
-                    </Routes>
-                </BrowserRouter>
-            </Container>
-        </ThemeProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Container maxWidth="xl">
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<ProjectsGrid />} />
+                            <Route
+                                path="/new-project"
+                                element={<NewProjectForm />}
+                            />
+                        </Routes>
+                    </BrowserRouter>
+                </Container>
+            </ThemeProvider>
+        </LocalizationProvider>
     );
 }
 

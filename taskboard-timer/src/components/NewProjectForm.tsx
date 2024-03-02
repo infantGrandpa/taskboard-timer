@@ -2,6 +2,7 @@ import { Button, Stack, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ProjectCreationData, addProject } from "../services/projectService";
 import { useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const NewProjectForm = () => {
     const [projectName, setProjectName] = useState("");
@@ -58,6 +59,7 @@ const NewProjectForm = () => {
                     value={client}
                     onChange={(e) => setClient(e.target.value)}
                 />
+                <DatePicker />
                 <Button
                     variant="contained"
                     onClick={handleAddProject}
