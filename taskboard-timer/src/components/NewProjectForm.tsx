@@ -3,19 +3,24 @@ import { Link } from "react-router-dom";
 import { ProjectCreationData, addProject } from "../services/projectService";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
+import { add } from "date-fns";
 
 const NewProjectForm = () => {
     const [projectName, setProjectName] = useState("");
     const [description, setDescription] = useState("");
     const [client, setClient] = useState("");
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
+    const [endDate, setEndDate] = useState<Date | null>(
+        add(new Date(), { months: 1 })
+    );
 
     const handleAddProject = async () => {
         const projectData: ProjectCreationData = {
             name: projectName,
             description: description,
             client: client,
-            start_date: new Date(2024, 2, 1),
-            end_date: new Date(2024, 11, 31),
+            start_date: startDate,
+            end_date: endDate,
         };
         try {
             await addProject(projectData);
@@ -59,7 +64,20 @@ const NewProjectForm = () => {
                     value={client}
                     onChange={(e) => setClient(e.target.value)}
                 />
-                <DatePicker />
+                <Stack direction="row" spacing={12}>
+                    <DatePicker
+                        value={startDate}
+                        onChange={(e) => {
+                            setStartDate(e);
+                        }}
+                    />
+                    <DatePicker
+                        value={endDate}
+                        onChange={(e) => {
+                            setEndDate(e);
+                        }}
+                    />
+                </Stack>
                 <Button
                     variant="contained"
                     onClick={handleAddProject}
