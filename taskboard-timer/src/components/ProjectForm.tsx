@@ -9,7 +9,7 @@ interface Props {
 }
 
 const ProjectForm = ({ project: thisProject }: Props) => {
-    const [project2, setProject] = useState({
+    const [project, setProject] = useState({
         name: thisProject ? thisProject.name : "",
         description: thisProject ? thisProject.description : "",
         client: thisProject ? thisProject.client : "",
@@ -25,9 +25,9 @@ const ProjectForm = ({ project: thisProject }: Props) => {
                 id="project-name-field"
                 label="Project Name"
                 variant="standard"
-                value={project2.name}
+                value={project.name}
                 onChange={(e) =>
-                    setProject({ ...project2, name: e.target.value })
+                    setProject({ ...project, name: e.target.value })
                 }
                 autoComplete="off"
             />
@@ -38,9 +38,9 @@ const ProjectForm = ({ project: thisProject }: Props) => {
                 minRows={2}
                 maxRows={5}
                 variant="standard"
-                value={project2.description}
+                value={project.description}
                 onChange={(e) =>
-                    setProject({ ...project2, description: e.target.value })
+                    setProject({ ...project, description: e.target.value })
                 }
                 autoComplete="off"
             />
@@ -48,23 +48,23 @@ const ProjectForm = ({ project: thisProject }: Props) => {
                 id="client-field"
                 label="Client"
                 variant="standard"
-                value={project2.client}
+                value={project.client}
                 onChange={(e) =>
-                    setProject({ ...project2, client: e.target.value })
+                    setProject({ ...project, client: e.target.value })
                 }
                 autoComplete="off"
             />
             <Stack direction="row" spacing={12}>
                 <DatePicker
-                    value={project2.start_date}
+                    value={project.start_date}
                     onChange={(e) => {
-                        setProject({ ...project2, start_date: e });
+                        setProject({ ...project, start_date: e });
                     }}
                 />
                 <DatePicker
-                    value={project2.end_date}
+                    value={project.end_date}
                     onChange={(e) => {
-                        setProject({ ...project2, end_date: e });
+                        setProject({ ...project, end_date: e });
                     }}
                 />
             </Stack>
