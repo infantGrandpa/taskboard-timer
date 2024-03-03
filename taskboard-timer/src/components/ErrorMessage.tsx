@@ -5,7 +5,9 @@ interface Props {
 }
 
 const ErrorMessage = ({ message }: Props) => {
-    if (!message) return null;
+    if (!message) {
+        message = "Unknown Error";
+    }
 
     return <Alert severity="error">{message}</Alert>;
 };
