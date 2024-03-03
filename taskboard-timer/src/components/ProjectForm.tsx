@@ -8,18 +8,16 @@ interface Props {
     project?: Project;
 }
 
-const ProjectForm = ({ project }: Props) => {
-    const [projectName, setProjectName] = useState(project ? project.name : "");
-    const [description, setDescription] = useState(
-        project ? project.description : ""
-    );
-    const [client, setClient] = useState(project ? project.client : "");
-    const [startDate, setStartDate] = useState<Date | null>(
-        project ? project.start_date : new Date()
-    );
-    const [endDate, setEndDate] = useState<Date | null>(
-        project ? project.end_date : add(new Date(), { months: 1 })
-    );
+const ProjectForm = ({ project: thisProject }: Props) => {
+    const [project2, setProject] = useState({
+        name: thisProject ? thisProject.name : "",
+        description: thisProject ? thisProject.description : "",
+        client: thisProject ? thisProject.client : "",
+        start_date: thisProject ? thisProject.start_date : new Date(),
+        end_date: thisProject
+            ? thisProject.end_date
+            : add(new Date(), { months: 1 }),
+    } as Project);
 
     return (
         <Stack direction="column" spacing={2} sx={{ pt: 2 }}>
@@ -27,8 +25,10 @@ const ProjectForm = ({ project }: Props) => {
                 id="project-name-field"
                 label="Project Name"
                 variant="standard"
-                value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
+                value={project2.name}
+                onChange={(e) =>
+                    setProject({ ...project2, name: e.target.value })
+                }
                 autoComplete="off"
             />
             <TextField
@@ -38,29 +38,33 @@ const ProjectForm = ({ project }: Props) => {
                 minRows={2}
                 maxRows={5}
                 variant="standard"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={project2.description}
+                onChange={(e) =>
+                    setProject({ ...project2, description: e.target.value })
+                }
                 autoComplete="off"
             />
             <TextField
                 id="client-field"
                 label="Client"
                 variant="standard"
-                value={client}
-                onChange={(e) => setClient(e.target.value)}
+                value={project2.client}
+                onChange={(e) =>
+                    setProject({ ...project2, client: e.target.value })
+                }
                 autoComplete="off"
             />
             <Stack direction="row" spacing={12}>
                 <DatePicker
-                    value={startDate}
+                    value={project2.start_date}
                     onChange={(e) => {
-                        setStartDate(e);
+                        setProject({ ...project2, start_date: e });
                     }}
                 />
                 <DatePicker
-                    value={endDate}
+                    value={project2.end_date}
                     onChange={(e) => {
-                        setEndDate(e);
+                        setProject({ ...project2, end_date: e });
                     }}
                 />
             </Stack>

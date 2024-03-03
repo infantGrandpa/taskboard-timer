@@ -2,8 +2,8 @@ import { Typography, TypographyProps } from "@mui/material";
 import { format } from "date-fns";
 
 interface Props extends TypographyProps {
-    startDate: Date;
-    endDate: Date;
+    startDate: Date | null;
+    endDate: Date | null;
     dateFormat?: string;
 }
 
