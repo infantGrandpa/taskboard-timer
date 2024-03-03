@@ -16,7 +16,6 @@ import DeleteProjectButton from "./DeleteProjectButton";
 import { useNavigate } from "react-router-dom";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ProjectForm from "./ProjectForm";
-import { ProjectCreationData, editProject } from "../services/projectService";
 
 interface Props {
     project: Project;
@@ -30,21 +29,10 @@ const EditableProjectCard = ({ project }: Props) => {
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
-    const handleEdit = async () => {
-        if (!project) {
-            return;
-        }
-
-        const editedProjectData = {
-            name: "This is an edited Project",
-        } as ProjectCreationData;
-        await editProject(project, editedProjectData);
-    };
-
     let cardContent = null;
     let cardActions = null;
     if (isEditing) {
-        cardContent = <ProjectForm project={project} />;
+        cardContent = <ProjectForm project={project} type="new" />;
         cardActions = (
             <>
                 <IconButton

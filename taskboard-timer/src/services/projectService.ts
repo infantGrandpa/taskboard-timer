@@ -16,15 +16,17 @@ const handleProjectRequest = async (
     method: RequestMethod,
     projectData: any = null
 ) => {
+    const formattedProjectData = formatProjectDates(projectData);
+
     try {
         const options = {
             method: method,
             headers: {
                 "Content-Type": "application/json",
             },
-            ...(projectData &&
+            ...(formattedProjectData &&
                 (method === "POST" || method === "PUT") && {
-                    data: projectData,
+                    data: formattedProjectData,
                 }),
         };
 
@@ -35,6 +37,29 @@ const handleProjectRequest = async (
     } catch (error) {
         console.error(`Error handling project request (${method}):`, error);
     }
+};
+
+const formatProjectDates = (projectData: any = null) => {
+    if (!projectData) {
+        return null;
+    }
+
+    // Check if the projectData contains the dates we want to format
+    const startDate = projectData.start_date
+        ? new Date(projectData.start_date)
+        : null;
+    const endDate = projectData.end_date
+        ? new Date(projectData.end_date)
+        : null;
+
+    // Format dates as ISO strings, ensuring UTC
+    const formattedProjectData = {
+        ...projectData,
+        ...(startDate && { start_date: startDate.toISOString() }),
+        ...(endDate && { end_date: endDate.toISOString() }),
+    };
+
+    return formattedProjectData;
 };
 
 const addProject = async (projectData: ProjectCreationData) => {
