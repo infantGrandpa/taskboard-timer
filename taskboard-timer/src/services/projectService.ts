@@ -45,4 +45,11 @@ const deleteProject = async (project: Project) => {
     handleProjectRequest(`/api/project/${project.id}`, "DELETE");
 };
 
-export { addProject, deleteProject };
+const editProject = async (
+    project: Project,
+    projectData: ProjectCreationData
+) => {
+    handleProjectRequest(`/api/project/${project.id}`, "PUT", projectData);
+};
+
+export { addProject, deleteProject, editProject };

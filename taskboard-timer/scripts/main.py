@@ -8,7 +8,7 @@ from datetime import datetime
 from sqlalchemy.inspection import inspect
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS", "DELETE"], "allow_headers": ["Content-Type", "Authorization"]}})
+CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS", "DELETE", "PUT"], "allow_headers": ["Content-Type", "Authorization"]}})
 
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///taskboard.db'  # Defines the database URI
@@ -74,14 +74,40 @@ def add_project():
 @app.route('/api/project/<int:project_id>', methods=['DELETE'])
 def delete_project(project_id):
     project = Project.query.get(project_id)
-    if project:
-        # Will need to later delete sprints and tasks tied to this project
-        db.session.delete(project)
-        db.session.commit()
-        return jsonify({"message": "Project deleted successfully"}), 200
-    else:
+    if not project:
         return jsonify({"error": "Project not found"}), 404
 
+    # Will need to also delete sprints and tasks tied to this project
+    db.session.delete(project)
+    db.session.commit()
+    return jsonify({"message": "Project deleted successfully"}), 200
+    
+        
+
+@app.route('/api/project/<int:project_id>', methods=['PUT'])
+def edit_project(project_id):
+    project = Project.query.get(project_id)
+    if not project:
+        return jsonify({"error": "Project not found"}), 404
+
+    data = request.get_json()
+
+    if 'start_date' in data:
+        start_date_str, _ = data['start_date'].split('T')
+        project.start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+    if 'end_date' in data:
+        end_date_str, _ = data['end_date'].split('T')
+        project.end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+
+    # Update other project attributes
+    project.name = data.get('name', project.name)  # This keeps the current name if none is provided
+    project.description = data.get('description', project.description)
+    project.client = data.get('client', project.client)
+
+    db.session.commit()
+
+    message = f'Project ({project.name}) updated successfully!'
+    return jsonify({"message": message}), 200
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
