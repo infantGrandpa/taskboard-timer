@@ -32,7 +32,7 @@ const EditableProjectCard = ({ project }: Props) => {
     let cardContent = null;
     let cardActions = null;
     if (isEditing) {
-        cardContent = <ProjectForm project={project} type="new" />;
+        cardContent = <ProjectForm project={project} type="edit" />;
         cardActions = (
             <>
                 <IconButton
