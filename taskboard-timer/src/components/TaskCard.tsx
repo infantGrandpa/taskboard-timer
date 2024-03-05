@@ -1,5 +1,6 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardActions, CardContent, Typography } from "@mui/material";
 import { Task } from "../hooks/useTasks";
+import DeleteTaskButton from "./DeleteTaskButton";
 
 interface Props {
     task: Task;
@@ -15,6 +16,9 @@ const TaskCard = ({ task }: Props) => {
                     Project ID: {task.project_id}
                 </Typography>
             </CardContent>
+            <CardActions>
+                <DeleteTaskButton task={task} />
+            </CardActions>
         </Card>
     );
 };

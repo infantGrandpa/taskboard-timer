@@ -7,6 +7,9 @@ import { Stack } from "@mui/material";
 const TaskView = () => {
     const { data, isLoading, error } = useTasks();
 
+    console.log("TASK DATA");
+    console.log(data);
+
     return (
         <>
             {isLoading && <LoadingBackdrop />}
@@ -19,12 +22,12 @@ const TaskView = () => {
                     spacing={1}
                 >
                     {data &&
-                        data.length > 4 &&
                         data.map((task) => (
                             <TaskCard key={task.id} task={task} />
                         ))}
                 </Stack>
             )}
+            {!data && <ErrorMessage message="No tasks yet!" />}
         </>
     );
 };

@@ -1,3 +1,4 @@
+import { Task } from "../hooks/useTasks";
 import apiClient from "./apiService";
 
 export interface TaskCreationData {
@@ -39,4 +40,8 @@ const addTask = async (taskData: TaskCreationData) => {
     handleTaskRequest("/api/add_task", "POST", taskData);
 };
 
-export { addTask };
+const deleteTask = async (task: Task) => {
+    handleTaskRequest(`/api/task/${task.id}`, "DELETE");
+};
+
+export { addTask, deleteTask };
