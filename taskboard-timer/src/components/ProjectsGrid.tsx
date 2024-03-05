@@ -5,6 +5,7 @@ import useProjects from "../hooks/useProjects";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
+import NewTask from "./NewTask";
 
 const ProjectsGrid = () => {
     const { data, isLoading, error } = useProjects();
@@ -27,6 +28,7 @@ const ProjectsGrid = () => {
                 <AddIcon fontSize="large" />
             </Fab>
 
+            <NewTask />
             <Grid
                 container
                 direction="row"

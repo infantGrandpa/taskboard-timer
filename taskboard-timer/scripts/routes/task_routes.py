@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify, request
 from sqlalchemy.inspection import inspect
 from database import db
 
@@ -15,16 +15,16 @@ class Task(db.Model):
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
     
+    
+@task_blueprint.route('/api/add_task', methods=['POST'])
+def add_task():
+    data = request.get_json()
 
-@task_blueprint.route('/')
-def print_all_tasks():
-    try:
-        tasks = Task.query.all()
-        tasks_str = '<p>Here are the tasks in the database:</p>'
-        tasks_str += '<table><th>ID</th><th>Task Name<th>'
-        for task in tasks:
-            tasks_str += f'<tr><td>{task.id}</td><td>{task.name}</td></tr>'
-        tasks_str += '</table>'
-        return tasks_str
-    except Exception as e:
-        return f'<p>Error querying database: {e}</p>'
+    new_task = Task(project_id=data['project_id'], name=data['name'], estimated_hours = data['estimated_hours'], hours_worked = data['hours_worked'])
+
+    db.session.add(new_task)
+    db.session.commit()
+
+    message = f'New Project ({new_task.name}) added successfully!'
+
+    return jsonify({"message": message}), 201
