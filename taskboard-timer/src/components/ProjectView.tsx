@@ -5,6 +5,8 @@ import useProjects from "../hooks/useProjects";
 import LoadingBackdrop from "./LoadingBackdrop";
 import ErrorMessage from "./ErrorMessage";
 import EditableProjectCard from "./EditableProjectCard";
+import Grid from "@mui/material/Unstable_Grid2";
+import TaskView from "./TaskView";
 
 const ProjectView = () => {
     let { id } = useParams();
@@ -18,11 +20,16 @@ const ProjectView = () => {
     const thisProject = data ? data[0] : null;
 
     return (
-        <Container maxWidth="md" sx={{ mt: 4 }}>
+        <Grid container spacing={2}>
             {isLoading && <LoadingBackdrop />}
-            {error && <ErrorMessage message={error} />}
-            {thisProject && <EditableProjectCard project={thisProject} />}
-        </Container>
+            <Grid xs={12} md={6} display="flex">
+                {error && <ErrorMessage message={error} />}
+                {thisProject && <EditableProjectCard project={thisProject} />}
+            </Grid>
+            <Grid xs={12} md={6}>
+                <TaskView />
+            </Grid>
+        </Grid>
     );
 };
 
