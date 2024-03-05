@@ -10,7 +10,6 @@ import {
     Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
 import DateRange from "./DateRange";
 import DeleteProjectButton from "./DeleteProjectButton";
 import { useNavigate } from "react-router-dom";
@@ -29,70 +28,45 @@ const EditableProjectCard = ({ project }: Props) => {
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
-    let cardContent = null;
-    let cardActions = null;
-    if (isEditing) {
-        cardContent = <ProjectForm project={project} type="edit" />;
-        cardActions = (
-            <>
-                <IconButton
-                    aria-label="edit project"
-                    onClick={() => setIsEditing(false)}
-                >
-                    <CancelIcon />
-                </IconButton>
-                <IconButton
-                    aria-label="edit project"
-                    onClick={() => setIsEditing(false)}
-                >
-                    <SaveIcon />
-                </IconButton>
-            </>
-        );
-    } else {
-        cardContent = (
-            <>
-                <Typography variant="h2">{project.name}</Typography>
-                <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="flex-end"
-                    sx={{ pb: 1 }}
-                >
-                    <Typography variant="subtitle1">
-                        {project.client}
-                    </Typography>
-                    <DateRange
-                        startDate={project.start_date}
-                        endDate={project.end_date}
-                        variant="subtitle2"
-                    />
-                </Stack>
-                <Typography variant="body1">{project.description}</Typography>
-            </>
-        );
-        cardActions = (
-            <>
-                <IconButton
-                    aria-label="edit project"
-                    onClick={() => setIsEditing(true)}
-                >
-                    <EditIcon />
-                </IconButton>
-            </>
-        );
-    }
-
     return (
         <Card>
             <CardContent>
-                {cardContent}
+                {isEditing ? (
+                    <ProjectForm project={project} type="edit" />
+                ) : (
+                    <>
+                        <Typography variant="h2">{project.name}</Typography>
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-end"
+                            sx={{ pb: 1 }}
+                        >
+                            <Typography variant="subtitle1">
+                                {project.client}
+                            </Typography>
+                            <DateRange
+                                startDate={project.start_date}
+                                endDate={project.end_date}
+                                variant="subtitle2"
+                            />
+                        </Stack>
+                        <Typography variant="body1">
+                            {project.description}
+                        </Typography>
+                    </>
+                )}
                 <Typography variant="caption" display="block" sx={{ pt: 3 }}>
                     Project ID: {project.id}
                 </Typography>
             </CardContent>
             <CardActions>
-                {cardActions}
+                <IconButton
+                    aria-label={isEditing ? "cancel edit" : "edit project"}
+                    onClick={() => setIsEditing(!isEditing)}
+                >
+                    {isEditing ? <CancelIcon /> : <EditIcon />}
+                </IconButton>
                 <DeleteProjectButton
                     project={project}
                     onDeleteSuccess={() => navigate("/")}
