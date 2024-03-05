@@ -78,11 +78,6 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
             end_date: project.end_date,
         } as ProjectCreationData;
 
-        console.log("ORIGINAL PROJECT DATA");
-        console.log(originalProject);
-        console.log("EDITED PROJECT DATA");
-        console.log(editedProjectData);
-
         await editProject(originalProject, editedProjectData);
     };
 
