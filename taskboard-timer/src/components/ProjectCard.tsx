@@ -3,6 +3,7 @@ import {
     CardActionArea,
     CardContent,
     Stack,
+    SxProps,
     Typography,
 } from "@mui/material";
 import { Project } from "../hooks/useProjects";
@@ -12,14 +13,18 @@ import DateRange from "./DateRange";
 interface Props {
     project: Project;
     variant?: string;
-    onDelete: () => void;
+    sx?: SxProps;
 }
 
-const ProjectCard = ({ project, variant }: Props) => {
+const ProjectCard = ({ project, variant, sx }: Props) => {
     const isFeatured = variant === "featured";
 
     return (
-        <Card sx={{ my: 1.5, ...(isFeatured && { height: "95%" }) }}>
+        <Card
+            sx={{
+                ...sx, display: "flex",
+            }}
+        >
             <CardActionArea
                 component={Link}
                 to={`/projects/${project.id}`}

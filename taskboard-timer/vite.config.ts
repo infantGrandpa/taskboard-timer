@@ -25,7 +25,9 @@ export default defineConfig(async () => ({
             ignored: ["**/src-tauri/**"],
         },
     },
+
+    //EDIT THIS IF THE CONSOLDE SAYS THAT STYLED_DEFAULT IS NOT A FUNCTION
     optimizeDeps: {
-        include: ["@emotion/react", "@emotion/styled", "@mui/material/Tooltip"],
+        include: ["@emotion/react", "@emotion/styled", "@mui/material/Grid"],
     },
 }));
