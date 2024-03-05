@@ -5,7 +5,7 @@ use std::process::Command;
 
 fn main() {
     Command::new("python")
-        .arg("../scripts/main.py")
+        .arg("../scripts/routes/main.py")
         .spawn()
         .expect("failed to start Flask app");
 
