@@ -1,6 +1,5 @@
 import { Container } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { HomeButton } from "./HomeButton";
 import { useState } from "react";
 import useProjects from "../hooks/useProjects";
 import LoadingBackdrop from "./LoadingBackdrop";
@@ -19,14 +18,11 @@ const ProjectView = () => {
     const thisProject = data ? data[0] : null;
 
     return (
-        <>
-            <HomeButton />
-            <Container maxWidth="md" sx={{ mt: 4 }}>
-                {isLoading && <LoadingBackdrop />}
-                {error && <ErrorMessage message={error} />}
-                {thisProject && <EditableProjectCard project={thisProject} />}
-            </Container>
-        </>
+        <Container maxWidth="md" sx={{ mt: 4 }}>
+            {isLoading && <LoadingBackdrop />}
+            {error && <ErrorMessage message={error} />}
+            {thisProject && <EditableProjectCard project={thisProject} />}
+        </Container>
     );
 };
 

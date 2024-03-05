@@ -7,6 +7,7 @@ import NewProjectForm from "./components/NewProjectForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import ProjectView from "./components/ProjectView";
+import Navbar from "./components/Navbar";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -34,8 +35,9 @@ function App() {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Container maxWidth="xl" sx={{ pt: 3 }}>
-                    <BrowserRouter>
+                <BrowserRouter>
+                    <Navbar />
+                    <Container maxWidth="xl" sx={{ pt: 3 }}>
                         <Routes>
                             <Route path="/" element={<ProjectsGrid />} />
                             <Route
@@ -47,8 +49,8 @@ function App() {
                                 element={<ProjectView />}
                             />
                         </Routes>
-                    </BrowserRouter>
-                </Container>
+                    </Container>
+                </BrowserRouter>
             </ThemeProvider>
         </LocalizationProvider>
     );
