@@ -16,6 +16,7 @@ const TaskRow = ({ task }: Props) => {
         estimated_hours: task.estimated_hours,
         hours_worked: task.hours_worked,
     } as TaskCreationData);
+
     return (
         <Stack
             direction="row"
@@ -30,22 +31,16 @@ const TaskRow = ({ task }: Props) => {
                 variant="filled"
                 value={taskInputs.name}
             />
-            {/* <TextField
-                id={`task-name-${task.id}`}
-                label="Estimated hours"
-                variant="filled"
-                value={taskInputs.estimated_hours}
-                type="number"
-                size="small"
-                sx={{ maxWidth: "150px" }}
-                onChange={(e) =>
+            <NumberInput
+                initialValue={0}
+                min={0}
+                onChange={(newValue) =>
                     setTaskInputs({
                         ...taskInputs,
-                        estimated_hours: Number(e.target.value),
+                        estimated_hours: newValue,
                     })
                 }
-            /> */}
-            <NumberInput initialValue={0} min={0} />
+            />
             <DeleteTaskButton task={task} />
         </Stack>
     );

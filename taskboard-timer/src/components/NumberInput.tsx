@@ -7,24 +7,28 @@ interface Props {
     initialValue?: number;
     min?: number;
     max?: number;
+    onChange?: (value: number) => void;
 }
 
 const NumberInput = ({
     initialValue = 0,
     min = Number.MIN_SAFE_INTEGER,
     max = Number.MAX_SAFE_INTEGER,
+    onChange,
 }: Props) => {
     const [value, setValue] = useState<Number | String>(initialValue);
 
     const handleIncrement = () =>
         setValue((prevValue) => {
             const newValue = Math.min(max, Number(prevValue) + 1);
+            onChange?.(newValue);
             return newValue.toString();
         });
 
     const handleDecrement = () =>
         setValue((prevValue) => {
             const newValue = Math.max(min, Number(prevValue) - 1);
+            onChange?.(newValue);
             return newValue.toString();
         });
 
@@ -35,12 +39,14 @@ const NumberInput = ({
 
         if (newValue === "" || newValue.trim() === "") {
             setValue(0);
+            onChange?.(0);
             return;
         }
 
         const decimalRegex = /^\d*\.?\d*$/;
         if (decimalRegex.test(newValue)) {
             setValue(newValue);
+            onChange?.(Number(newValue));
         }
     };
 
