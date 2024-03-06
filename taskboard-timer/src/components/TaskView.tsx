@@ -1,11 +1,21 @@
-import useTasks from "../hooks/useTasks";
+import { useState } from "react";
+import { Project } from "../hooks/useProjects";
+import useTasks, { TaskQuery } from "../hooks/useTasks";
 import ErrorMessage from "./ErrorMessage";
 import LoadingBackdrop from "./LoadingBackdrop";
 import TaskCard from "./TaskCard";
 import Grid from "@mui/material/Unstable_Grid2";
 
-const TaskView = () => {
-    const { data, isLoading, error } = useTasks();
+interface Props {
+    project: Project;
+}
+
+const TaskView = ({ project }: Props) => {
+    const [taskQuery, setTaskQuery] = useState<TaskQuery>({
+        project_id: project.id,
+    } as TaskQuery);
+
+    const { data, isLoading, error, refetch } = useTasks(taskQuery);
 
     console.log("TASK DATA");
     console.log(data);

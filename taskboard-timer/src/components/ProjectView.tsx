@@ -29,7 +29,7 @@ const ProjectView = () => {
             {thisProject && (
                 <Grid xs={12} md={6}>
                     <NewTask project={thisProject} />
-                    <TaskView />
+                    <TaskView project={thisProject} />
                 </Grid>
             )}
         </Grid>

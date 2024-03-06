@@ -23,7 +23,7 @@ app.register_blueprint(project_blueprint)
 app.register_blueprint(task_blueprint)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
 
 with app.app_context():
     db.create_all()

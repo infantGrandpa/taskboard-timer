@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from sqlalchemy.inspection import inspect
 from database import db
 
@@ -19,19 +19,14 @@ class Task(db.Model):
 @task_blueprint.route('/api/tasks')
 def get_projects():
     try:
-        task_id = request.args.get('id')  # Get 'id' query parameter, if provided
-
-        if task_id:
-            # Assuming 'id' is the primary key, adjust as needed
-            task = Task.query.filter_by(id=task_id).first()
-            if task:
-                return jsonify(task.to_dict())
-            else:
-                return jsonify({"error": "Task not found"}), 404
+        project_id = request.args.get('project_id')
+        if project_id:
+            tasks = Task.query.filter_by(project_id=project_id)
         else:
             tasks = Task.query.all()
-            tasks_data = [task.to_dict() for task in tasks]
-            return jsonify(tasks_data)
+            
+        tasks_data = [task.to_dict() for task in tasks]
+        return jsonify(tasks_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
