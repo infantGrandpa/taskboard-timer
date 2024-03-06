@@ -87,7 +87,7 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
                 <TextField
                     id="project-name-field"
                     label="Project Name"
-                    variant="standard"
+                    variant="filled"
                     value={project.name}
                     onChange={(e) =>
                         setProject({ ...project, name: e.target.value })
@@ -100,7 +100,7 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
                     multiline
                     minRows={2}
                     maxRows={5}
-                    variant="standard"
+                    variant="filled"
                     value={project.description}
                     onChange={(e) =>
                         setProject({ ...project, description: e.target.value })
@@ -110,7 +110,7 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
                 <TextField
                     id="client-field"
                     label="Client"
-                    variant="standard"
+                    variant="filled"
                     value={project.client}
                     onChange={(e) =>
                         setProject({ ...project, client: e.target.value })

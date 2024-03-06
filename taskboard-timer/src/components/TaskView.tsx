@@ -27,7 +27,7 @@ const TaskView = ({ project }: Props) => {
                 <Grid container spacing={1}>
                     {data.length > 0 ? (
                         data.map((task) => (
-                            <Grid key={task.id} xs={6}>
+                            <Grid key={task.id} xs={12} lg={6}>
                                 <TaskCard task={task} />
                             </Grid>
                         ))
