@@ -6,6 +6,7 @@ import LoadingBackdrop from "./LoadingBackdrop";
 import TaskCard from "./TaskCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import NewTask from "./NewTask";
+import TaskRow from "./TaskRow";
 
 interface Props {
     project: Project;
@@ -27,8 +28,9 @@ const TaskView = ({ project }: Props) => {
                 <Grid container spacing={1}>
                     {data.length > 0 ? (
                         data.map((task) => (
-                            <Grid key={task.id} xs={12} lg={6}>
-                                <TaskCard task={task} />
+                            <Grid key={task.id} xs={12}>
+                                {/* <TaskCard task={task} /> */}
+                                <TaskRow task={task} />
                             </Grid>
                         ))
                     ) : (
