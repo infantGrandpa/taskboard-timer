@@ -4,9 +4,10 @@ import { Project } from "../hooks/useProjects";
 
 interface Props {
     project: Project;
+    onCreateNew: () => void;
 }
 
-const NewTask = ({ project }: Props) => {
+const NewTask = ({ project, onCreateNew }: Props) => {
     const task = {
         project_id: project.id,
         name: "",
@@ -17,6 +18,7 @@ const NewTask = ({ project }: Props) => {
     const handleSaveTask = async () => {
         try {
             await addTask(task);
+            onCreateNew();
         } catch (error) {
             console.error("Error adding new project: ", error);
         }
