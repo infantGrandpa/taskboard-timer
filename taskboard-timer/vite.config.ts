@@ -28,6 +28,6 @@ export default defineConfig(async () => ({
 
     //EDIT THIS IF THE CONSOLDE SAYS THAT STYLED_DEFAULT IS NOT A FUNCTION
     optimizeDeps: {
-        include: ["@emotion/react", "@emotion/styled", "@mui/material/Grid"],
+        include: ["@emotion/react", "@emotion/styled", "@mui/material"],
     },
 }));

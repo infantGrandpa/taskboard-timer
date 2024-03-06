@@ -3,6 +3,7 @@ import { Task } from "../hooks/useTasks";
 import { TaskCreationData } from "../services/taskService";
 import { Stack, TextField } from "@mui/material";
 import DeleteTaskButton from "./DeleteTaskButton";
+import NumberInput from "./NumberInput";
 
 interface Props {
     task: Task;
@@ -28,9 +29,8 @@ const TaskRow = ({ task }: Props) => {
                 label="Name"
                 variant="filled"
                 value={taskInputs.name}
-                size="small"
             />
-            <TextField
+            {/* <TextField
                 id={`task-name-${task.id}`}
                 label="Estimated hours"
                 variant="filled"
@@ -44,7 +44,8 @@ const TaskRow = ({ task }: Props) => {
                         estimated_hours: Number(e.target.value),
                     })
                 }
-            />
+            /> */}
+            <NumberInput initialValue={0} min={0} />
             <DeleteTaskButton task={task} />
         </Stack>
     );
