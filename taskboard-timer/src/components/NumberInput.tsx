@@ -8,12 +8,14 @@ interface Props {
     min?: number;
     max?: number;
     onChange?: (value: number) => void;
+    roundToPlaces?: number;
 }
 
 const NumberInput = ({
     initialValue = 0,
     min = Number.MIN_SAFE_INTEGER,
     max = Number.MAX_SAFE_INTEGER,
+    roundToPlaces = 3,
     onChange,
 }: Props) => {
     const [value, setValue] = useState<Number | String>(initialValue);
@@ -21,16 +23,20 @@ const NumberInput = ({
     const handleIncrement = () =>
         setValue((prevValue) => {
             const newValue = Math.min(max, Number(prevValue) + 1);
-            onChange?.(newValue);
-            return newValue.toString();
+            return handleNumberChange(newValue);
         });
 
     const handleDecrement = () =>
         setValue((prevValue) => {
             const newValue = Math.max(min, Number(prevValue) - 1);
-            onChange?.(newValue);
-            return newValue.toString();
+            return handleNumberChange(newValue);
         });
+
+    const handleNumberChange = (newValue: number) => {
+        const roundedValue = roundInput(newValue);
+        onChange?.(roundedValue);
+        return roundedValue.toString();
+    };
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -43,11 +49,25 @@ const NumberInput = ({
             return;
         }
 
-        const decimalRegex = /^\d*\.?\d*$/;
+        const decimalRegex = /^\d+\.\d*?$/;
         if (decimalRegex.test(newValue)) {
             setValue(newValue);
             onChange?.(Number(newValue));
+            return;
         }
+
+        const numberValue = Number(newValue);
+        if (!isNaN(numberValue)) {
+            setValue(numberValue);
+            onChange?.(numberValue);
+        }
+    };
+
+    const roundInput = (numberToRound: number) => {
+        const multiplier = Math.pow(10, roundToPlaces);
+        const roundedValue =
+            Math.round(numberToRound * multiplier) / multiplier;
+        return roundedValue;
     };
 
     return (
