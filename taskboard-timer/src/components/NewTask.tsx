@@ -1,14 +1,18 @@
-import { useState } from "react";
 import { TaskCreationData, addTask } from "../services/taskService";
 import { Button } from "@mui/material";
+import { Project } from "../hooks/useProjects";
 
-const NewTask = () => {
-    const [task, setTask] = useState({
-        project_id: 17,
-        name: "New Task",
-        estimated_hours: 20,
+interface Props {
+    project: Project;
+}
+
+const NewTask = ({ project }: Props) => {
+    const task = {
+        project_id: project.id,
+        name: "",
+        estimated_hours: 0,
         hours_worked: 0,
-    } as TaskCreationData);
+    } as TaskCreationData;
 
     const handleSaveTask = async () => {
         try {
@@ -18,7 +22,11 @@ const NewTask = () => {
         }
     };
 
-    return <Button onClick={handleSaveTask}>Add New Task</Button>;
+    return (
+        <Button onClick={handleSaveTask} variant="contained">
+            Add New Task
+        </Button>
+    );
 };
 
 export default NewTask;
