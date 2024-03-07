@@ -6,6 +6,7 @@ import ErrorMessage from "./ErrorMessage";
 import EditableProjectCard from "./EditableProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import TaskView from "./TaskView";
+import { TaskProvider } from "./TaskProvider";
 
 const ProjectView = () => {
     let { id } = useParams();
@@ -27,7 +28,9 @@ const ProjectView = () => {
             </Grid>
             {thisProject && (
                 <Grid xs={12} md={6}>
-                    <TaskView project={thisProject} />
+                    <TaskProvider>
+                        <TaskView project={thisProject} />
+                    </TaskProvider>
                 </Grid>
             )}
         </Grid>

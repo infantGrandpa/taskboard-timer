@@ -6,6 +6,7 @@ import LoadingBackdrop from "./LoadingBackdrop";
 import Grid from "@mui/material/Unstable_Grid2";
 import NewTask from "./NewTask";
 import TaskRow from "./TaskRow";
+import TaskLogger from "./TaskLogger";
 
 interface Props {
     project: Project;
@@ -29,6 +30,7 @@ const TaskView = ({ project }: Props) => {
 
     return (
         <>
+            <TaskLogger />
             {isLoading && <LoadingBackdrop />}
             {error && <ErrorMessage message={error} />}
             <NewTask project={project} onCreateNew={() => setTaskAdded(true)} />
