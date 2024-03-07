@@ -5,11 +5,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {
     task: Task;
+    onDeleteSuccess?: () => void;
 }
 
-const DeleteTaskButton = ({ task }: Props) => {
+const DeleteTaskButton = ({ task, onDeleteSuccess }: Props) => {
     const handleDelete = async () => {
         await deleteTask(task);
+        onDeleteSuccess?.();
     };
 
     return (

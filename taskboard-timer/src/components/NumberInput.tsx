@@ -9,9 +9,11 @@ interface Props {
     max?: number;
     onChange?: (value: number) => void;
     roundToPlaces?: number;
+    id: string;
 }
 
 const NumberInput = ({
+    id,
     initialValue = 0,
     min = Number.MIN_SAFE_INTEGER,
     max = Number.MAX_SAFE_INTEGER,
@@ -80,6 +82,7 @@ const NumberInput = ({
                 onChange={handleChange}
                 variant="filled"
                 label="Est. Hours"
+                id={id}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">
