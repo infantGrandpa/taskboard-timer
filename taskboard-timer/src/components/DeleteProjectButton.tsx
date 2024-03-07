@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Project } from "../hooks/useProjects";
 import { deleteProject } from "../services/projectService";
@@ -15,9 +15,11 @@ const DeleteProjectButton = ({ project, onDeleteSuccess }: Props) => {
     };
 
     return (
-        <IconButton aria-label="delete" onClick={handleDelete}>
-            <DeleteIcon />
-        </IconButton>
+        <Tooltip title="Delete Project">
+            <IconButton aria-label="delete" onClick={handleDelete}>
+                <DeleteIcon />
+            </IconButton>
+        </Tooltip>
     );
 };
 

@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { Task } from "../hooks/useTasks";
 import { deleteTask } from "../services/taskService";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,9 +13,11 @@ const DeleteTaskButton = ({ task }: Props) => {
     };
 
     return (
-        <IconButton aria-label="delete" onClick={handleDelete}>
-            <DeleteIcon />
-        </IconButton>
+        <Tooltip title="Delete Task">
+            <IconButton aria-label="Delete Task" onClick={handleDelete}>
+                <DeleteIcon />
+            </IconButton>
+        </Tooltip>
     );
 };
 
