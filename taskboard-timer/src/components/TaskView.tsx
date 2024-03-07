@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Project } from "../hooks/useProjects";
 import useTasks, { TaskQuery } from "../hooks/useTasks";
 import ErrorMessage from "./ErrorMessage";
 import LoadingBackdrop from "./LoadingBackdrop";
-import TaskCard from "./TaskCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import NewTask from "./NewTask";
 import TaskRow from "./TaskRow";
@@ -16,20 +15,28 @@ const TaskView = ({ project }: Props) => {
     const [taskQuery, setTaskQuery] = useState<TaskQuery>({
         project_id: project.id,
     } as TaskQuery);
+    const [taskAdded, setTaskAdded] = useState(false);
 
     const { data, isLoading, error, refetch } = useTasks(taskQuery);
+
+    useEffect(() => {
+        if (taskAdded) {
+            refetch();
+            console.log("Refetching...");
+            setTaskAdded(false);
+        }
+    }, [taskAdded]);
 
     return (
         <>
             {isLoading && <LoadingBackdrop />}
             {error && <ErrorMessage message={error} />}
-            <NewTask project={project} onCreateNew={refetch} />
+            <NewTask project={project} onCreateNew={() => setTaskAdded(true)} />
             {data && (
                 <Grid container spacing={1}>
                     {data.length > 0 ? (
                         data.map((task) => (
                             <Grid key={task.id} xs={12}>
-                                {/* <TaskCard task={task} /> */}
                                 <TaskRow task={task} />
                             </Grid>
                         ))

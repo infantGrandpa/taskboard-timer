@@ -8,7 +8,7 @@ interface Props {
 }
 
 const NewTask = ({ project, onCreateNew }: Props) => {
-    const task = {
+    const newTask = {
         project_id: project.id,
         name: "",
         estimated_hours: 0,
@@ -17,10 +17,10 @@ const NewTask = ({ project, onCreateNew }: Props) => {
 
     const handleSaveTask = async () => {
         try {
-            await addTask(task);
+            await addTask(newTask);
             onCreateNew();
         } catch (error) {
-            console.error("Error adding new project: ", error);
+            console.error("Error adding new task: ", error);
         }
     };
 

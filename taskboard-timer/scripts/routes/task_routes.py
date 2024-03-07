@@ -40,7 +40,7 @@ def add_task():
     db.session.add(new_task)
     db.session.commit()
 
-    message = f'New Project ({new_task.name}) added successfully!'
+    message = f'New Task ({new_task.name}) added successfully!'
 
     return jsonify({"message": message}), 201
 

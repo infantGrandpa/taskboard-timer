@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Task } from "../hooks/useTasks";
 import { TaskCreationData } from "../services/taskService";
-import { Stack, TextField } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 import DeleteTaskButton from "./DeleteTaskButton";
 import NumberInput from "./NumberInput";
 
@@ -22,8 +22,12 @@ const TaskRow = ({ task }: Props) => {
             direction="row"
             spacing={1}
             justifyContent="space-between"
+            alignItems="center"
             sx={{ my: 0.25 }}
         >
+            <Typography variant="body1" fontWeight={600}>
+                {task.id}
+            </Typography>
             <TextField
                 fullWidth
                 id={`task-name-${task.id}`}
