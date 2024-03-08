@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Task } from "../../hooks/useTasks";
-import { TaskCreationData } from "../../services/taskService";
-import { Stack, TextField, Typography } from "@mui/material";
+import { TaskCreationData, editTask } from "../../services/taskService";
+import { IconButton, Stack, TextField, Typography } from "@mui/material";
 import DeleteTaskButton from "./DeleteTaskButton";
 import NumberInput from "../NumberInput";
+import SaveIcon from "@mui/icons-material/Save";
 
 interface Props {
     task: Task;
@@ -16,6 +17,10 @@ const TaskRow = ({ task }: Props) => {
         estimated_hours: task.estimated_hours,
         hours_worked: task.hours_worked,
     } as TaskCreationData);
+
+    const handleSaveEdits = async () => {
+        await editTask(task, taskInputs);
+    };
 
     return (
         <Stack
@@ -34,10 +39,16 @@ const TaskRow = ({ task }: Props) => {
                 label="Name"
                 variant="filled"
                 value={taskInputs.name}
+                onChange={(newValue) =>
+                    setTaskInputs({
+                        ...taskInputs,
+                        name: newValue.target.value,
+                    })
+                }
             />
             <NumberInput
                 id={`task-est-hours-${task.id}`}
-                initialValue={0}
+                initialValue={taskInputs.estimated_hours}
                 min={0}
                 onChange={(newValue) =>
                     setTaskInputs({
@@ -46,6 +57,9 @@ const TaskRow = ({ task }: Props) => {
                     })
                 }
             />
+            <IconButton onClick={handleSaveEdits}>
+                <SaveIcon />
+            </IconButton>
             <DeleteTaskButton task={task} />
         </Stack>
     );

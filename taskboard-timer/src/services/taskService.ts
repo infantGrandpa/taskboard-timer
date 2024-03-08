@@ -44,4 +44,8 @@ const deleteTask = async (task: Task) => {
     handleTaskRequest(`/api/task/${task.id}`, "DELETE");
 };
 
-export { addTask, deleteTask };
+const editTask = async (task: Task, newTaskData: TaskCreationData) => {
+    handleTaskRequest(`/api/task/${task.id}`, "PUT", newTaskData);
+};
+
+export { addTask, deleteTask, editTask };
