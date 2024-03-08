@@ -12,6 +12,7 @@ class Project(db.Model):
     client = db.Column(db.String(120), nullable=True)
     start_date = db.Column(db.Date, nullable=True)
     end_date = db.Column(db.Date, nullable=True)
+    tasks = db.relationship('Task', backref='project', lazy=True, cascade='all, delete-orphan')
     
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}

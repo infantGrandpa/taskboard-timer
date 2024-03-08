@@ -6,7 +6,7 @@ task_blueprint = Blueprint('task', __name__)
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer, nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     name = db.Column(db.String(120), nullable=False)
     estimated_hours = db.Column(db.Float, nullable=False)
     hours_worked = db.Column(db.Float, default=0.0, nullable=False)
