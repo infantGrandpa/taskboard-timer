@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Task } from "../../hooks/useTasks";
 import { TaskCreationData, editTask } from "../../services/taskService";
-import { IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 import DeleteTaskButton from "./DeleteTaskButton";
 import NumberInput from "../NumberInput";
-import SaveIcon from "@mui/icons-material/Save";
 
 interface Props {
     task: Task;
