@@ -11,6 +11,7 @@ import { TaskQuery } from "../hooks/useTasks";
 import { Project } from "../hooks/useProjects";
 import LoadingBackdrop from "./LoadingBackdrop";
 import ErrorMessage from "./ErrorMessage";
+import { useEffect } from "react";
 
 interface Props {
     project: Project;
@@ -27,6 +28,10 @@ const TaskLogger = ({ project }: Props) => {
             setTaskQuery({ project_id: project.id } as TaskQuery);
         }
     };
+
+    useEffect(() => {
+        setTaskQuery({ project_id: project.id } as TaskQuery);
+    }, []);
 
     if (isLoading) {
         return <LoadingBackdrop />;
