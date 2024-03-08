@@ -5,6 +5,7 @@ import useProjects from "../../hooks/useProjects";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
+import ProjectLogger from "./ProjectLogger";
 
 const ProjectsGrid = () => {
     const { data, isLoading, error } = useProjects();
@@ -12,6 +13,7 @@ const ProjectsGrid = () => {
     return (
         <>
             <Typography variant="h2">Total Projects: {data?.length}</Typography>
+            <ProjectLogger />
             <Fab
                 component={Link}
                 to="/new-project"

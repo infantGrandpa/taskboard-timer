@@ -1,4 +1,8 @@
-import { useTaskContext } from "../../providers/TaskProvider";
+import { useEffect } from "react";
+import { ProjectQuery } from "../../hooks/useProjects";
+import { useProjectContext } from "../../providers/ProjectProvider";
+import LoadingBackdrop from "../LoadingBackdrop";
+import ErrorMessage from "../ErrorMessage";
 import {
     Button,
     List,
@@ -7,30 +11,21 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import { TaskQuery } from "../../hooks/useTasks";
-import { Project } from "../../hooks/useProjects";
-import LoadingBackdrop from "../LoadingBackdrop";
-import ErrorMessage from "../ErrorMessage";
-import { useEffect } from "react";
 
-interface Props {
-    project: Project;
-}
-
-const TaskLogger = ({ project }: Props) => {
-    const { data, isLoading, error, taskQuery, setTaskQuery } =
-        useTaskContext();
+const ProjectLogger = () => {
+    const { data, isLoading, error, projectQuery, setProjectQuery } =
+        useProjectContext();
 
     const handleQueryChange = () => {
-        if (taskQuery?.project_id) {
-            setTaskQuery({ project_id: null } as TaskQuery);
+        if (projectQuery?.id) {
+            setProjectQuery({ id: null } as ProjectQuery);
         } else {
-            setTaskQuery({ project_id: project.id } as TaskQuery);
+            setProjectQuery({ id: 17 } as ProjectQuery);
         }
     };
 
     useEffect(() => {
-        setTaskQuery({ project_id: project.id } as TaskQuery);
+        setProjectQuery({ id: 17 } as ProjectQuery);
     }, []);
 
     if (isLoading) {
@@ -49,8 +44,8 @@ const TaskLogger = ({ project }: Props) => {
                 alignItems="flex-end"
             >
                 <Typography variant="h5">
-                    {taskQuery?.project_id
-                        ? `Project ${taskQuery.project_id}`
+                    {projectQuery?.id
+                        ? `Project ${projectQuery.id}`
                         : "No Project Filter"}
                 </Typography>
                 <Button
@@ -62,18 +57,17 @@ const TaskLogger = ({ project }: Props) => {
                 </Button>
             </Stack>
 
-            <Typography variant="h6">Task List ({data?.length})</Typography>
             <List
                 dense
                 sx={{ backgroundColor: "secondary.dark", borderRadius: 1 }}
             >
                 {data &&
-                    data.map((task) => (
-                        <ListItem key={task.id}>
+                    data.map((project) => (
+                        <ListItem key={project.id}>
                             <ListItemText>
-                                {task.name.length > 0
-                                    ? `${task.name} (${task.id})`
-                                    : `Task ${task.id}`}
+                                {project.name.length > 0
+                                    ? `${project.name} (${project.id})`
+                                    : `Project ${project.id}`}
                             </ListItemText>
                         </ListItem>
                     ))}
@@ -82,4 +76,4 @@ const TaskLogger = ({ project }: Props) => {
     );
 };
 
-export default TaskLogger;
+export default ProjectLogger;
