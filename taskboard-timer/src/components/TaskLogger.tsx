@@ -11,20 +11,11 @@ import {
 import { TaskQuery } from "../hooks/useTasks";
 
 const TaskLogger = () => {
-    const {
-        data,
-        isLoading,
-        error,
-        refreshNeeded,
-        triggerRefresh,
-        resetRefresh,
-        taskQuery,
-        setTaskQuery,
-    } = useTaskContext();
+    const { data, isLoading, error, taskQuery, setTaskQuery } =
+        useTaskContext();
 
     useEffect(() => {
         console.log("USE EFFECT TRIGGERED");
-        console.log(`refreshNeeded: ${refreshNeeded}`);
         console.log("DATA");
         console.log(data);
         console.log(`isLoading: ${isLoading}`);
@@ -47,17 +38,10 @@ const TaskLogger = () => {
                 alignItems="flex-end"
             >
                 <Typography variant="h5">
-                    {refreshNeeded ? "Refresh Needed" : "No Refresh Needed"}
+                    {taskQuery?.project_id
+                        ? `Project ${taskQuery.project_id}`
+                        : "No Project Filter"}
                 </Typography>
-                <Typography variant="body1">
-                    Project ID: {taskQuery?.project_id}
-                </Typography>
-            </Stack>
-
-            <Stack direction="row" spacing={2}>
-                <Button onClick={triggerRefresh} variant="contained">
-                    Trigger Refresh
-                </Button>
                 <Button
                     onClick={handleQueryChange}
                     variant="contained"
@@ -65,10 +49,9 @@ const TaskLogger = () => {
                 >
                     Toggle Query
                 </Button>
-                <Button onClick={resetRefresh} variant="outlined">
-                    Reset Refresh
-                </Button>
             </Stack>
+
+            <Stack direction="row" spacing={2}></Stack>
             <Typography variant="h6">Task List ({data?.length})</Typography>
             <List
                 dense
