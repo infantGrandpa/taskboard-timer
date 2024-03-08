@@ -26,7 +26,7 @@ const TaskRow = ({ task }: Props) => {
             sx={{ my: 0.25 }}
         >
             <Typography variant="body1" fontWeight={600}>
-                {task.id}
+                {task.project_id}:{task.id}
             </Typography>
             <TextField
                 fullWidth

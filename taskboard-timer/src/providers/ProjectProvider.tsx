@@ -19,11 +19,12 @@ const ProjectContext = createContext<ProjectContentType>({
 
 interface Props {
     children: ReactNode;
+    initialProjectQuery?: ProjectQuery;
 }
 
-const ProjectProvider = ({ children }: Props) => {
+const ProjectProvider = ({ children, initialProjectQuery }: Props) => {
     const [projectQuery, setProjectQuery] = useState<ProjectQuery>(
-        {} as ProjectQuery
+        initialProjectQuery ? initialProjectQuery : ({} as ProjectQuery)
     );
 
     const { data, isLoading, error } = useProjects(projectQuery);

@@ -6,9 +6,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NewProjectForm from "./components/projects/NewProjectForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import ProjectView from "./components/projects/ProjectView";
 import Navbar from "./components/Navbar";
 import { ProjectProvider } from "./providers/ProjectProvider";
+import ProjectPage from "./components/projects/ProjectPage";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -39,19 +39,24 @@ function App() {
                 <BrowserRouter>
                     <Navbar />
                     <Container maxWidth="xl" sx={{ pt: 3 }}>
-                        <ProjectProvider>
-                            <Routes>
-                                <Route path="/" element={<ProjectsGrid />} />
-                                <Route
-                                    path="/new-project"
-                                    element={<NewProjectForm />}
-                                />
-                                <Route
-                                    path="/projects/:id"
-                                    element={<ProjectView />}
-                                />
-                            </Routes>
-                        </ProjectProvider>
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={
+                                    <ProjectProvider>
+                                        <ProjectsGrid />
+                                    </ProjectProvider>
+                                }
+                            />
+                            <Route
+                                path="/new-project"
+                                element={<NewProjectForm />}
+                            />
+                            <Route
+                                path="/projects/:id"
+                                element={<ProjectPage />}
+                            />
+                        </Routes>
                     </Container>
                 </BrowserRouter>
             </ThemeProvider>

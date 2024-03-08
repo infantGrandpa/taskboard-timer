@@ -1,6 +1,3 @@
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { ProjectQuery } from "../../hooks/useProjects";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import EditableProjectCard from "./EditableProjectCard";
@@ -11,21 +8,7 @@ import { useProjectContext } from "../../providers/ProjectProvider";
 import { TaskQuery } from "../../hooks/useTasks";
 
 const ProjectView = () => {
-    let { id } = useParams();
-    const projectId = id ? parseInt(id, 10) : undefined;
-
-    const { data, isLoading, error, setProjectQuery } = useProjectContext();
-
-    useEffect(() => {
-        if (projectId) {
-            setProjectQuery({ id: projectId } as ProjectQuery);
-            console.log(`PROJECT DATA CHANGED ${projectId}`);
-            console.log(data);
-        }
-    }, []);
-
-    console.log("PROJECT DATA");
-    console.log(data);
+    const { data, isLoading, error } = useProjectContext();
 
     const thisProject = data ? data[0] : null;
 
@@ -40,7 +23,7 @@ const ProjectView = () => {
                 <Grid xs={12} md={6}>
                     <TaskProvider
                         initialTaskQuery={
-                            { project_id: projectId } as TaskQuery
+                            { project_id: thisProject.id } as TaskQuery
                         }
                     >
                         <TaskView />
