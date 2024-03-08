@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import useProjects from "../hooks/useProjects";
-import LoadingBackdrop from "./LoadingBackdrop";
-import ErrorMessage from "./ErrorMessage";
+import useProjects from "../../hooks/useProjects";
+import LoadingBackdrop from "../LoadingBackdrop";
+import ErrorMessage from "../ErrorMessage";
 import EditableProjectCard from "./EditableProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
-import TaskView from "./TaskView";
-import { TaskProvider } from "./TaskProvider";
+import TaskView from "../tasks/TaskView";
+import { TaskProvider } from "../../providers/TaskProvider";
 
 const ProjectView = () => {
     let { id } = useParams();

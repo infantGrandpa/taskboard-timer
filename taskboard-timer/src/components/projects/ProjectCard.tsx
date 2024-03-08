@@ -6,9 +6,9 @@ import {
     SxProps,
     Typography,
 } from "@mui/material";
-import { Project } from "../hooks/useProjects";
+import { Project } from "../../hooks/useProjects";
 import { Link } from "react-router-dom";
-import DateRange from "./DateRange";
+import DateRange from "../DateRange";
 
 interface Props {
     project: Project;
@@ -22,7 +22,8 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
     return (
         <Card
             sx={{
-                ...sx, display: "flex",
+                ...sx,
+                display: "flex",
             }}
         >
             <CardActionArea

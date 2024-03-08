@@ -1,7 +1,7 @@
 import { CircularProgress, Fab, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import ErrorMessage from "./ErrorMessage";
-import useProjects from "../hooks/useProjects";
+import ErrorMessage from "../ErrorMessage";
+import useProjects from "../../hooks/useProjects";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";

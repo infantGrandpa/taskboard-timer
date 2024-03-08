@@ -6,10 +6,10 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { Task } from "../hooks/useTasks";
+import { Task } from "../../hooks/useTasks";
 import DeleteTaskButton from "./DeleteTaskButton";
 import { useState } from "react";
-import { TaskCreationData } from "../services/taskService";
+import { TaskCreationData } from "../../services/taskService";
 
 interface Props {
     task: Task;

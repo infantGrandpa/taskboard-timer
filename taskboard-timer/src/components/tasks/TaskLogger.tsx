@@ -1,4 +1,4 @@
-import { useTaskContext } from "./TaskProvider";
+import { useTaskContext } from "../../providers/TaskProvider";
 import {
     Button,
     List,
@@ -7,10 +7,10 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import { TaskQuery } from "../hooks/useTasks";
-import { Project } from "../hooks/useProjects";
-import LoadingBackdrop from "./LoadingBackdrop";
-import ErrorMessage from "./ErrorMessage";
+import { TaskQuery } from "../../hooks/useTasks";
+import { Project } from "../../hooks/useProjects";
+import LoadingBackdrop from "../LoadingBackdrop";
+import ErrorMessage from "../ErrorMessage";
 import { useEffect } from "react";
 
 interface Props {

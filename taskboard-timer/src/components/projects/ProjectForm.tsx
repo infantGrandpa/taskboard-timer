@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Project } from "../hooks/useProjects";
+import { Project } from "../../hooks/useProjects";
 import { Button, Stack, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { add } from "date-fns";
@@ -9,7 +9,7 @@ import {
     ProjectCreationData,
     addProject,
     editProject,
-} from "../services/projectService";
+} from "../../services/projectService";
 import { useNavigate } from "react-router-dom";
 
 interface Props {

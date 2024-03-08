@@ -1,6 +1,6 @@
-import { TaskCreationData, addTask } from "../services/taskService";
+import { TaskCreationData, addTask } from "../../services/taskService";
 import { Button } from "@mui/material";
-import { Project } from "../hooks/useProjects";
+import { Project } from "../../hooks/useProjects";
 
 interface Props {
     project: Project;

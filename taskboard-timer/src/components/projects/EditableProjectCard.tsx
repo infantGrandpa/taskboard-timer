@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Project } from "../hooks/useProjects";
-import ErrorMessage from "./ErrorMessage";
+import { Project } from "../../hooks/useProjects";
+import ErrorMessage from "../ErrorMessage";
 import {
     Card,
     CardActions,
@@ -11,7 +11,7 @@ import {
     Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import DateRange from "./DateRange";
+import DateRange from "../DateRange";
 import DeleteProjectButton from "./DeleteProjectButton";
 import { useNavigate } from "react-router-dom";
 import CancelIcon from "@mui/icons-material/Cancel";

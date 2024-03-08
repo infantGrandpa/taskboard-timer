@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Task } from "../hooks/useTasks";
-import { TaskCreationData } from "../services/taskService";
+import { Task } from "../../hooks/useTasks";
+import { TaskCreationData } from "../../services/taskService";
 import { Stack, TextField, Typography } from "@mui/material";
 import DeleteTaskButton from "./DeleteTaskButton";
-import NumberInput from "./NumberInput";
+import NumberInput from "../NumberInput";
 
 interface Props {
     task: Task;

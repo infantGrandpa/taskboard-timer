@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { Project } from "../hooks/useProjects";
-import { TaskQuery } from "../hooks/useTasks";
-import ErrorMessage from "./ErrorMessage";
-import LoadingBackdrop from "./LoadingBackdrop";
+import { Project } from "../../hooks/useProjects";
+import { TaskQuery } from "../../hooks/useTasks";
+import ErrorMessage from "../ErrorMessage";
+import LoadingBackdrop from "../LoadingBackdrop";
 import Grid from "@mui/material/Unstable_Grid2";
 import NewTask from "./NewTask";
 import TaskRow from "./TaskRow";
-import { useTaskContext } from "./TaskProvider";
+import { useTaskContext } from "../../providers/TaskProvider";
 
 interface Props {
     project: Project;

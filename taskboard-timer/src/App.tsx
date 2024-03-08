@@ -1,12 +1,12 @@
 import { Container, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import ProjectsGrid from "./components/ProjectsGrid";
+import ProjectsGrid from "./components/projects/ProjectsGrid";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NewProjectForm from "./components/NewProjectForm";
+import NewProjectForm from "./components/projects/NewProjectForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import ProjectView from "./components/ProjectView";
+import ProjectView from "./components/projects/ProjectView";
 import Navbar from "./components/Navbar";
 
 declare module "@mui/material/styles" {
