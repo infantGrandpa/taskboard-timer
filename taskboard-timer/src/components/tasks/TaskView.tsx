@@ -7,6 +7,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import NewTask from "./NewTask";
 import TaskRow from "./TaskRow";
 import { useTaskContext } from "../../providers/TaskProvider";
+import { Typography } from "@mui/material";
 
 interface Props {
     project: Project;
@@ -17,10 +18,12 @@ const TaskView = ({ project }: Props) => {
 
     useEffect(() => {
         setTaskQuery({ project_id: project.id } as TaskQuery);
+        console.log(`Changed task query to project: ${project.id}`);
     }, []);
 
     return (
         <>
+            <Typography variant="h5">Tasks for Project {project.id}</Typography>
             {isLoading && <LoadingBackdrop />}
             {error && <ErrorMessage message={error} />}
             <NewTask

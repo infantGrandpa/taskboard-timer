@@ -1,19 +1,22 @@
 import { CircularProgress, Fab, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ErrorMessage from "../ErrorMessage";
-import useProjects from "../../hooks/useProjects";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
-import ProjectLogger from "./ProjectLogger";
+import { useProjectContext } from "../../providers/ProjectProvider";
+import { useEffect } from "react";
 
 const ProjectsGrid = () => {
-    const { data, isLoading, error } = useProjects();
+    const { data, isLoading, error, setProjectQuery } = useProjectContext();
+
+    useEffect(() => {
+        setProjectQuery({ id: null });
+    }, []);
 
     return (
         <>
             <Typography variant="h2">Total Projects: {data?.length}</Typography>
-            <ProjectLogger />
             <Fab
                 component={Link}
                 to="/new-project"

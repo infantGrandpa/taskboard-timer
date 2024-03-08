@@ -1,21 +1,30 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import useProjects from "../../hooks/useProjects";
+import { useEffect } from "react";
+import { ProjectQuery } from "../../hooks/useProjects";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import EditableProjectCard from "./EditableProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import TaskView from "../tasks/TaskView";
 import { TaskProvider } from "../../providers/TaskProvider";
+import { useProjectContext } from "../../providers/ProjectProvider";
 
 const ProjectView = () => {
     let { id } = useParams();
-    /* const projectQuery = { id: id ? parseInt(id, 10) : undefined }; */ //For some reason this causes infinite refresh
-    const [projectQuery, setProjectQuery] = useState({
-        id: id ? parseInt(id, 10) : undefined,
-    });
+    const projectId = id ? parseInt(id, 10) : undefined;
 
-    const { data, isLoading, error } = useProjects(projectQuery);
+    const { data, isLoading, error, setProjectQuery } = useProjectContext();
+
+    useEffect(() => {
+        if (projectId) {
+            setProjectQuery({ id: projectId } as ProjectQuery);
+            console.log(`PROJECT DATA CHANGED ${projectId}`);
+            console.log(data);
+        }
+    }, []);
+
+    console.log("PROJECT DATA");
+    console.log(data);
 
     const thisProject = data ? data[0] : null;
 

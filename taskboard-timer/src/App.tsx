@@ -39,28 +39,19 @@ function App() {
                 <BrowserRouter>
                     <Navbar />
                     <Container maxWidth="xl" sx={{ pt: 3 }}>
-                        <Routes>
-                            <Route
-                                path="/"
-                                element={
-                                    <ProjectProvider>
-                                        <ProjectsGrid />
-                                    </ProjectProvider>
-                                }
-                            />
-                            <Route
-                                path="/new-project"
-                                element={<NewProjectForm />}
-                            />
-                            <Route
-                                path="/projects/:id"
-                                element={
-                                    <ProjectProvider>
-                                        <ProjectView />
-                                    </ProjectProvider>
-                                }
-                            />
-                        </Routes>
+                        <ProjectProvider>
+                            <Routes>
+                                <Route path="/" element={<ProjectsGrid />} />
+                                <Route
+                                    path="/new-project"
+                                    element={<NewProjectForm />}
+                                />
+                                <Route
+                                    path="/projects/:id"
+                                    element={<ProjectView />}
+                                />
+                            </Routes>
+                        </ProjectProvider>
                     </Container>
                 </BrowserRouter>
             </ThemeProvider>
