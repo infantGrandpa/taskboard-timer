@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useTaskContext } from "./TaskProvider";
 import {
     Button,
@@ -9,26 +8,33 @@ import {
     Typography,
 } from "@mui/material";
 import { TaskQuery } from "../hooks/useTasks";
+import { Project } from "../hooks/useProjects";
+import LoadingBackdrop from "./LoadingBackdrop";
+import ErrorMessage from "./ErrorMessage";
 
-const TaskLogger = () => {
+interface Props {
+    project: Project;
+}
+
+const TaskLogger = ({ project }: Props) => {
     const { data, isLoading, error, taskQuery, setTaskQuery } =
         useTaskContext();
 
-    useEffect(() => {
-        console.log("USE EFFECT TRIGGERED");
-        console.log("DATA");
-        console.log(data);
-        console.log(`isLoading: ${isLoading}`);
-        console.log(`error: ${error}`);
-    }, [taskQuery]);
-
     const handleQueryChange = () => {
-        if (taskQuery?.project_id === 17) {
+        if (taskQuery?.project_id) {
             setTaskQuery({ project_id: null } as TaskQuery);
         } else {
-            setTaskQuery({ project_id: 17 } as TaskQuery);
+            setTaskQuery({ project_id: project.id } as TaskQuery);
         }
     };
+
+    if (isLoading) {
+        return <LoadingBackdrop />;
+    }
+
+    if (error) {
+        return <ErrorMessage message="error" />;
+    }
 
     return (
         <Stack direction="column" spacing={2} sx={{ mt: 3, mb: 5 }}>

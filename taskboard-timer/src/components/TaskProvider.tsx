@@ -22,9 +22,7 @@ interface Props {
 }
 
 const TaskProvider = ({ children }: Props) => {
-    const [taskQuery, setTaskQuery] = useState<TaskQuery>({
-        project_id: 17,
-    } as TaskQuery);
+    const [taskQuery, setTaskQuery] = useState<TaskQuery>({} as TaskQuery);
 
     const { data, isLoading, error } = useTasks(taskQuery);
 

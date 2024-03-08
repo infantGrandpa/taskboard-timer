@@ -30,7 +30,7 @@ const TaskView = ({ project }: Props) => {
 
     return (
         <>
-            <TaskLogger />
+            <TaskLogger project={project} />
             {isLoading && <LoadingBackdrop />}
             {error && <ErrorMessage message={error} />}
             <NewTask project={project} onCreateNew={() => setTaskAdded(true)} />
