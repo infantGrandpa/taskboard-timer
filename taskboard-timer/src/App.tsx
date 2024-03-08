@@ -1,14 +1,13 @@
 import { Container, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import ProjectsGrid from "./components/projects/ProjectsGrid";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NewProjectForm from "./components/projects/NewProjectForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import Navbar from "./components/Navbar";
-import { ProjectProvider } from "./providers/ProjectProvider";
 import ProjectPage from "./components/projects/ProjectPage";
+import HomePage from "./components/HomePage";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -40,14 +39,7 @@ function App() {
                     <Navbar />
                     <Container maxWidth="xl" sx={{ pt: 3 }}>
                         <Routes>
-                            <Route
-                                path="/"
-                                element={
-                                    <ProjectProvider>
-                                        <ProjectsGrid />
-                                    </ProjectProvider>
-                                }
-                            />
+                            <Route path="/" element={<HomePage />} />
                             <Route
                                 path="/new-project"
                                 element={<NewProjectForm />}
