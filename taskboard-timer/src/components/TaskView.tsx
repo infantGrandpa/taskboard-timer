@@ -1,39 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Project } from "../hooks/useProjects";
-import useTasks, { TaskQuery } from "../hooks/useTasks";
+import { TaskQuery } from "../hooks/useTasks";
 import ErrorMessage from "./ErrorMessage";
 import LoadingBackdrop from "./LoadingBackdrop";
 import Grid from "@mui/material/Unstable_Grid2";
 import NewTask from "./NewTask";
 import TaskRow from "./TaskRow";
-import TaskLogger from "./TaskLogger";
+import { useTaskContext } from "./TaskProvider";
 
 interface Props {
     project: Project;
 }
 
 const TaskView = ({ project }: Props) => {
-    const [taskQuery, setTaskQuery] = useState<TaskQuery>({
-        project_id: project.id,
-    } as TaskQuery);
-    const [taskAdded, setTaskAdded] = useState(false);
-
-    const { data, isLoading, error, refetch } = useTasks(taskQuery);
+    const { data, isLoading, error, setTaskQuery } = useTaskContext();
 
     useEffect(() => {
-        if (taskAdded) {
-            refetch();
-            console.log("Refetching...");
-            setTaskAdded(false);
-        }
-    }, [taskAdded]);
+        setTaskQuery({ project_id: project.id } as TaskQuery);
+    }, []);
 
     return (
         <>
-            <TaskLogger project={project} />
             {isLoading && <LoadingBackdrop />}
             {error && <ErrorMessage message={error} />}
-            <NewTask project={project} onCreateNew={() => setTaskAdded(true)} />
+            <NewTask
+                project={project}
+                onCreateNew={() =>
+                    setTaskQuery({ project_id: project.id } as TaskQuery)
+                }
+            />
             {data && (
                 <Grid container spacing={1}>
                     {data.length > 0 ? (
