@@ -3,13 +3,13 @@ import { Button } from "@mui/material";
 import { Project } from "../../hooks/useProjects";
 
 interface Props {
-    project: Project;
+    projectId: number;
     onCreateNew: () => void;
 }
 
-const NewTask = ({ project, onCreateNew }: Props) => {
+const NewTask = ({ projectId, onCreateNew }: Props) => {
     const newTask = {
-        project_id: project.id,
+        project_id: projectId,
         name: "",
         estimated_hours: 0,
         hours_worked: 0,

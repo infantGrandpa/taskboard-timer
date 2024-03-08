@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { Project } from "../../hooks/useProjects";
 import { TaskQuery } from "../../hooks/useTasks";
 import ErrorMessage from "../ErrorMessage";
 import LoadingBackdrop from "../LoadingBackdrop";
@@ -9,29 +7,25 @@ import TaskRow from "./TaskRow";
 import { useTaskContext } from "../../providers/TaskProvider";
 import { Typography } from "@mui/material";
 
-interface Props {
-    project: Project;
-}
+const TaskView = () => {
+    const { data, isLoading, error, taskQuery, setTaskQuery } =
+        useTaskContext();
 
-const TaskView = ({ project }: Props) => {
-    const { data, isLoading, error, setTaskQuery } = useTaskContext();
-
-    useEffect(() => {
-        setTaskQuery({ project_id: project.id } as TaskQuery);
-        console.log(`Changed task query to project: ${project.id}`);
-    }, []);
+    const projectId = taskQuery?.project_id;
 
     return (
         <>
-            <Typography variant="h5">Tasks for Project {project.id}</Typography>
+            <Typography variant="h5">Tasks for Project {projectId}</Typography>
             {isLoading && <LoadingBackdrop />}
             {error && <ErrorMessage message={error} />}
-            <NewTask
-                project={project}
-                onCreateNew={() =>
-                    setTaskQuery({ project_id: project.id } as TaskQuery)
-                }
-            />
+            {projectId && (
+                <NewTask
+                    projectId={projectId}
+                    onCreateNew={() =>
+                        setTaskQuery({ project_id: projectId } as TaskQuery)
+                    }
+                />
+            )}
             {data && (
                 <Grid container spacing={1}>
                     {data.length > 0 ? (

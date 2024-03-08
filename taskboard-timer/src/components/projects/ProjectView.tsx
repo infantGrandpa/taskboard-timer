@@ -8,6 +8,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import TaskView from "../tasks/TaskView";
 import { TaskProvider } from "../../providers/TaskProvider";
 import { useProjectContext } from "../../providers/ProjectProvider";
+import { TaskQuery } from "../../hooks/useTasks";
 
 const ProjectView = () => {
     let { id } = useParams();
@@ -37,8 +38,12 @@ const ProjectView = () => {
             </Grid>
             {thisProject && (
                 <Grid xs={12} md={6}>
-                    <TaskProvider>
-                        <TaskView project={thisProject} />
+                    <TaskProvider
+                        initialTaskQuery={
+                            { project_id: projectId } as TaskQuery
+                        }
+                    >
+                        <TaskView />
                     </TaskProvider>
                 </Grid>
             )}

@@ -19,10 +19,13 @@ const TaskContext = createContext<TaskContentType>({
 
 interface Props {
     children: ReactNode;
+    initialTaskQuery?: TaskQuery;
 }
 
-const TaskProvider = ({ children }: Props) => {
-    const [taskQuery, setTaskQuery] = useState<TaskQuery>({} as TaskQuery);
+const TaskProvider = ({ children, initialTaskQuery }: Props) => {
+    const [taskQuery, setTaskQuery] = useState<TaskQuery>(
+        initialTaskQuery ? initialTaskQuery : ({} as TaskQuery)
+    );
 
     const { data, isLoading, error } = useTasks(taskQuery);
 
