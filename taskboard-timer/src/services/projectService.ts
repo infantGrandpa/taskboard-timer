@@ -63,7 +63,12 @@ const formatProjectDates = (projectData: any = null) => {
 };
 
 const addProject = async (projectData: ProjectCreationData) => {
-    handleProjectRequest("/api/add_project", "POST", projectData);
+    const responseData = handleProjectRequest(
+        "/api/add_project",
+        "POST",
+        projectData
+    );
+    return responseData;
 };
 
 const deleteProject = async (project: Project) => {

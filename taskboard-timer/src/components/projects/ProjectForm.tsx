@@ -10,14 +10,14 @@ import {
     addProject,
     editProject,
 } from "../../services/projectService";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
     project?: Project;
     type: "new" | "edit";
+    onSave?: (projectId?: any) => void;
 }
 
-const ProjectForm = ({ project: originalProject, type }: Props) => {
+const ProjectForm = ({ project: originalProject, type, onSave }: Props) => {
     const [project, setProject] = useState({
         name: originalProject ? originalProject.name : "",
         description: originalProject ? originalProject.description : "",
@@ -27,8 +27,6 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
             ? originalProject.end_date
             : add(new Date(), { months: 1 }),
     } as Project);
-
-    const navigate = useNavigate();
 
     const clearForm = () => {
         setProject({
@@ -58,8 +56,8 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
             end_date: project.end_date,
         };
         try {
-            await addProject(projectData);
-            navigate("/");
+            const response = await addProject(projectData);
+            onSave?.(response.id);
         } catch (error) {
             console.error("Error adding new project: ", error);
         }
@@ -79,6 +77,7 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
         } as ProjectCreationData;
 
         await editProject(originalProject, editedProjectData);
+        onSave?.();
     };
 
     return (

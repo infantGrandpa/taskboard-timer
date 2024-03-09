@@ -8,6 +8,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import Navbar from "./components/Navbar";
 import ProjectPage from "./components/projects/ProjectPage";
 import HomePage from "./components/HomePage";
+import NewTasksPage from "./components/tasks/NewTasksPage";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -47,6 +48,10 @@ function App() {
                             <Route
                                 path="/projects/:id"
                                 element={<ProjectPage />}
+                            />
+                            <Route
+                                path="/projects/:id/new-tasks"
+                                element={<NewTasksPage />}
                             />
                         </Routes>
                     </Container>

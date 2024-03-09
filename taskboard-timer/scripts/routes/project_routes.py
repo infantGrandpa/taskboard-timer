@@ -54,7 +54,7 @@ def add_project():
 
     message = f'New Project ({new_project.name}) added successfully!'
 
-    return jsonify({"message": message}), 201
+    return jsonify({"message": message, "id": new_project.id}), 201
 
 @project_blueprint.route('/api/project/<int:project_id>', methods=['DELETE'])
 def delete_project(project_id):
