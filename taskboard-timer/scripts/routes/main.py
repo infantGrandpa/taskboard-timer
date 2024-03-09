@@ -6,6 +6,7 @@ from logging.handlers import RotatingFileHandler
 from flask_migrate import Migrate
 from project_routes import project_blueprint
 from task_routes import task_blueprint
+from sprint_routes import sprint_blueprint
 from database import db
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ migrate = Migrate(app, db)
 
 app.register_blueprint(project_blueprint)
 app.register_blueprint(task_blueprint)
+app.register_blueprint(sprint_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)

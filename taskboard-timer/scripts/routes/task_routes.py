@@ -17,7 +17,7 @@ class Task(db.Model):
     
 
 @task_blueprint.route('/api/tasks')
-def get_projects():
+def get_tasks():
     try:
         project_id = request.args.get('project_id')
         if project_id:
