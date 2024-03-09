@@ -7,7 +7,7 @@ import TaskRow from "./TaskRow";
 import { useTaskContext } from "../../providers/TaskProvider";
 import { Typography } from "@mui/material";
 
-const TaskView = () => {
+const NewTaskTable = () => {
     const { data, isLoading, error, taskQuery, setTaskQuery } =
         useTaskContext();
 
@@ -43,4 +43,4 @@ const TaskView = () => {
     );
 };
 
-export default TaskView;
+export default NewTaskTable;

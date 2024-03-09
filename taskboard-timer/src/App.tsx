@@ -2,7 +2,7 @@ import { Container, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NewProjectForm from "./components/projects/NewProjectForm";
+import CreateNewProject from "./components/projects/CreateNewProject";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import Navbar from "./components/Navbar";
@@ -42,7 +42,7 @@ function App() {
                             <Route path="/" element={<HomePage />} />
                             <Route
                                 path="/new-project"
-                                element={<NewProjectForm />}
+                                element={<CreateNewProject />}
                             />
                             <Route
                                 path="/projects/:id"

@@ -137,14 +137,6 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
                 justifyContent="space-between"
                 sx={{ mt: 2 }}
             >
-                <Button
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={handleSave}
-                >
-                    Save
-                </Button>
-
                 {type === "new" && (
                     <Button
                         variant="outlined"
@@ -156,6 +148,13 @@ const ProjectForm = ({ project: originalProject, type }: Props) => {
                         Clear Form
                     </Button>
                 )}
+                <Button
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                    onClick={handleSave}
+                >
+                    Save
+                </Button>
             </Stack>
         </>
     );
