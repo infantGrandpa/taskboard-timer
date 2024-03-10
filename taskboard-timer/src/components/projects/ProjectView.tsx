@@ -9,7 +9,6 @@ import { TaskQuery } from "../../hooks/useTasks";
 import { SprintProvider } from "../../providers/SprintProvider";
 import SprintList from "../sprints/SprintList";
 import { SprintQuery } from "../../hooks/useSprints";
-import { Card, Paper } from "@mui/material";
 
 const ProjectView = () => {
     const { data, isLoading, error } = useProjectContext();
