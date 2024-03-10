@@ -1,9 +1,15 @@
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { SprintCreationData, addSprint } from "../../services/sprintService";
+import AddIcon from "@mui/icons-material/Add";
 
-const NewSprintButton = () => {
+interface Props {
+    projectId: number;
+    onCreateNew?: (sprintId?: any) => void;
+}
+
+const NewSprintButton = ({ projectId, onCreateNew }: Props) => {
     const newSprint = {
-        project_id: 17,
+        project_id: projectId,
         name: "Test Sprint",
         total_hours: 20,
         completed_hours: 0,
@@ -11,20 +17,17 @@ const NewSprintButton = () => {
 
     const handleSaveSprint = async () => {
         try {
-            await addSprint(newSprint);
+            const response = await addSprint(newSprint);
+            onCreateNew?.(response.id);
         } catch (error) {
             console.error("Error adding new sprint: ", error);
         }
     };
 
     return (
-        <Button
-            onClick={handleSaveSprint}
-            variant="contained"
-            color="secondary"
-        >
-            Add New Sprint
-        </Button>
+        <IconButton aria-label="new sprint" onClick={handleSaveSprint}>
+            <AddIcon />
+        </IconButton>
     );
 };
 

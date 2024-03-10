@@ -1,10 +1,13 @@
-import { List, ListItem, ListItemText, Typography } from "@mui/material";
-import useSprints from "../../hooks/useSprints";
+import { List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import ErrorMessage from "../ErrorMessage";
 import LoadingBackdrop from "../LoadingBackdrop";
+import { useSprintContext } from "../../providers/SprintProvider";
+import NewSprintButton from "./NewSprintButton";
+import { SprintQuery } from "../../hooks/useSprints";
 
 const SprintList = () => {
-    const { data, isLoading, error } = useSprints();
+    const { data, isLoading, error, sprintQuery, setSprintQuery } =
+        useSprintContext();
 
     if (isLoading) {
         return <LoadingBackdrop />;
@@ -14,9 +17,27 @@ const SprintList = () => {
         return <ErrorMessage message={error} />;
     }
 
+    const projectId = sprintQuery?.project_id;
+
     return (
         <>
-            <Typography variant="h3">Sprint List</Typography>
+            <Stack
+                direction="row"
+                justifyContent="space-between"
+                sx={{ mt: 2 }}
+            >
+                <Typography variant="h4">Sprint List</Typography>
+                {projectId && (
+                    <NewSprintButton
+                        projectId={projectId}
+                        onCreateNew={() =>
+                            setSprintQuery({
+                                project_id: projectId,
+                            } as SprintQuery)
+                        }
+                    />
+                )}
+            </Stack>
             <List dense>
                 {data &&
                     data.map((sprint) => (
