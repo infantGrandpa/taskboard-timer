@@ -1,5 +1,5 @@
 import { Project } from "../hooks/useProjects";
-import apiClient from "./apiService";
+import handleRequest from "./requestService";
 
 export interface ProjectCreationData {
     name: string;
@@ -8,36 +8,6 @@ export interface ProjectCreationData {
     start_date: Date | null;
     end_date: Date | null;
 }
-
-type RequestMethod = "POST" | "PUT" | "DELETE";
-
-const handleProjectRequest = async (
-    endpoint: string,
-    method: RequestMethod,
-    projectData: any = null
-) => {
-    const formattedProjectData = formatProjectDates(projectData);
-
-    try {
-        const options = {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            ...(formattedProjectData &&
-                (method === "POST" || method === "PUT") && {
-                    data: formattedProjectData,
-                }),
-        };
-
-        const response = await apiClient(endpoint, options);
-
-        console.log("Server response:", response.data.message);
-        return response.data;
-    } catch (error) {
-        console.error(`Error handling project request (${method}):`, error);
-    }
-};
 
 const formatProjectDates = (projectData: any = null) => {
     if (!projectData) {
@@ -63,23 +33,31 @@ const formatProjectDates = (projectData: any = null) => {
 };
 
 const addProject = async (projectData: ProjectCreationData) => {
-    const responseData = handleProjectRequest(
+    const formattedProjectData = formatProjectDates(projectData);
+    const responseData = handleRequest(
         "/api/add_project",
         "POST",
-        projectData
+        formattedProjectData
     );
     return responseData;
 };
 
 const deleteProject = async (project: Project) => {
-    handleProjectRequest(`/api/project/${project.id}`, "DELETE");
+    const responseData = handleRequest(`/api/project/${project.id}`, "DELETE");
+    return responseData;
 };
 
 const editProject = async (
     project: Project,
     projectData: ProjectCreationData
 ) => {
-    handleProjectRequest(`/api/project/${project.id}`, "PUT", projectData);
+    const formattedProjectData = formatProjectDates(projectData);
+    const responseData = handleRequest(
+        `/api/project/${project.id}`,
+        "PUT",
+        formattedProjectData
+    );
+    return responseData;
 };
 
 export { addProject, deleteProject, editProject };
