@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Blueprint, jsonify, request
 from sqlalchemy.inspection import inspect
 from database import db
+from date_handler import strip_time_from_datetime
 
 project_blueprint = Blueprint('project', __name__)
 
@@ -41,11 +42,8 @@ def get_projects():
 def add_project():
     data = request.get_json()
 
-    start_date_str, _ = data['start_date'].split('T')
-    end_date_str, _ = data['end_date'].split('T')
-
-    start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
-    end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+    start_date = strip_time_from_datetime(data['start_date'])
+    end_date = strip_time_from_datetime(data['end_date'])
 
     new_project = Project(name=data['name'], description=data['description'], client=data['client'], start_date=start_date, end_date=end_date)
 
