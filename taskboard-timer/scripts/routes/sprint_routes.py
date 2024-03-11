@@ -8,6 +8,8 @@ class Sprint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     name = db.Column(db.String(120), nullable=False)
+    start_date = db.Column(db.Date, nullable=True)
+    end_date = db.Column(db.Date, nullable=True)
     total_hours = db.Column(db.Float, nullable=False)
     completed_hours = db.Column(db.Float, default=0.0, nullable=False)
 

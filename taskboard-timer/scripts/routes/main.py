@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disables modification no
 
 db.init_app(app) # Initializes the database connection
 
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, render_as_batch=True)
 
 app.register_blueprint(project_blueprint)
 app.register_blueprint(task_blueprint)
