@@ -10,13 +10,16 @@ from sprint_routes import sprint_blueprint
 from database import db
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS", "DELETE", "PUT"], "allow_headers": ["Content-Type", "Authorization"]}})
+CORS(app, resources={r"/api/*": {"origins": "*", "methods": [
+     "GET", "POST", "OPTIONS", "DELETE", "PUT"], "allow_headers": ["Content-Type", "Authorization"]}})
 
 # Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///taskboard.db'  # Defines the database URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disables modification notifications
+# Defines the database URI
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///taskboard.db'
+# Disables modification notifications
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app) # Initializes the database connection
+db.init_app(app)  # Initializes the database connection
 
 migrate = Migrate(app, db, render_as_batch=True)
 
@@ -31,7 +34,8 @@ with app.app_context():
     db.create_all()
 
 if not app.debug:
-    file_handler = RotatingFileHandler('flask_app.log', maxBytes=10240, backupCount=10)
+    file_handler = RotatingFileHandler(
+        'flask_app.log', maxBytes=10240, backupCount=10)
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     ))

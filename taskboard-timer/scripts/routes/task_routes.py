@@ -4,17 +4,18 @@ from database import db
 
 task_blueprint = Blueprint('task', __name__)
 
+
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey(
+        'project.id'), nullable=False)
     name = db.Column(db.String(120), nullable=False)
     estimated_hours = db.Column(db.Float, nullable=False)
     hours_worked = db.Column(db.Float, default=0.0, nullable=False)
-    
-    
+
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
-    
+
 
 @task_blueprint.route('/api/tasks')
 def get_tasks():
@@ -24,7 +25,7 @@ def get_tasks():
             tasks = Task.query.filter_by(project_id=project_id)
         else:
             tasks = Task.query.all()
-            
+
         tasks_data = [task.to_dict() for task in tasks]
         return jsonify(tasks_data)
     except Exception as e:
@@ -35,7 +36,8 @@ def get_tasks():
 def add_task():
     data = request.get_json()
 
-    new_task = Task(project_id=data['project_id'], name=data['name'], estimated_hours = data['estimated_hours'], hours_worked = data['hours_worked'])
+    new_task = Task(project_id=data['project_id'], name=data['name'],
+                    estimated_hours=data['estimated_hours'], hours_worked=data['hours_worked'])
 
     db.session.add(new_task)
     db.session.commit()
@@ -43,6 +45,7 @@ def add_task():
     message = f'New Task ({new_task.name}) added successfully!'
 
     return jsonify({"message": message}), 201
+
 
 @task_blueprint.route('/api/task/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
@@ -55,16 +58,17 @@ def delete_task(task_id):
     db.session.commit()
     return jsonify({"message": "Task deleted successfully"}), 200
 
+
 @task_blueprint.route('/api/task/<int:task_id>', methods=['PUT'])
 def edit_task(task_id):
     task = Task.query.get(task_id)
     if not task:
         return jsonify({"error": "Task not found"}), 404
-    
+
     data = request.get_json()
 
-    # We don't allow editing of project_id right now; I don't forsee any reason to. 
-    # I don't expect duplicating projects will be added and I think it will just be 
+    # We don't allow editing of project_id right now; I don't forsee any reason to.
+    # I don't expect duplicating projects will be added and I think it will just be
     # safer to not allow it for the time being.
     # task.project_id = data.get('project_id', task.project_id)
     task.name = data.get('name', task.name)
@@ -73,5 +77,6 @@ def edit_task(task_id):
 
     db.session.commit()
 
-    message = f'Task ({task.name}) on Project {task.project_id} updated successfully!'
+    message = f'Task ({task.name}) on Project {
+        task.project_id} updated successfully!'
     return jsonify({"message": message}), 200

@@ -11,5 +11,5 @@ convention = {
 
 metadata = MetaData(naming_convention=convention)
 
-#Initializes our database connection
+# Initializes our database connection
 db = SQLAlchemy(metadata=metadata)

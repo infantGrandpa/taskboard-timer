@@ -6,6 +6,7 @@ from date_handler import strip_time_from_datetime
 
 project_blueprint = Blueprint('project', __name__)
 
+
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -13,15 +14,18 @@ class Project(db.Model):
     client = db.Column(db.String(120), nullable=True)
     start_date = db.Column(db.Date, nullable=True)
     end_date = db.Column(db.Date, nullable=True)
-    tasks = db.relationship('Task', backref='project', lazy=True, cascade='all, delete-orphan')
-    
+    tasks = db.relationship('Task', backref='project',
+                            lazy=True, cascade='all, delete-orphan')
+
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
+
 
 @project_blueprint.route('/api/projects')
 def get_projects():
     try:
-        project_id = request.args.get('id')  # Get 'id' query parameter, if provided
+        # Get 'id' query parameter, if provided
+        project_id = request.args.get('id')
 
         if project_id:
             # Assuming 'id' is the primary key, adjust as needed
@@ -45,7 +49,8 @@ def add_project():
     start_date = strip_time_from_datetime(data['start_date'])
     end_date = strip_time_from_datetime(data['end_date'])
 
-    new_project = Project(name=data['name'], description=data['description'], client=data['client'], start_date=start_date, end_date=end_date)
+    new_project = Project(name=data['name'], description=data['description'],
+                          client=data['client'], start_date=start_date, end_date=end_date)
 
     db.session.add(new_project)
     db.session.commit()
@@ -53,6 +58,7 @@ def add_project():
     message = f'New Project ({new_project.name}) added successfully!'
 
     return jsonify({"message": message, "id": new_project.id}), 201
+
 
 @project_blueprint.route('/api/project/<int:project_id>', methods=['DELETE'])
 def delete_project(project_id):
@@ -64,8 +70,7 @@ def delete_project(project_id):
     db.session.delete(project)
     db.session.commit()
     return jsonify({"message": "Project deleted successfully"}), 200
-    
-        
+
 
 @project_blueprint.route('/api/project/<int:project_id>', methods=['PUT'])
 def edit_project(project_id):
@@ -76,14 +81,13 @@ def edit_project(project_id):
     data = request.get_json()
 
     if 'start_date' in data:
-        start_date_str, _ = data['start_date'].split('T')
-        project.start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        project.start_date = strip_time_from_datetime(data['start_date'])
     if 'end_date' in data:
-        end_date_str, _ = data['end_date'].split('T')
-        project.end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+        project.end_date = strip_time_from_datetime(data['end_date'])
 
     # Update other project attributes
-    project.name = data.get('name', project.name)  # This keeps the current name if none is provided
+    # This keeps the current name if none is provided
+    project.name = data.get('name', project.name)
     project.description = data.get('description', project.description)
     project.client = data.get('client', project.client)
 
@@ -91,4 +95,3 @@ def edit_project(project_id):
 
     message = f'Project ({project.name}) updated successfully!'
     return jsonify({"message": message}), 200
-
