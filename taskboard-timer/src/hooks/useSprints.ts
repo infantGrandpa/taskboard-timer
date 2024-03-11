@@ -6,6 +6,8 @@ export interface Sprint {
     name: string;
     total_hours: number;
     completed_hours: number;
+    start_date: Date | null;
+    end_date: Date | null;
 }
 
 export interface SprintQuery {

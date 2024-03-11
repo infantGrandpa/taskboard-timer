@@ -9,11 +9,15 @@ import { TaskQuery } from "../../hooks/useTasks";
 import { SprintProvider } from "../../providers/SprintProvider";
 import SprintList from "../sprints/SprintList";
 import { SprintQuery } from "../../hooks/useSprints";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const ProjectView = () => {
     const { data, isLoading, error } = useProjectContext();
 
     const thisProject = data ? data[0] : null;
+
+    const navigate = useNavigate();
 
     if (isLoading) {
         return <LoadingBackdrop />;
@@ -36,6 +40,19 @@ const ProjectView = () => {
                                 } as SprintQuery
                             }
                         >
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                    navigate(
+                                        `/projects/${thisProject.id}/new-sprint`
+                                    )
+                                }
+                                sx={{ mt: 3 }}
+                            >
+                                Create New Sprint
+                            </Button>
                             <SprintList />
                         </SprintProvider>
                     </Grid>

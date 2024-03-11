@@ -88,6 +88,7 @@ const TaskRow = ({ task }: Props) => {
                 />
                 <NumberInput
                     id={`task-est-hours-${taskData.id}`}
+                    label="Est. Hours"
                     initialValue={taskInputs.estimated_hours}
                     min={0}
                     onChange={(newValue) =>

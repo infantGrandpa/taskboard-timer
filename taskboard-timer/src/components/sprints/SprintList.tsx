@@ -2,7 +2,7 @@ import { List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import ErrorMessage from "../ErrorMessage";
 import LoadingBackdrop from "../LoadingBackdrop";
 import { useSprintContext } from "../../providers/SprintProvider";
-import NewSprintButton from "./NewSprintButton";
+import NewSprintButton from "./SaveSprintButton";
 import { SprintQuery } from "../../hooks/useSprints";
 
 const SprintList = () => {

@@ -5,6 +5,8 @@ export interface SprintCreationData {
     name: string;
     total_hours: number;
     completed_hours: number;
+    start_date: Date | null;
+    end_date: Date | null;
 }
 
 const addSprint = async (sprintData: SprintCreationData) => {

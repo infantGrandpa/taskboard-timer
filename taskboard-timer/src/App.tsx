@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import ProjectPage from "./components/projects/ProjectPage";
 import HomePage from "./components/HomePage";
 import NewTasksPage from "./components/tasks/NewTasksPage";
+import NewSprintPage from "./components/sprints/NewSprintPage";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -52,6 +53,10 @@ function App() {
                             <Route
                                 path="/projects/:id/new-tasks"
                                 element={<NewTasksPage />}
+                            />
+                            <Route
+                                path="/projects/:id/new-sprint"
+                                element={<NewSprintPage />}
                             />
                         </Routes>
                     </Container>
