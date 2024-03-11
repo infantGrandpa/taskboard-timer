@@ -16,6 +16,8 @@ class Sprint(db.Model):
     total_hours = db.Column(db.Float, nullable=False)
     completed_hours = db.Column(db.Float, default=0.0, nullable=False)
 
+    tasks = db.relationship("SprintTask", back_populates="sprint")
+
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
 
