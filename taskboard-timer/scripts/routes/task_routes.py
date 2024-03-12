@@ -1,23 +1,8 @@
-from flask import Blueprint, jsonify, request, current_app
-from sqlalchemy.inspection import inspect
-from database import db
+from flask import Blueprint, jsonify, request
+from scripts.routes.database import db
+from scripts.models.models import Task
 
 task_blueprint = Blueprint('task', __name__)
-
-
-class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer, db.ForeignKey(
-        'project.id'), nullable=False)
-    name = db.Column(db.String(120), nullable=False)
-    estimated_hours = db.Column(db.Float, nullable=False)
-    hours_worked = db.Column(db.Float, default=0.0, nullable=False)
-
-    sprints = db.relationship("SprintTask", back_populates="task")
-
-    def to_dict(self):
-        return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
-
 
 @task_blueprint.route('/api/tasks')
 def get_tasks():

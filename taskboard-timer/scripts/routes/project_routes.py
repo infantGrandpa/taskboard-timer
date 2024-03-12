@@ -1,25 +1,9 @@
-from datetime import datetime
 from flask import Blueprint, jsonify, request
-from sqlalchemy.inspection import inspect
-from database import db
-from date_handler import strip_time_from_datetime
+from scripts.routes.database import db
+from scripts.utilities.date_handler import strip_time_from_datetime
+from scripts.models.models import Project
 
 project_blueprint = Blueprint('project', __name__)
-
-
-class Project(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.Text, nullable=True)
-    client = db.Column(db.String(120), nullable=True)
-    start_date = db.Column(db.Date, nullable=True)
-    end_date = db.Column(db.Date, nullable=True)
-    tasks = db.relationship('Task', backref='project',
-                            lazy=True, cascade='all, delete-orphan')
-
-    def to_dict(self):
-        return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
-
 
 @project_blueprint.route('/api/projects')
 def get_projects():

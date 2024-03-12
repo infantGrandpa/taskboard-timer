@@ -4,10 +4,10 @@ from flask_cors import CORS
 import logging
 from logging.handlers import RotatingFileHandler
 from flask_migrate import Migrate
-from project_routes import project_blueprint
-from task_routes import task_blueprint
-from sprint_routes import sprint_blueprint
-from database import db
+from scripts.routes.project_routes import project_blueprint
+from scripts.routes.task_routes import task_blueprint
+from scripts.routes.sprint_routes import sprint_blueprint
+from scripts.routes.database import db
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": [
@@ -22,8 +22,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)  # Initializes the database connection
 
 migrate = Migrate(app, db, render_as_batch=True)
-
-from sprints_tasks import SprintTask
 
 app.register_blueprint(project_blueprint)
 app.register_blueprint(task_blueprint)
