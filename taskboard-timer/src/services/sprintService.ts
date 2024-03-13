@@ -1,5 +1,4 @@
 import handleRequest from "./requestService";
-import { Task } from "../hooks/useTasks";
 
 export interface SprintCreationData {
     project_id: number;
@@ -10,17 +9,26 @@ export interface SprintCreationData {
     end_date: Date | null;
 }
 
+export interface SprintTaskData {
+    id: number;
+}
+
 const addSprint = async (sprintData: SprintCreationData) => {
     const responseData = handleRequest("/api/add_sprint", "POST", sprintData);
-    console.log("RESPONSE DATA");
-    console.log(responseData);
     return responseData;
 };
 
-const addTasksToSprint = async (sprintId: number, taskInfo: Task[]) => {
+const addTasksToSprint = async (
+    sprintId: number,
+    taskInfo: SprintTaskData[]
+) => {
+    const sprintTaskData = {
+        sprintId: sprintId,
+        taskIds: taskInfo,
+    };
+
     console.log("ADDING TASKS TO SPRINT");
-    console.log(sprintId);
-    console.log(taskInfo);
+    console.log(sprintTaskData);
 };
 
 export { addSprint, addTasksToSprint };

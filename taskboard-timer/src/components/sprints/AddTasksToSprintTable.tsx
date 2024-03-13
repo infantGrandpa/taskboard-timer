@@ -1,6 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import { addTasksToSprint } from "../../services/sprintService";
-import { Task } from "../../hooks/useTasks";
+import { SprintTaskData, addTasksToSprint } from "../../services/sprintService";
 import { useTaskContext } from "../../providers/TaskProvider";
 import DynamicTable, { Column } from "../DynamicTable";
 import LoadingBackdrop from "../LoadingBackdrop";
@@ -12,7 +11,7 @@ interface Props {
 }
 
 const AddTasksToSprintTable = ({ sprintId }: Props) => {
-    const [selectedTasks, setSelectedTasks] = useState<Task[]>([]);
+    const [selectedTasks, setSelectedTasks] = useState<SprintTaskData[]>([]);
     const { data, isLoading, error } = useTaskContext();
 
     if (isLoading) {
@@ -28,7 +27,8 @@ const AddTasksToSprintTable = ({ sprintId }: Props) => {
     }
 
     const handleSaveTasksToSprint = () => {
-        setSelectedTasks([...selectedTasks, data[0]]);
+        const newTaskToAdd = { id: data[0].id };
+        setSelectedTasks([...selectedTasks, newTaskToAdd]);
         console.log("SELECTED TASKS");
         console.log(selectedTasks);
         addTasksToSprint(sprintId, selectedTasks);
