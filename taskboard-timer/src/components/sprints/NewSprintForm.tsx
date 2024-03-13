@@ -6,6 +6,7 @@ import { add } from "date-fns";
 import NumberInput from "../NumberInput";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     projectId: number;
@@ -21,10 +22,13 @@ const NewSprintForm = ({ projectId }: Props) => {
         end_date: add(new Date(), { weeks: 2 }),
     } as SprintCreationData);
 
+    const navigate = useNavigate();
+
     const handleSaveSprint = async () => {
         try {
             const response = await addSprint(sprintData);
             console.log(`New sprint created: ${response.id}`);
+            navigate(`/projects/${projectId}/sprints/${response.id}`);
         } catch (error) {
             console.error("Error adding new sprint: ", error);
         }

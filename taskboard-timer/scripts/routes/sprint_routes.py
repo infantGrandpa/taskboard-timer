@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from scripts.routes.database import db
 from scripts.utilities.date_handler import strip_time_from_datetime
-from scripts.models.models import Sprint
+from scripts.models.models import Sprint, Task, SprintTask
 
 sprint_blueprint = Blueprint('sprint', __name__)
 
@@ -34,4 +34,34 @@ def add_sprint():
     db.session.commit()
 
     message = f'New Sprint ({new_sprint.name}) added successfully!'
-    return jsonify({"message": message}), 201
+    return jsonify({"message": message, "id": new_sprint.id}), 201
+
+@sprint_blueprint.route('/api/add_tasks_to_sprint', methods=['POST'])
+def add_tasks_to_sprint():
+    data = request.get_json()
+    sprint_id = data.get('sprint_id')
+    tasks_info = data.get('tasks_info')
+
+    task_list = []
+
+    for this_task_info in tasks_info:
+        task_id = this_task_info['task_id']
+        priority = this_task_info['priority']
+        status = this_task_info['status']
+
+        # Check if sprint and task exist
+        task = Task.query.get(task_id)
+        if not task:
+            return jsonify({'message': f'Task {task_id} does not exist.'}), 400
+
+        sprint = Sprint.query.get(sprint_id)
+        if not sprint:
+            return jsonify({'message': f'Sprint {sprint_id} does not exist.'}), 400
+        
+        sprint_task = SprintTask(sprint_id=sprint_id, task_id=task_id, priority=priority, status=status)
+        db.session.add(sprint_task)
+
+        task_list.append(task_id)
+
+    db.session.commit()
+    return jsonify({'message': f'Tasks ({task_list}) have been added to Sprint {sprint_id}.'}), 200

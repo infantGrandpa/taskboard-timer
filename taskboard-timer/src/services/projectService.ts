@@ -39,6 +39,8 @@ const addProject = async (projectData: ProjectCreationData) => {
         "POST",
         formattedProjectData
     );
+    console.log("RESPONSE DATA");
+    console.log(responseData);
     return responseData;
 };
 
