@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from scripts.routes.database import db
 from scripts.utilities.date_handler import strip_time_from_datetime
-from scripts.models.models import Sprint, Task, SprintTask
+from scripts.models.models import Sprint, Task, SprintTask, Priority, Status
 
 sprint_blueprint = Blueprint('sprint', __name__)
 
@@ -44,10 +44,17 @@ def add_tasks_to_sprint():
 
     task_list = []
 
+    if not tasks_info:
+        return jsonify({"error": "Provided task info array is empty.", 'data': data}), 400
+
+
     for this_task_info in tasks_info:
         task_id = this_task_info['task_id']
-        priority = this_task_info['priority']
-        status = this_task_info['status']
+        priority_value = this_task_info.get('priority', 0)
+        status_value = this_task_info.get('status', 0)
+
+        priority = Priority(priority_value)
+        status = Status(status_value)
 
         # Check if sprint and task exist
         task = Task.query.get(task_id)

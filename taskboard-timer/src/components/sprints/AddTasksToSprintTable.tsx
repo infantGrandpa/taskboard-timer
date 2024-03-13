@@ -27,7 +27,7 @@ const AddTasksToSprintTable = ({ sprintId }: Props) => {
     }
 
     const handleSaveTasksToSprint = () => {
-        const newTaskToAdd = { id: data[0].id };
+        const newTaskToAdd = { task_id: data[0].id };
         setSelectedTasks([...selectedTasks, newTaskToAdd]);
         console.log("SELECTED TASKS");
         console.log(selectedTasks);

@@ -10,7 +10,7 @@ export interface SprintCreationData {
 }
 
 export interface SprintTaskData {
-    id: number;
+    task_id: number;
 }
 
 const addSprint = async (sprintData: SprintCreationData) => {
@@ -23,12 +23,16 @@ const addTasksToSprint = async (
     taskInfo: SprintTaskData[]
 ) => {
     const sprintTaskData = {
-        sprintId: sprintId,
-        taskIds: taskInfo,
+        sprint_id: sprintId,
+        tasks_info: taskInfo,
     };
 
-    console.log("ADDING TASKS TO SPRINT");
-    console.log(sprintTaskData);
+    const responseData = await handleRequest(
+        "/api/add_tasks_to_sprint",
+        "POST",
+        sprintTaskData
+    );
+    return responseData;
 };
 
 export { addSprint, addTasksToSprint };
