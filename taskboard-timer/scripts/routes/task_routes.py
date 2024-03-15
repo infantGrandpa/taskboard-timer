@@ -40,7 +40,6 @@ def delete_task(task_id):
     if not task:
         return jsonify({"error": "Task not found"}), 404
 
-    # Will need to also delete sprints and tasks tied to this project
     db.session.delete(task)
     db.session.commit()
     return jsonify({"message": "Task deleted successfully"}), 200
@@ -50,13 +49,14 @@ def delete_task(task_id):
 def edit_task(task_id):
     task = Task.query.get(task_id)
     if not task:
-        return jsonify({"error": "Task not found"}), 404
+        return jsonify({"error": f'Task {task_id} not found'}), 404
 
     data = request.get_json()
 
     # We don't allow editing of project_id right now; I don't forsee any reason to.
     # I don't expect duplicating projects will be added and I think it will just be
     # safer to not allow it for the time being.
+
     # task.project_id = data.get('project_id', task.project_id)
     task.name = data.get('name', task.name)
     task.estimated_hours = data.get('estimated_hours', task.estimated_hours)
@@ -64,6 +64,5 @@ def edit_task(task_id):
 
     db.session.commit()
 
-    message = f'Task ({task.name}) on Project {
-        task.project_id} updated successfully!'
+    message = f'Task ({task.name}) on Project {task.project_id} updated successfully!'
     return jsonify({"message": message}), 200

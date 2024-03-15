@@ -50,7 +50,6 @@ def delete_project(project_id):
     if not project:
         return jsonify({"error": "Project not found"}), 404
 
-    # Will need to also delete sprints and tasks tied to this project
     db.session.delete(project)
     db.session.commit()
     return jsonify({"message": "Project deleted successfully"}), 200

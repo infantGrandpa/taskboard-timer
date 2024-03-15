@@ -36,6 +36,42 @@ def add_sprint():
     message = f'New Sprint ({new_sprint.name}) added successfully!'
     return jsonify({"message": message, "id": new_sprint.id}), 201
 
+@sprint_blueprint.route('/api/sprint/<int:sprint_id>', methods=['DELETE'])
+def delete_sprint(sprint_id):
+    sprint = Sprint.query.get(sprint_id)
+    if not sprint:
+        return jsonify({"error": f'Sprint {sprint_id} not found'}), 404
+    
+    db.session.delete(sprint)
+    db.session.commit()
+    return jsonify({"message": f'Sprint {sprint_id} deleted successfully!'}), 200
+
+
+@sprint_blueprint.route('/api/sprint/<int:sprint_id>', methods=['PUT'])
+def edit_sprint(sprint_id):
+    sprint = Sprint.query.get(sprint_id)
+    if not sprint:
+        return jsonify({"error": f'Sprint {sprint_id} not found'}), 404
+    
+    data = request.get_json()
+
+    sprint.name = data.get('name', sprint.name)
+    sprint.total_hours = data.get('total_hours', sprint.total_hours)
+    sprint.completed_hours = data.get('completed_hours', sprint.completed_hours)
+
+    if 'start_date' in data:
+        sprint.start_date = strip_time_from_datetime(data['start_date'])
+    if 'end_date' in data:
+        sprint.end_date = strip_time_from_datetime(data['end_date'])
+
+    db.session.commit()
+
+    message = f'Sprint {sprint.name} ({sprint.id}) on Project {sprint.project_id} updated successfully!'
+    return jsonify({"message": message}), 200
+
+
+
+
 @sprint_blueprint.route('/api/add_tasks_to_sprint', methods=['POST'])
 def add_tasks_to_sprint():
     data = request.get_json()
