@@ -78,7 +78,7 @@ const TaskRow = ({ task }: Props) => {
                     label="Name"
                     variant="filled"
                     value={taskInputs.name}
-                    autoComplete="off"
+                    autoComplete="nope" // Weirdest hacky workaround but "off" wasn't working
                     onChange={(newValue) =>
                         setTaskInputs({
                             ...taskInputs,
