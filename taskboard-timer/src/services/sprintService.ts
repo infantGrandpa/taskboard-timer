@@ -1,3 +1,4 @@
+import { Sprint } from "../hooks/useSprints";
 import handleRequest from "./requestService";
 
 export interface SprintCreationData {
@@ -18,6 +19,23 @@ const addSprint = async (sprintData: SprintCreationData) => {
     return responseData;
 };
 
+const deleteSprint = async (sprint: Sprint) => {
+    const responseData = handleRequest(`/api/sprint/${sprint.id}`, "DELETE");
+    return responseData;
+};
+
+const editSprint = async (
+    sprint: Sprint,
+    newSprintData: SprintCreationData
+) => {
+    const responseData = handleRequest(
+        `/api/sprint/${sprint.id}`,
+        "PUT",
+        newSprintData
+    );
+    return responseData;
+};
+
 const addTasksToSprint = async (
     sprintId: number,
     taskInfo: SprintTaskData[]
@@ -35,4 +53,4 @@ const addTasksToSprint = async (
     return responseData;
 };
 
-export { addSprint, addTasksToSprint };
+export { addSprint, deleteSprint, editSprint, addTasksToSprint };
