@@ -8,11 +8,19 @@ sprint_blueprint = Blueprint('sprint', __name__)
 @sprint_blueprint.route('/api/sprints')
 def get_sprints():
     try:
+        sprint_query = Sprint.query
+
+        #Apply all filters
         project_id = request.args.get('project_id')
         if (project_id):
-            sprints = Sprint.query.filter_by(project_id=project_id)
-        else:
-            sprints = Sprint.query.all()
+            sprint_query = sprint_query.filter_by(project_id=project_id)
+
+        sprint_id = request.args.get('id')
+        if (sprint_id):
+            sprint_query = sprint_query.filter_by(id=sprint_id)
+        
+        #Fetch data
+        sprints = sprint_query.all()
 
         sprints_data = [sprint.to_dict() for sprint in sprints]
         return jsonify(sprints_data)
@@ -59,9 +67,9 @@ def edit_sprint(sprint_id):
     sprint.total_hours = data.get('total_hours', sprint.total_hours)
     sprint.completed_hours = data.get('completed_hours', sprint.completed_hours)
 
-    if 'start_date' in data:
+    if 'start_date' in data and data['start_date']:
         sprint.start_date = strip_time_from_datetime(data['start_date'])
-    if 'end_date' in data:
+    if 'end_date' in data and data['end_date']:
         sprint.end_date = strip_time_from_datetime(data['end_date'])
 
     db.session.commit()
