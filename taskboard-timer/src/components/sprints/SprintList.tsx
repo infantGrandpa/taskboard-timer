@@ -1,7 +1,9 @@
 import {
     Accordion,
     AccordionSummary,
+    IconButton,
     List,
+    ListItem,
     ListItemButton,
     ListItemText,
     Typography,
@@ -10,8 +12,10 @@ import ErrorMessage from "../ErrorMessage";
 import LoadingBackdrop from "../LoadingBackdrop";
 import { useSprintContext } from "../../providers/SprintProvider";
 import NewSprintButton from "./NewSprintButton";
-import { SprintQuery } from "../../hooks/useSprints";
+import { Sprint, SprintQuery } from "../../hooks/useSprints";
 import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteSprint } from "../../services/sprintService";
 
 const SprintList = () => {
     const { data, isLoading, error, sprintQuery, setSprintQuery } =
@@ -30,6 +34,11 @@ const SprintList = () => {
     if (!projectId) {
         return <ErrorMessage message="No project id!" />;
     }
+
+    const handleDeleteSprint = async (sprint: Sprint) => {
+        console.log(`Deleting sprint ${sprint.id} (not really)...`);
+        await deleteSprint(sprint);
+    };
 
     return (
         <Accordion>
@@ -52,17 +61,27 @@ const SprintList = () => {
             <List dense>
                 {data &&
                     data.map((sprint) => (
-                        <ListItemButton
-                            component={Link}
-                            to={`/projects/${projectId}/sprints/${sprint.id}`}
+                        <ListItem
                             key={sprint.id}
+                            secondaryAction={
+                                <IconButton
+                                    onClick={() => handleDeleteSprint(sprint)}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            }
                         >
-                            <ListItemText>
-                                {sprint.name.length > 0
-                                    ? `${sprint.name} (${sprint.id})`
-                                    : `Sprint ${sprint.id}`}
-                            </ListItemText>
-                        </ListItemButton>
+                            <ListItemButton
+                                component={Link}
+                                to={`/projects/${projectId}/sprints/${sprint.id}`}
+                            >
+                                <ListItemText>
+                                    {sprint.name.length > 0
+                                        ? `${sprint.name} (${sprint.id})`
+                                        : `Sprint ${sprint.id}`}
+                                </ListItemText>
+                            </ListItemButton>
+                        </ListItem>
                     ))}
             </List>
         </Accordion>
