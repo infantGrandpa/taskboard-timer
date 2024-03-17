@@ -48,7 +48,7 @@ const AddTasksToSprintTable = ({ sprintId }: Props) => {
 
     return (
         <>
-            <Typography variant="h3" sx={{ mt: 2 }}>
+            <Typography variant="h4" sx={{ mt: 2 }}>
                 Add Tasks to Sprint {sprintId}
             </Typography>
             <DataGrid
