@@ -9,6 +9,7 @@ import { useSprintContext } from "../../providers/SprintProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import { Sprint } from "../../hooks/useSprints";
+import Grid from "@mui/material/Unstable_Grid2";
 
 const EditSprintForm = () => {
     const { data, isLoading, error } = useSprintContext();
@@ -86,59 +87,79 @@ const EditSprintForm = () => {
     };
 
     return (
-        <Paper elevation={3} sx={{ p: 3 }}>
+        <Paper elevation={3} sx={{ p: 1.5 }}>
             <Stack
                 direction="row"
-                alignItems="center"
                 justifyContent="space-between"
+                spacing={0.25}
             >
-                <TextField
-                    id="sprint-name"
-                    label="Sprint Name"
-                    variant="filled"
-                    value={sprintData.name}
-                    onChange={(event) =>
-                        setSprintData({
-                            ...sprintData,
-                            name: event.target.value,
-                        })
-                    }
-                />
-                <NumberInput
-                    id="sprint-total-hours"
-                    label="Total Hours"
-                    initialValue={sprintData.total_hours}
-                    onChange={(newValue) =>
-                        setSprintData({ ...sprintData, total_hours: newValue })
-                    }
-                />
-
-                <DatePicker
-                    label="Start Date"
-                    value={sprintData.start_date}
-                    onChange={(e) => {
-                        setSprintData({ ...sprintData, start_date: e });
-                    }}
-                />
-
-                <DatePicker
-                    label="End Date"
-                    value={sprintData.end_date}
-                    onChange={(e) => {
-                        setSprintData({ ...sprintData, end_date: e });
-                    }}
-                />
-
-                <IconButton onClick={resetForm} aria-label="Clear Changes">
-                    <CancelIcon />
-                </IconButton>
-                <IconButton
-                    onClick={handleSaveSprint}
-                    aria-label="save changes"
-                    color="primary"
+                <Grid
+                    container
+                    spacing={2}
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="stretch"
                 >
-                    <SaveIcon />
-                </IconButton>
+                    <Grid xs={6} md={8} lg={3}>
+                        <TextField
+                            fullWidth
+                            id="sprint-name"
+                            label="Sprint Name"
+                            variant="filled"
+                            value={sprintData.name}
+                            onChange={(event) =>
+                                setSprintData({
+                                    ...sprintData,
+                                    name: event.target.value,
+                                })
+                            }
+                        />
+                    </Grid>
+                    <Grid xs={6} md={4} lg={3}>
+                        <NumberInput
+                            id="sprint-total-hours"
+                            label="Total Hours"
+                            initialValue={sprintData.total_hours}
+                            onChange={(newValue) =>
+                                setSprintData({
+                                    ...sprintData,
+                                    total_hours: newValue,
+                                })
+                            }
+                        />
+                    </Grid>
+                    <Grid xs={6} md={6} lg={3}>
+                        <DatePicker
+                            label="Start Date"
+                            value={sprintData.start_date}
+                            onChange={(e) => {
+                                setSprintData({ ...sprintData, start_date: e });
+                            }}
+                        />
+                    </Grid>
+
+                    <Grid xs={6} md={6} lg={3}>
+                        <DatePicker
+                            label="End Date"
+                            value={sprintData.end_date}
+                            onChange={(e) => {
+                                setSprintData({ ...sprintData, end_date: e });
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+                <Stack direction="column" justifyContent="space-between">
+                    <IconButton onClick={resetForm} aria-label="Clear Changes">
+                        <CancelIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={handleSaveSprint}
+                        aria-label="save changes"
+                        color="primary"
+                    >
+                        <SaveIcon />
+                    </IconButton>
+                </Stack>
             </Stack>
         </Paper>
     );
