@@ -116,3 +116,40 @@ def add_tasks_to_sprint():
 
     db.session.commit()
     return jsonify({'message': f'Tasks ({task_list}) have been added to Sprint {sprint_id}.'}), 200
+
+
+@sprint_blueprint.route('/api/tasks_in_sprint')
+def get_tasks_in_sprint():
+    try: 
+        # Extract sprint_id from request args
+        sprint_id = request.args.get('sprint_id')
+        if not sprint_id:
+            return jsonify({"error": "sprint_id parameter is required."}), 400
+
+        # Fetch sprint to ensure it exists
+        sprint = Sprint.query.get(sprint_id)
+        print("SPRINT")
+        print(sprint)
+        if not sprint:
+            return jsonify({'message': f'Sprint {sprint_id} does not exist.'}), 404
+
+        # Query SprintTask for tasks in this sprint, join with Task for details
+        tasks_in_sprint = SprintTask.query.filter_by(sprint_id=sprint_id).join(Task, SprintTask.task_id == Task.id).all()
+
+        print("TASKS IN SPRINT")
+        print(tasks_in_sprint)
+
+        # Convert tasks to a dict format for JSON response
+        sprint_task_data = [{
+            'task_id': this_sprint_task.task_id, 
+            'priority': this_sprint_task.priority.name, 
+            'status': this_sprint_task.status.name, 
+            'task_details': this_sprint_task.task.to_dict()} 
+            for this_sprint_task in tasks_in_sprint]
+
+        print("SPRINT TASK DATA")
+        print(sprint_task_data)
+
+        return jsonify(sprint_task_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
