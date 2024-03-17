@@ -12,7 +12,7 @@ import DateRange from "../DateRange";
 
 interface Props {
     project: Project;
-    variant?: string;
+    variant?: "featured";
     sx?: SxProps;
 }
 
@@ -24,6 +24,7 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
             sx={{
                 ...sx,
                 display: "flex",
+                width: "100%",
             }}
         >
             <CardActionArea
