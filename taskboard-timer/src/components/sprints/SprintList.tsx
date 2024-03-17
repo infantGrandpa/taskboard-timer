@@ -41,7 +41,7 @@ const SprintList = () => {
     };
 
     return (
-        <Accordion>
+        <Accordion defaultExpanded>
             <AccordionSummary
                 expandIcon={
                     <NewSprintButton
