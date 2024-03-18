@@ -12,6 +12,7 @@ import NewTasksPage from "./components/tasks/NewTasksPage";
 import NewSprintPage from "./components/sprints/NewSprintPage";
 import EditSprintPage from "./components/sprints/EditSprintPage";
 import SprintPrioritizePage from "./components/sprints/SprintPrioritizePage";
+import { SprintTaskProvider } from "./providers/SprintTaskProvider";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -66,7 +67,11 @@ function App() {
                             />
                             <Route
                                 path="/projects/:id/sprints/:sprintId/prioritize"
-                                element={<SprintPrioritizePage />}
+                                element={
+                                    <SprintTaskProvider>
+                                        <SprintPrioritizePage />
+                                    </SprintTaskProvider>
+                                }
                             />
                         </Routes>
                     </Container>

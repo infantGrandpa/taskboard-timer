@@ -14,9 +14,6 @@ export interface SprintTaskQuery {
 }
 
 const useSprintTasks = (sprintTaskQuery?: SprintTaskQuery) => {
-    console.log("USE SPRINT TASKS QUERY");
-    console.log(sprintTaskQuery);
-
     const endpoint = "api/tasks_in_sprint";
     const { data, isLoading, error } = useData<SprintTask>(
         endpoint,

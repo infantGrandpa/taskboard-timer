@@ -136,6 +136,9 @@ def get_tasks_in_sprint():
         # Query SprintTask for tasks in this sprint, join with Task for details
         tasks_in_sprint = SprintTask.query.filter_by(sprint_id=sprint_id).join(Task, SprintTask.task_id == Task.id).all()
 
+        if not tasks_in_sprint:
+            return jsonify({"message": f'No tasks assigned to sprint {sprint_id}.'}), 200
+
         print("TASKS IN SPRINT")
         print(tasks_in_sprint)
 
