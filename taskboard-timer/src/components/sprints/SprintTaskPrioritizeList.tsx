@@ -1,8 +1,9 @@
-import { Divider, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import { useParams } from "react-router-dom";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const SprintTaskPrioritizeList = () => {
     const { data, isLoading, error } = useSprintTaskContext();
@@ -17,8 +18,26 @@ const SprintTaskPrioritizeList = () => {
         return <ErrorMessage message={error} />;
     }
 
+    if (!data || data?.length === 0 || !data[0].hasOwnProperty("task_id")) {
+        return <ErrorMessage message="No data!" />;
+    }
+
+    const columns: GridColDef[] = [
+        { field: "id", headerName: "ID", width: 50 },
+        { field: "name", headerName: "Name", flex: 1 },
+        { field: "priority", headerName: "Priority", minWidth: 150 },
+        { field: "status", headerName: "Status", minWidth: 150 },
+    ];
+
+    const tableData = data.map((sprintTask) => ({
+        id: sprintTask.task_id,
+        name: sprintTask.task_details.name,
+        priority: sprintTask.priority,
+        status: sprintTask.status,
+    }));
+
     return (
-        <Stack direction="column" spacing={1} divider={<Divider flexItem />}>
+        <>
             <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -29,13 +48,19 @@ const SprintTaskPrioritizeList = () => {
                 </Typography>
                 <Typography variant="h4">Tasks: {data?.length}</Typography>
             </Stack>
-            {data &&
-                data.map((task) => (
-                    <Typography variant="body1" key={task.task_id}>
-                        {task.task_id}: {task.task_details.name}
-                    </Typography>
-                ))}
-        </Stack>
+            <DataGrid
+                columns={columns}
+                rows={tableData}
+                initialState={{
+                    pagination: {
+                        paginationModel: {
+                            pageSize: 25,
+                        },
+                    },
+                }}
+                pageSizeOptions={[25]}
+            />
+        </>
     );
 };
 

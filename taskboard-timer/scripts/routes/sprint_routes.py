@@ -128,8 +128,6 @@ def get_tasks_in_sprint():
 
         # Fetch sprint to ensure it exists
         sprint = Sprint.query.get(sprint_id)
-        print("SPRINT")
-        print(sprint)
         if not sprint:
             return jsonify({'message': f'Sprint {sprint_id} does not exist.'}), 404
 
@@ -139,9 +137,6 @@ def get_tasks_in_sprint():
         if not tasks_in_sprint:
             return jsonify({"message": f'No tasks assigned to sprint {sprint_id}.'}), 200
 
-        print("TASKS IN SPRINT")
-        print(tasks_in_sprint)
-
         # Convert tasks to a dict format for JSON response
         sprint_task_data = [{
             'task_id': this_sprint_task.task_id, 
@@ -149,9 +144,6 @@ def get_tasks_in_sprint():
             'status': this_sprint_task.status.name, 
             'task_details': this_sprint_task.task.to_dict()} 
             for this_sprint_task in tasks_in_sprint]
-
-        print("SPRINT TASK DATA")
-        print(sprint_task_data)
 
         return jsonify(sprint_task_data)
     except Exception as e:
