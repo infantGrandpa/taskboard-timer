@@ -15,7 +15,7 @@ export interface TaskQuery {
 
 const useTasks = (taskQuery?: TaskQuery) => {
     const endpoint = "api/tasks";
-    const { data, isLoading, error, refetch } = useData<Task>(
+    const { data, isLoading, message, status } = useData<Task>(
         endpoint,
         {
             params: {
@@ -26,7 +26,7 @@ const useTasks = (taskQuery?: TaskQuery) => {
         [taskQuery]
     );
 
-    return { data, isLoading, error, refetch };
+    return { data, isLoading, message, status };
 };
 
 export default useTasks;

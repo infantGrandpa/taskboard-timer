@@ -4,7 +4,8 @@ import useSprints, { Sprint, SprintQuery } from "../hooks/useSprints";
 interface SprintContentType {
     data: Sprint[] | null;
     isLoading: boolean;
-    error: string | undefined;
+    message: string | undefined;
+    status: string | undefined;
     sprintQuery?: SprintQuery;
     setSprintQuery: (query: SprintQuery) => void;
 }
@@ -12,7 +13,8 @@ interface SprintContentType {
 const SprintContext = createContext<SprintContentType>({
     data: null,
     isLoading: false,
-    error: undefined,
+    message: undefined,
+    status: undefined,
     sprintQuery: undefined,
     setSprintQuery: () => void 0,
 });
@@ -27,14 +29,15 @@ const SprintProvider = ({ children, initialSprintQuery }: Props) => {
         initialSprintQuery ? initialSprintQuery : ({} as SprintQuery)
     );
 
-    const { data, isLoading, error } = useSprints(sprintQuery);
+    const { data, isLoading, message, status } = useSprints(sprintQuery);
 
     return (
         <SprintContext.Provider
             value={{
                 data: data,
                 isLoading: isLoading,
-                error: error,
+                message: message,
+                status: status,
                 sprintQuery: sprintQuery,
                 setSprintQuery: setSprintQuery,
             }}

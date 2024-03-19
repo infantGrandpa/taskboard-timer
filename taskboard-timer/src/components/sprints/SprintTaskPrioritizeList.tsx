@@ -4,18 +4,15 @@ import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import { useParams } from "react-router-dom";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { StatusAlert } from "../StatusAlert";
 
 const SprintTaskPrioritizeList = () => {
-    const { data, isLoading, error } = useSprintTaskContext();
+    const { data, isLoading, message, status } = useSprintTaskContext();
 
     const { sprintId } = useParams();
 
     if (isLoading) {
         return <LoadingBackdrop />;
-    }
-
-    if (error) {
-        return <ErrorMessage message={error} />;
     }
 
     if (!data || data?.length === 0 || !data[0].hasOwnProperty("task_id")) {
@@ -38,6 +35,7 @@ const SprintTaskPrioritizeList = () => {
 
     return (
         <>
+            {status && <StatusAlert status={status} message={message} />}
             <Stack
                 direction="row"
                 justifyContent="space-between"

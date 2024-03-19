@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useProjectContext } from "../../providers/ProjectProvider";
 import { useEffect } from "react";
 import { StatusAlert } from "../StatusAlert";
+import { Project } from "../../hooks/useProjects";
 
 const ProjectsGrid = () => {
     const { data, isLoading, message, status, setProjectQuery } =
@@ -15,9 +16,13 @@ const ProjectsGrid = () => {
         setProjectQuery({ id: null });
     }, []);
 
+    const projectArray = data as Project[];
+
     return (
         <>
-            <Typography variant="h2">Total Projects: {data?.length}</Typography>
+            <Typography variant="h2">
+                Total Projects: {projectArray?.length}
+            </Typography>
             <Fab
                 component={Link}
                 to="/new-project"
@@ -43,19 +48,19 @@ const ProjectsGrid = () => {
                 {status && <StatusAlert status={status} message={message} />}
 
                 <Grid xs={12} md={6} display="flex">
-                    {data && data.length > 0 && (
+                    {projectArray && projectArray.length > 0 && (
                         <ProjectCard
                             variant="featured"
-                            key={data[0].id}
-                            project={data[0]}
+                            key={projectArray[0].id}
+                            project={projectArray[0]}
                         />
                     )}
                 </Grid>
 
                 <Grid xs={12} md={6}>
                     <Stack spacing={2} justifyContent="space-between">
-                        {data &&
-                            data
+                        {projectArray &&
+                            projectArray
                                 .slice(1, 4)
                                 .map((project) => (
                                     <ProjectCard
@@ -67,9 +72,9 @@ const ProjectsGrid = () => {
                 </Grid>
             </Grid>
             <Grid container spacing={2} sx={{ mt: 1.5 }}>
-                {data &&
-                    data.length > 4 &&
-                    data.slice(4).map((project) => (
+                {projectArray &&
+                    projectArray.length > 4 &&
+                    projectArray.slice(4).map((project) => (
                         <Grid xs={12} md={4} key={project.id} display="flex">
                             <ProjectCard project={project} />
                         </Grid>

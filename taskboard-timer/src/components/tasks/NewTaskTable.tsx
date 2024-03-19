@@ -6,9 +6,10 @@ import NewTask from "./NewTask";
 import TaskRow from "./TaskRow";
 import { useTaskContext } from "../../providers/TaskProvider";
 import { Typography } from "@mui/material";
+import { StatusAlert } from "../StatusAlert";
 
 const NewTaskTable = () => {
-    const { data, isLoading, error, taskQuery, setTaskQuery } =
+    const { data, isLoading, message, status, taskQuery, setTaskQuery } =
         useTaskContext();
 
     const projectId = taskQuery?.project_id;
@@ -17,7 +18,7 @@ const NewTaskTable = () => {
         <>
             <Typography variant="h5">Tasks for Project {projectId}</Typography>
             {isLoading && <LoadingBackdrop />}
-            {error && <ErrorMessage message={error} />}
+            {status && <StatusAlert status={status} message={message} />}
             {projectId && (
                 <NewTask
                     projectId={projectId}

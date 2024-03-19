@@ -17,7 +17,7 @@ export interface SprintQuery {
 
 const useSprints = (sprintQuery?: SprintQuery) => {
     const endpoint = "api/sprints";
-    const { data, isLoading, error } = useData<Sprint>(
+    const { data, isLoading, message, status } = useData<Sprint>(
         endpoint,
         {
             params: {
@@ -28,7 +28,7 @@ const useSprints = (sprintQuery?: SprintQuery) => {
         [sprintQuery]
     );
 
-    return { data, isLoading, error };
+    return { data, isLoading, message, status };
 };
 
 export default useSprints;

@@ -15,7 +15,7 @@ export interface SprintTaskQuery {
 
 const useSprintTasks = (sprintTaskQuery?: SprintTaskQuery) => {
     const endpoint = "api/tasks_in_sprint";
-    const { data, isLoading, error } = useData<SprintTask>(
+    const { data, isLoading, message, status } = useData<SprintTask>(
         endpoint,
         {
             params: {
@@ -25,7 +25,7 @@ const useSprintTasks = (sprintTaskQuery?: SprintTaskQuery) => {
         [sprintTaskQuery]
     );
 
-    return { data, isLoading, error };
+    return { data, isLoading, message, status };
 };
 
 export default useSprintTasks;

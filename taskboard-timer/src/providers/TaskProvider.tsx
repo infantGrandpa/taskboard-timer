@@ -4,7 +4,8 @@ import useTasks, { Task, TaskQuery } from "../hooks/useTasks";
 interface TaskContentType {
     data: Task[] | null;
     isLoading: boolean;
-    error: string | undefined;
+    message: string | undefined;
+    status: string | undefined;
     taskQuery?: TaskQuery;
     setTaskQuery: (query: TaskQuery) => void;
 }
@@ -12,7 +13,8 @@ interface TaskContentType {
 const TaskContext = createContext<TaskContentType>({
     data: null,
     isLoading: false,
-    error: undefined,
+    message: undefined,
+    status: undefined,
     taskQuery: undefined,
     setTaskQuery: () => void 0,
 });
@@ -27,14 +29,15 @@ const TaskProvider = ({ children, initialTaskQuery }: Props) => {
         initialTaskQuery ? initialTaskQuery : ({} as TaskQuery)
     );
 
-    const { data, isLoading, error } = useTasks(taskQuery);
+    const { data, isLoading, message, status } = useTasks(taskQuery);
 
     return (
         <TaskContext.Provider
             value={{
                 data: data,
                 isLoading: isLoading,
-                error: error,
+                message: message,
+                status: status,
                 taskQuery: taskQuery,
                 setTaskQuery: setTaskQuery,
             }}

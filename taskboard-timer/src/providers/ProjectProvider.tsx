@@ -2,7 +2,7 @@ import { ReactNode, createContext, useContext, useState } from "react";
 import useProjects, { Project, ProjectQuery } from "../hooks/useProjects";
 
 interface ProjectContentType {
-    data: Project[] | null;
+    data: Project[] | null | Project;
     isLoading: boolean;
     message: string | undefined;
     status: string | undefined;

@@ -7,12 +7,12 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import { useSprintContext } from "../../providers/SprintProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
-import ErrorMessage from "../ErrorMessage";
 import { Sprint } from "../../hooks/useSprints";
 import Grid from "@mui/material/Unstable_Grid2";
+import { StatusAlert } from "../StatusAlert";
 
 const EditSprintForm = () => {
-    const { data, isLoading, error } = useSprintContext();
+    const { data, isLoading, message, status } = useSprintContext();
 
     const sprint = data ? data[0] : null;
 
@@ -52,12 +52,8 @@ const EditSprintForm = () => {
         return <LoadingBackdrop />;
     }
 
-    if (error) {
-        return <ErrorMessage message={error} />;
-    }
-
     if (!sprint) {
-        return <ErrorMessage message="ERROR: INVALID SPRINT" />;
+        return <StatusAlert status="error" message="ERROR: INVALID SPRINT" />;
     }
 
     const handleSaveSprint = async () => {
@@ -88,6 +84,7 @@ const EditSprintForm = () => {
 
     return (
         <Paper elevation={3} sx={{ p: 1.5 }}>
+            {status && <StatusAlert status={status} message={message} />}
             <Stack
                 direction="row"
                 justifyContent="space-between"

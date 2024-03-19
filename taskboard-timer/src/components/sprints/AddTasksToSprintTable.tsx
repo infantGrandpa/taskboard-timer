@@ -5,6 +5,7 @@ import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import { useState } from "react";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { StatusAlert } from "../StatusAlert";
 
 interface Props {
     sprintId: number;
@@ -12,14 +13,10 @@ interface Props {
 
 const AddTasksToSprintTable = ({ sprintId }: Props) => {
     const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
-    const { data, isLoading, error } = useTaskContext();
+    const { data, isLoading, message, status } = useTaskContext();
 
     if (isLoading) {
         return <LoadingBackdrop />;
-    }
-
-    if (error) {
-        return <ErrorMessage message={error} />;
     }
 
     if (!data) {
@@ -48,6 +45,7 @@ const AddTasksToSprintTable = ({ sprintId }: Props) => {
 
     return (
         <>
+            {status && <StatusAlert status={status} message={message} />}
             <Typography variant="h4" sx={{ mt: 2 }}>
                 Add Tasks to Sprint {sprintId}
             </Typography>

@@ -16,17 +16,14 @@ import { Sprint, SprintQuery } from "../../hooks/useSprints";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteSprint } from "../../services/sprintService";
+import { StatusAlert } from "../StatusAlert";
 
 const SprintList = () => {
-    const { data, isLoading, error, sprintQuery, setSprintQuery } =
+    const { data, isLoading, message, status, sprintQuery, setSprintQuery } =
         useSprintContext();
 
     if (isLoading) {
         return <LoadingBackdrop />;
-    }
-
-    if (error) {
-        return <ErrorMessage message={error} />;
     }
 
     const projectId = sprintQuery?.project_id;
@@ -41,50 +38,55 @@ const SprintList = () => {
     };
 
     return (
-        <Accordion defaultExpanded>
-            <AccordionSummary
-                expandIcon={
-                    <NewSprintButton
-                        projectId={projectId}
-                        onCreateNew={() =>
-                            setSprintQuery({
-                                project_id: projectId,
-                            } as SprintQuery)
-                        }
-                    />
-                }
-                aria-controls="sprint-list-content"
-                id="sprint-list-header"
-            >
-                <Typography>Sprint List</Typography>
-            </AccordionSummary>
-            <List dense>
-                {data &&
-                    data.map((sprint) => (
-                        <ListItem
-                            key={sprint.id}
-                            secondaryAction={
-                                <IconButton
-                                    onClick={() => handleDeleteSprint(sprint)}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
+        <>
+            {status && <StatusAlert status={status} message={message} />}
+            <Accordion defaultExpanded>
+                <AccordionSummary
+                    expandIcon={
+                        <NewSprintButton
+                            projectId={projectId}
+                            onCreateNew={() =>
+                                setSprintQuery({
+                                    project_id: projectId,
+                                } as SprintQuery)
                             }
-                        >
-                            <ListItemButton
-                                component={Link}
-                                to={`/projects/${projectId}/sprints/${sprint.id}`}
+                        />
+                    }
+                    aria-controls="sprint-list-content"
+                    id="sprint-list-header"
+                >
+                    <Typography>Sprint List</Typography>
+                </AccordionSummary>
+                <List dense>
+                    {data &&
+                        data.map((sprint) => (
+                            <ListItem
+                                key={sprint.id}
+                                secondaryAction={
+                                    <IconButton
+                                        onClick={() =>
+                                            handleDeleteSprint(sprint)
+                                        }
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                }
                             >
-                                <ListItemText>
-                                    {sprint.name.length > 0
-                                        ? `${sprint.name} (${sprint.id})`
-                                        : `Sprint ${sprint.id}`}
-                                </ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-            </List>
-        </Accordion>
+                                <ListItemButton
+                                    component={Link}
+                                    to={`/projects/${projectId}/sprints/${sprint.id}`}
+                                >
+                                    <ListItemText>
+                                        {sprint.name.length > 0
+                                            ? `${sprint.name} (${sprint.id})`
+                                            : `Sprint ${sprint.id}`}
+                                    </ListItemText>
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                </List>
+            </Accordion>
+        </>
     );
 };
 

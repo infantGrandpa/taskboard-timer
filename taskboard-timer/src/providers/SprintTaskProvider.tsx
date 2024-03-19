@@ -7,7 +7,8 @@ import useSprintTasks, {
 interface SprintTaskContentType {
     data: SprintTask[] | null;
     isLoading: boolean;
-    error: string | undefined;
+    message: string | undefined;
+    status: string | undefined;
     sprintTaskQuery?: SprintTaskQuery;
     setSprintTaskQuery: (query: SprintTaskQuery) => void;
 }
@@ -15,7 +16,8 @@ interface SprintTaskContentType {
 const SprintTaskContext = createContext<SprintTaskContentType>({
     data: null,
     isLoading: false,
-    error: undefined,
+    message: undefined,
+    status: undefined,
     sprintTaskQuery: undefined,
     setSprintTaskQuery: () => void 0,
 });
@@ -32,14 +34,16 @@ const SprintTaskProvider = ({ children, initialSprintTaskQuery }: Props) => {
             : ({} as SprintTaskQuery)
     );
 
-    const { data, isLoading, error } = useSprintTasks(sprintTaskQuery);
+    const { data, isLoading, message, status } =
+        useSprintTasks(sprintTaskQuery);
 
     return (
         <SprintTaskContext.Provider
             value={{
                 data: data,
                 isLoading: isLoading,
-                error: error,
+                message: message,
+                status: status,
                 sprintTaskQuery: sprintTaskQuery,
                 setSprintTaskQuery: setSprintTaskQuery,
             }}
