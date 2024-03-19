@@ -4,7 +4,8 @@ import useProjects, { Project, ProjectQuery } from "../hooks/useProjects";
 interface ProjectContentType {
     data: Project[] | null;
     isLoading: boolean;
-    error: string | undefined;
+    message: string | undefined;
+    status: string | undefined;
     projectQuery?: ProjectQuery;
     setProjectQuery: (query: ProjectQuery) => void;
 }
@@ -12,7 +13,8 @@ interface ProjectContentType {
 const ProjectContext = createContext<ProjectContentType>({
     data: null,
     isLoading: false,
-    error: undefined,
+    message: undefined,
+    status: undefined,
     projectQuery: undefined,
     setProjectQuery: () => void 0,
 });
@@ -27,14 +29,15 @@ const ProjectProvider = ({ children, initialProjectQuery }: Props) => {
         initialProjectQuery ? initialProjectQuery : ({} as ProjectQuery)
     );
 
-    const { data, isLoading, error } = useProjects(projectQuery);
+    const { data, isLoading, message, status } = useProjects(projectQuery);
 
     return (
         <ProjectContext.Provider
             value={{
                 data: data,
                 isLoading: isLoading,
-                error: error,
+                message: message,
+                status: status,
                 projectQuery: projectQuery,
                 setProjectQuery: setProjectQuery,
             }}

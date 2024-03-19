@@ -1,14 +1,15 @@
 import { CircularProgress, Fab, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import ErrorMessage from "../ErrorMessage";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
 import { useProjectContext } from "../../providers/ProjectProvider";
 import { useEffect } from "react";
+import { StatusAlert } from "../StatusAlert";
 
 const ProjectsGrid = () => {
-    const { data, isLoading, error, setProjectQuery } = useProjectContext();
+    const { data, isLoading, message, status, setProjectQuery } =
+        useProjectContext();
 
     useEffect(() => {
         setProjectQuery({ id: null });
@@ -39,7 +40,7 @@ const ProjectsGrid = () => {
                 spacing={2}
             >
                 {isLoading && <CircularProgress />}
-                {error && <ErrorMessage message={error} />}
+                {status && <StatusAlert status={status} message={message} />}
 
                 <Grid xs={12} md={6} display="flex">
                     {data && data.length > 0 && (

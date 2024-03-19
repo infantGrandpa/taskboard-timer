@@ -8,6 +8,7 @@ from scripts.routes.project_routes import project_blueprint
 from scripts.routes.task_routes import task_blueprint
 from scripts.routes.sprint_routes import sprint_blueprint
 from scripts.routes.database import db
+from scripts.utilities.response_middleware import standardize_api_response
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": [
@@ -22,6 +23,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)  # Initializes the database connection
 
 migrate = Migrate(app, db, render_as_batch=True)
+
+standardize_api_response(app)
 
 app.register_blueprint(project_blueprint)
 app.register_blueprint(task_blueprint)

@@ -15,7 +15,7 @@ export interface ProjectQuery {
 
 const useProjects = (projectQuery?: ProjectQuery) => {
     const endpoint = "api/projects";
-    const { data, isLoading, error, refetch } = useData<Project>(
+    const { data, isLoading, message, status } = useData<Project>(
         endpoint,
         {
             params: {
@@ -25,7 +25,7 @@ const useProjects = (projectQuery?: ProjectQuery) => {
         [projectQuery]
     );
 
-    return { data, isLoading, error, refetch };
+    return { data, isLoading, message, status };
 };
 
 export default useProjects;

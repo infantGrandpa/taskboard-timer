@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { AxiosRequestConfig, CanceledError } from "axios";
 import apiClient from "../services/apiService";
 
+interface ApiResponse<T> {
+    data: T[];
+    message: string;
+    status: string;
+}
+
 const useData = <T>(
     endpoint: string,
     requestConfig?: AxiosRequestConfig,
@@ -9,7 +15,8 @@ const useData = <T>(
 ) => {
     const [data, setData] = useState<T[]>([]);
     const [isLoading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | undefined>(undefined);
+    const [message, setMessage] = useState<string | undefined>(undefined);
+    const [status, setStatus] = useState<string | undefined>(undefined);
 
     const fetchData = () => {
         const controller = new AbortController();
@@ -22,17 +29,21 @@ const useData = <T>(
                 ...requestConfig,
             })
             .then((res) => {
-                const responseData = res.data
-                    ? Array.isArray(res.data)
-                        ? res.data
-                        : [res.data]
-                    : [];
+                const {
+                    data: responseData,
+                    message: responseMessage,
+                    status: responseStatus,
+                } = res.data as unknown as ApiResponse<T>;
+
+                setStatus(responseStatus);
+                setMessage(responseMessage);
                 setData(responseData);
                 setLoading(false);
             })
             .catch((err) => {
                 if (err instanceof CanceledError) return;
-                setError(err.message);
+                setStatus("error");
+                setMessage(err.message);
                 setLoading(false);
             });
 
@@ -46,7 +57,7 @@ const useData = <T>(
         deps ? [...deps] : []
     );
 
-    return { data, isLoading, error, refetch: fetchData };
+    return { data, isLoading, message, status };
 };
 
 export default useData;
