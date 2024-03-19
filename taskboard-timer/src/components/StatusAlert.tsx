@@ -1,11 +1,16 @@
 import { Alert, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
+import Slide, { SlideProps } from "@mui/material/Slide";
 
 type StatusType = "success" | "info" | "warning" | "error";
 
 interface Props {
     status: string | undefined;
     message: string | undefined;
+}
+
+function SlideTransition(props: SlideProps) {
+    return <Slide {...props} direction="right" />;
 }
 
 export const StatusAlert = ({ status, message }: Props) => {
@@ -17,7 +22,13 @@ export const StatusAlert = ({ status, message }: Props) => {
         severity = "warning";
     }
 
-    const handleClose = () => {
+    const handleClose = (
+        _event: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
         setOpen(false);
     };
 
@@ -26,7 +37,12 @@ export const StatusAlert = ({ status, message }: Props) => {
     }, []);
 
     return (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            TransitionComponent={SlideTransition}
+        >
             <Alert onClose={handleClose} severity={severity}>
                 {message}
             </Alert>
