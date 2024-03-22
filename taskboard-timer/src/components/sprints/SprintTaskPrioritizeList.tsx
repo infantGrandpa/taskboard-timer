@@ -11,6 +11,7 @@ const SprintTaskPrioritizeList = () => {
 
     const { sprintId } = useParams();
 
+    console.log(data);
     if (isLoading) {
         return <LoadingBackdrop />;
     }

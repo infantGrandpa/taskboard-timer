@@ -103,7 +103,9 @@ def add_tasks_to_sprint():
         # Check if sprint and task exist
         task = Task.query.get(task_id)
         if not task:
-            return jsonify({'message': f'Task {task_id} does not exist.'}), 400
+            return jsonify({'status': 'error',
+                            'message': f'Task {task_id} does not exist.',
+                            'data': None}), 400
 
         sprint = Sprint.query.get(sprint_id)
         if not sprint:
@@ -124,7 +126,7 @@ def get_tasks_in_sprint():
         # Extract sprint_id from request args
         sprint_id = request.args.get('sprint_id')
         if not sprint_id:
-            return jsonify({"error": "sprint_id parameter is required."}), 400
+            return jsonify({"status": "error", "message": "sprint_id parameter is required."}), 400
 
         # Fetch sprint to ensure it exists
         sprint = Sprint.query.get(sprint_id)
