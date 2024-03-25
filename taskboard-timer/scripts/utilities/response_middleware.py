@@ -7,9 +7,6 @@ class RequestStatus(Enum):
     INFO = auto()
     WARNING = auto()
 
-    def to_dict(self):
-        return self.name
-
 def standardize_api_response(app):
 
     @app.after_request
@@ -72,7 +69,16 @@ def get_generic_message_from_status(status):
             return "Status of request unknown."
         
 def validate_status(status_to_validate):
-    try:
-        return status_to_validate.name
-    except KeyError:
-        return RequestStatus.WARNING.name
+    if isinstance(status_to_validate, str):
+        try:
+            print (status_to_validate)
+            status_enum = RequestStatus[status_to_validate.upper()]
+            print (status_enum)
+        except KeyError:
+            status_enum = RequestStatus.WARNING
+    elif isinstance(status_to_validate, RequestStatus):
+        status_enum = status_to_validate
+    else:
+        status_enum = RequestStatus.WARNING
+
+    return status_enum.name
