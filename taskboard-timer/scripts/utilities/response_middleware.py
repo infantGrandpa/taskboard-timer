@@ -22,8 +22,8 @@ def standardize_api_response(app):
             original_data = None
 
         new_status = RequestStatus.WARNING
-        new_message = ""
-        new_data = ""
+        new_message = "Request made - No message applied to response."
+        new_data = None
 
         if original_data:
             #Get status from data
@@ -38,16 +38,20 @@ def standardize_api_response(app):
             else:
                 new_message = get_generic_message_from_status(new_status)
 
-            new_data = original_data
+            #Get data (original_data has data, status and message - we just want data)
+            if "data" in original_data:
+                new_data = original_data["data"]
+            else:
+                new_data = original_data
         else:
             new_status = get_status_from_code(response.status_code)
             new_message = get_generic_message_from_status(new_status)
 
         new_status = validate_status(new_status)
 
-        standardized_response = {"status": new_status, "message": new_message, "data": new_data}
+        standardized_response = {"status": new_status.lower(), "message": new_message, "data": new_data}
 
-        # print(f'{response.status_code} {standardized_response["status"]}: {standardized_response['message']}')
+        print(f'{response.status_code} {standardized_response["status"]}: {standardized_response['message']}')
 
         return jsonify(standardized_response)
 
@@ -82,6 +86,23 @@ def validate_status(status_to_validate):
         try:
             status_enum = RequestStatus[status_to_validate.upper()]        
         except KeyError:
-            pass
+            try:
+                # If the direct match fails, try converting to int and then matching
+                status_enum = get_request_status_from_int(int(status_to_validate))
+            except ValueError:
+                pass
+
+    elif isinstance(status_to_validate, int):
+        status_enum = get_request_status_from_int(status_to_validate)
     
     return status_enum.name
+
+def get_request_status_from_int(status_int):
+    status_enum = RequestStatus.WARNING
+
+    for status in RequestStatus:
+        if int(status.value) == status_int:
+            status_enum = status
+            break
+
+    return status_enum

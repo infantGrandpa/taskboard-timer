@@ -13,17 +13,19 @@ def get_projects():
         # Get 'id' query parameter, if provided
         project_id = request.args.get('id')
 
+        # If filtering
         if project_id:
-            # Assuming 'id' is the primary key, adjust as needed
+            # Filter by ID
             project = Project.query.filter_by(id=project_id).first()
             if project:
                 return jsonify(project.to_dict())
             else:
                 return jsonify({"status": RequestStatus.ERROR, "message": f'Project {project_id} not found'}), 404
+        # No filter
         else:
             projects = Project.query.all()
             projects_data = [project.to_dict() for project in projects]
-            return jsonify(projects_data)
+            return jsonify({"data": projects_data, "status": RequestStatus.SUCCESS, "message": "Projects retrieved!"})
     except Exception as e:
         return jsonify({"status": RequestStatus.ERROR, "message": str(e)}), 500
 
