@@ -1,11 +1,14 @@
 from flask import jsonify
 from enum import Enum, auto
 
-class RequestStatus(Enum):
+class RequestStatus(str, Enum):
     SUCCESS = auto()
     ERROR = auto()
     INFO = auto()
     WARNING = auto()
+
+    def to_dict(self):
+        return self.name
 
 def standardize_api_response(app):
 
@@ -44,7 +47,7 @@ def standardize_api_response(app):
 
         standardized_response = {"status": new_status, "message": new_message, "data": new_data}
 
-        print(f'{response.status_code} {standardized_response["status"]}: {standardized_response['message']}')
+        # print(f'{response.status_code} {standardized_response["status"]}: {standardized_response['message']}')
 
         return jsonify(standardized_response)
 
@@ -72,13 +75,13 @@ def validate_status(status_to_validate):
     
     status_enum = RequestStatus.WARNING
 
-    if isinstance(status_to_validate, str):
-        try:
-            status_enum = RequestStatus[status_to_validate.upper()]
-        except KeyError:
-            pass
-    elif isinstance(status_to_validate, RequestStatus):
+    if isinstance(status_to_validate, RequestStatus):
         status_enum = status_to_validate
 
-
+    elif isinstance(status_to_validate, str):
+        try:
+            status_enum = RequestStatus[status_to_validate.upper()]        
+        except KeyError:
+            pass
+    
     return status_enum.name

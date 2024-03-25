@@ -26,7 +26,7 @@ def get_sprints():
         sprints_data = [sprint.to_dict() for sprint in sprints]
         return jsonify(sprints_data)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"status": RequestStatus.ERROR, "message": str(e)}), 500
 
 
 @sprint_blueprint.route('/api/add_sprint', methods=['POST'])
@@ -43,24 +43,24 @@ def add_sprint():
     db.session.commit()
 
     message = f'New Sprint ({new_sprint.name}) added successfully!'
-    return jsonify({"message": message, "id": new_sprint.id}), 201
+    return jsonify({"status": RequestStatus.SUCCESS, "message": message, "id": new_sprint.id}), 201
 
 @sprint_blueprint.route('/api/sprint/<int:sprint_id>', methods=['DELETE'])
 def delete_sprint(sprint_id):
     sprint = Sprint.query.get(sprint_id)
     if not sprint:
-        return jsonify({"error": f'Sprint {sprint_id} not found'}), 404
+        return jsonify({"status": RequestStatus.ERROR, "message": f'Sprint {sprint_id} not found'}), 404
     
     db.session.delete(sprint)
     db.session.commit()
-    return jsonify({"message": f'Sprint {sprint_id} deleted successfully!'}), 200
+    return jsonify({"status": RequestStatus.SUCCESS, "message": f'Sprint {sprint_id} deleted successfully!'}), 200
 
 
 @sprint_blueprint.route('/api/sprint/<int:sprint_id>', methods=['PUT'])
 def edit_sprint(sprint_id):
     sprint = Sprint.query.get(sprint_id)
     if not sprint:
-        return jsonify({"error": f'Sprint {sprint_id} not found'}), 404
+        return jsonify({"status": RequestStatus.ERROR, "message": f'Sprint {sprint_id} not found'}), 404
     
     data = request.get_json()
 
@@ -76,7 +76,7 @@ def edit_sprint(sprint_id):
     db.session.commit()
 
     message = f'Sprint {sprint.name} ({sprint.id}) on Project {sprint.project_id} updated successfully!'
-    return jsonify({"message": message}), 200
+    return jsonify({"status": RequestStatus.SUCCESS, "message": message}), 200
 
 
 
@@ -90,7 +90,7 @@ def add_tasks_to_sprint():
     task_list = []
 
     if not tasks_info:
-        return jsonify({"error": "Provided task info array is empty.", 'data': data}), 400
+        return jsonify({"status": RequestStatus.ERROR, "message": "Provided task info array is empty.", 'data': data}), 400
 
 
     for this_task_info in tasks_info:
@@ -104,13 +104,13 @@ def add_tasks_to_sprint():
         # Check if sprint and task exist
         task = Task.query.get(task_id)
         if not task:
-            return jsonify({'status': "error",
+            return jsonify({'status': RequestStatus.ERROR,
                             'message': f'Task {task_id} does not exist.',
                             'data': None}), 400
 
         sprint = Sprint.query.get(sprint_id)
         if not sprint:
-            return jsonify({'message': f'Sprint {sprint_id} does not exist.'}), 400
+            return jsonify({'status': RequestStatus.ERROR, 'message': f'Sprint {sprint_id} does not exist.'}), 400
         
         sprint_task = SprintTask(sprint_id=sprint_id, task_id=task_id, priority=priority, status=status)
         db.session.add(sprint_task)
@@ -118,7 +118,7 @@ def add_tasks_to_sprint():
         task_list.append(task_id)
 
     db.session.commit()
-    return jsonify({'message': f'Tasks ({task_list}) have been added to Sprint {sprint_id}.'}), 200
+    return jsonify({'status': RequestStatus.SUCCESS, 'message': f'Tasks ({task_list}) have been added to Sprint {sprint_id}.'}), 200
 
 
 @sprint_blueprint.route('/api/tasks_in_sprint')
@@ -127,18 +127,18 @@ def get_tasks_in_sprint():
         # Extract sprint_id from request args
         sprint_id = request.args.get('sprint_id')
         if not sprint_id:
-            return jsonify({"status": "error", "message": "sprint_id parameter is required."}), 400
+            return jsonify({"status": RequestStatus.ERROR, "message": "sprint_id parameter is required."}), 400
 
         # Fetch sprint to ensure it exists
         sprint = Sprint.query.get(sprint_id)
         if not sprint:
-            return jsonify({'message': f'Sprint {sprint_id} does not exist.'}), 404
+            return jsonify({"status": RequestStatus.ERROR, "message": f'Sprint {sprint_id} does not exist.'}), 404
 
         # Query SprintTask for tasks in this sprint, join with Task for details
         tasks_in_sprint = SprintTask.query.filter_by(sprint_id=sprint_id).join(Task, SprintTask.task_id == Task.id).all()
 
         if not tasks_in_sprint:
-            return jsonify({"status": "warning", "message": f'No tasks assigned to sprint {sprint_id}.'}), 200
+            return jsonify({"status": RequestStatus.WARNING, "message": f'No tasks assigned to sprint {sprint_id}.'}), 200
 
         # Convert tasks to a dict format for JSON response
         sprint_task_data = [{
@@ -150,4 +150,4 @@ def get_tasks_in_sprint():
 
         return jsonify(sprint_task_data)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"status": RequestStatus.ERROR, "message": str(e)}), 500
