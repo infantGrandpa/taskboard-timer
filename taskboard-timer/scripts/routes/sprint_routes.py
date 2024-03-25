@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from scripts.routes.database import db
 from scripts.utilities.date_handler import strip_time_from_datetime
 from scripts.models.models import Sprint, Task, SprintTask, Priority, Status
+from scripts.utilities.response_middleware import RequestStatus
 
 sprint_blueprint = Blueprint('sprint', __name__)
 
@@ -103,7 +104,7 @@ def add_tasks_to_sprint():
         # Check if sprint and task exist
         task = Task.query.get(task_id)
         if not task:
-            return jsonify({'status': 'error',
+            return jsonify({'status': "error",
                             'message': f'Task {task_id} does not exist.',
                             'data': None}), 400
 
@@ -137,7 +138,7 @@ def get_tasks_in_sprint():
         tasks_in_sprint = SprintTask.query.filter_by(sprint_id=sprint_id).join(Task, SprintTask.task_id == Task.id).all()
 
         if not tasks_in_sprint:
-            return jsonify({"message": f'No tasks assigned to sprint {sprint_id}.'}), 200
+            return jsonify({"status": "warning", "message": f'No tasks assigned to sprint {sprint_id}.'}), 200
 
         # Convert tasks to a dict format for JSON response
         sprint_task_data = [{

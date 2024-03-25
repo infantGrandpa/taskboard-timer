@@ -16,10 +16,14 @@ function SlideTransition(props: SlideProps) {
 export const StatusAlert = ({ status, message }: Props) => {
     const [open, setOpen] = useState(false);
 
-    let severity = status as StatusType;
-    if (status === undefined || !isOfTypeStatus(status)) {
+    const statusIsValid =
+        status?.toLowerCase() && isOfTypeStatus(status.toLowerCase());
+    const severity = statusIsValid
+        ? (status?.toLowerCase() as StatusType)
+        : "warning";
+
+    if (!statusIsValid) {
         console.error("UNDEFINED OR INVALID STATUS");
-        severity = "warning";
     }
 
     const handleClose = (

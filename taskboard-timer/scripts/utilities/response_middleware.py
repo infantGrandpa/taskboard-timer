@@ -1,40 +1,78 @@
 from flask import jsonify
+from enum import Enum, auto
+
+class RequestStatus(Enum):
+    SUCCESS = auto()
+    ERROR = auto()
+    INFO = auto()
+    WARNING = auto()
+
+    def to_dict(self):
+        return self.name
 
 def standardize_api_response(app):
 
     @app.after_request
     def after_request(response):
-
-        standardized_response = {}
-
-        print("response.status_code")
-        print(response.status_code)
-        # set status
-        if response.status_code >= 200 and response.status_code < 300:
-            standardized_response["status"] = "success"
-        else:
-            standardized_response["status"] = "error"
-
+        
         # get original data
         try:
             original_data = response.get_json()
         except:
             original_data = None
 
-        # set message and original data
-        if original_data:
-            if "message" in original_data:
-                standardized_response["message"] = original_data["message"]
-            else:
-                # Provide a generic success/error message if none is provided
-                if standardized_response["status"] == "success":
-                    standardized_response["message"] = "Request successful"
-                else:
-                    standardized_response["message"] = "An error occurred"
+        new_status = RequestStatus.WARNING
+        new_message = ""
+        new_data = ""
 
-            standardized_response["data"] = original_data
+        if original_data:
+            #Get status from data
+            if "status" in original_data:
+                new_status = original_data["status"]
+            else:
+                new_status = get_status_from_code(response.status_code)
+
+            #Get message from data
+            if "message" in original_data:
+                new_message = original_data["message"]
+            else:
+                new_message = get_generic_message_from_status(new_status)
+
+            new_data = original_data
+        else:
+            new_status = get_status_from_code(response.status_code)
+            new_message = get_generic_message_from_status(new_status)
+
+        new_status = validate_status(new_status)
+
+        standardized_response = {"status": new_status, "message": new_message, "data": new_data}
 
         print(f'{response.status_code} {standardized_response["status"]}: {standardized_response['message']}')
 
         return jsonify(standardized_response)
 
+
+def get_status_from_code(status_code):
+    if status_code >= 200 and status_code < 300:
+        return RequestStatus.SUCCESS
+    else:
+        return RequestStatus.ERROR
+
+def get_generic_message_from_status(status):
+    match status:
+        case RequestStatus.SUCCESS:
+            return "Request successful."
+        case RequestStatus.ERROR:
+            return "An unknown error occured."
+        case RequestStatus.INFO:
+            return "Request successful. Additional information missing."
+        case RequestStatus.WARNING:
+            return "Request successful with unknown warning."
+        case _:
+            return "Status of request unknown."
+        
+def validate_status(status_to_validate):
+    try:
+        return status_to_validate.name
+    except KeyError:
+        return RequestStatus.WARNING.name
