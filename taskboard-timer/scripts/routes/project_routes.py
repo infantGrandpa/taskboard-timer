@@ -3,6 +3,8 @@ from scripts.routes.database import db
 from scripts.utilities.date_handler import strip_time_from_datetime
 from scripts.models.models import Project
 
+from scripts.utilities.response_middleware import RequestStatus
+
 project_blueprint = Blueprint('project', __name__)
 
 @project_blueprint.route('/api/projects')
@@ -17,13 +19,13 @@ def get_projects():
             if project:
                 return jsonify(project.to_dict())
             else:
-                return jsonify({"error": "Project not found"}), 404
+                return jsonify({"status": RequestStatus.ERROR, "message": f'Project {project_id} not found'}), 404
         else:
             projects = Project.query.all()
             projects_data = [project.to_dict() for project in projects]
             return jsonify(projects_data)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"status": RequestStatus.ERROR, "message": str(e)}), 500
 
 
 @project_blueprint.route('/api/add_project', methods=['POST'])
@@ -41,25 +43,25 @@ def add_project():
 
     message = f'New Project ({new_project.name}) added successfully!'
 
-    return jsonify({"message": message, "id": new_project.id}), 201
+    return jsonify({"status": RequestStatus.SUCCESS, "message": message, "id": new_project.id}), 201
 
 
 @project_blueprint.route('/api/project/<int:project_id>', methods=['DELETE'])
 def delete_project(project_id):
     project = Project.query.get(project_id)
     if not project:
-        return jsonify({"error": "Project not found"}), 404
+        return jsonify({"status": RequestStatus.ERROR, "message": f'Project {project_id} not found'}), 404
 
     db.session.delete(project)
     db.session.commit()
-    return jsonify({"message": "Project deleted successfully"}), 200
+    return jsonify({"status": RequestStatus.SUCCESS, "message": f'Project {project_id} deleted successfully'}), 200
 
 
 @project_blueprint.route('/api/project/<int:project_id>', methods=['PUT'])
 def edit_project(project_id):
     project = Project.query.get(project_id)
     if not project:
-        return jsonify({"error": "Project not found"}), 404
+        return jsonify({"status": RequestStatus.ERROR, "message": f'Project {project_id} not found'}), 404
 
     data = request.get_json()
 
@@ -77,4 +79,4 @@ def edit_project(project_id):
     db.session.commit()
 
     message = f'Project ({project.name}) updated successfully!'
-    return jsonify({"message": message}), 200
+    return jsonify({"status": RequestStatus.SUCCESS, "message": message}), 200
