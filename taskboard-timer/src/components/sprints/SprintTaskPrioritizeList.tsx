@@ -5,6 +5,8 @@ import ErrorMessage from "../ErrorMessage";
 import { useParams } from "react-router-dom";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { StatusAlert } from "../StatusAlert";
+import { StatusLabels } from "../../constants/statusLabels";
+import { PriorityLabels } from "../../constants/priorityLabels";
 
 const SprintTaskPrioritizeList = () => {
     const { data, isLoading, message, status } = useSprintTaskContext();
@@ -23,15 +25,29 @@ const SprintTaskPrioritizeList = () => {
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 50 },
         { field: "name", headerName: "Name", flex: 1 },
-        { field: "priority", headerName: "Priority", minWidth: 150 },
-        { field: "status", headerName: "Status", minWidth: 150 },
+        {
+            field: "priority",
+            headerName: "Priority",
+            minWidth: 150,
+            editable: true,
+            type: "singleSelect",
+            valueOptions: Object.values(PriorityLabels),
+        },
+        {
+            field: "status",
+            headerName: "Status",
+            minWidth: 150,
+            editable: true,
+            type: "singleSelect",
+            valueOptions: Object.values(StatusLabels),
+        },
     ];
 
     const tableData = data.map((sprintTask) => ({
         id: sprintTask.task_id,
         name: sprintTask.task_details.name,
-        priority: sprintTask.priority,
-        status: sprintTask.status,
+        priority: PriorityLabels[sprintTask.priority],
+        status: StatusLabels[sprintTask.status],
     }));
 
     return (

@@ -4,8 +4,8 @@ import { Task } from "./useTasks";
 export interface SprintTask {
     task_id: number;
     sprint_id: number;
-    priority: string;
-    status: string;
+    priority: "WONT_HAVE" | "COULD_HAVE" | "SHOULD_HAVE" | "MUST_HAVE";
+    status: "TODO" | "IN_PROGRESS" | "REVIEW" | "COMPLETE";
     task_details: Task;
 }
 
