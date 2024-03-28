@@ -51,7 +51,8 @@ def standardize_api_response(app):
 
         standardized_response = {"status": new_status.lower(), "message": new_message, "data": new_data}
 
-        print(f'{response.status_code} {standardized_response["status"]}: {standardized_response['message']}')
+        if not matches_requested_status(new_status, RequestStatus.SUCCESS):
+            print(f'{response.status_code} {standardized_response["status"]}: {standardized_response['message']}')
 
         return jsonify(standardized_response)
 
@@ -106,3 +107,19 @@ def get_request_status_from_int(status_int):
             break
 
     return status_enum
+
+def matches_requested_status(status_variable, requested_status):
+    """
+    Checks if the provided status_variable matches the requested_status.
+    """
+    # First, validate and standardize the status_variable to ensure it's a RequestStatus enum.
+    validated_status = validate_status(status_variable)
+    
+    # Convert validated_status to a RequestStatus enum if it's not already one.
+    if isinstance(validated_status, str):
+        validated_status_enum = RequestStatus[validated_status]
+    else:
+        validated_status_enum = validated_status
+    
+    # Now compare the standardized status with the requested_status.
+    return validated_status_enum == requested_status
