@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Project } from "../../hooks/useProjects";
 import ErrorMessage from "../ErrorMessage";
 import {
     Card,
@@ -16,6 +15,7 @@ import DeleteProjectButton from "./DeleteProjectButton";
 import { useNavigate } from "react-router-dom";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ProjectForm from "./ProjectForm";
+import { Project } from "../../constants/projects";
 
 interface Props {
     project: Project;

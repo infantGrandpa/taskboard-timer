@@ -1,13 +1,13 @@
 import { TaskProvider } from "../../providers/TaskProvider";
 import AddTasksToSprintTable from "./AddTasksToSprintTable";
-import { TaskQuery } from "../../hooks/useTasks";
 import { Link, useParams } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import EditSprintForm from "./EditSprintForm";
 import { SprintProvider } from "../../providers/SprintProvider";
-import { SprintQuery } from "../../hooks/useSprints";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { TaskQuery } from "../../constants/tasks";
+import { SprintQuery } from "../../constants/sprints";
 
 const EditSprintPage = () => {
     const { id, sprintId } = useParams();

@@ -1,17 +1,5 @@
+import { Project, ProjectQuery } from "../constants/projects";
 import useData from "./useData";
-
-export interface Project {
-    id: number;
-    name: string;
-    description: string;
-    client: string;
-    start_date: Date | null;
-    end_date: Date | null;
-}
-
-export interface ProjectQuery {
-    id: number | null | undefined;
-}
 
 const useProjects = (projectQuery?: ProjectQuery) => {
     const endpoint = "api/projects";

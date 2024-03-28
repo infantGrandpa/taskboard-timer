@@ -12,11 +12,11 @@ import ErrorMessage from "../ErrorMessage";
 import LoadingBackdrop from "../LoadingBackdrop";
 import { useSprintContext } from "../../providers/SprintProvider";
 import NewSprintButton from "./NewSprintButton";
-import { Sprint, SprintQuery } from "../../hooks/useSprints";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteSprint } from "../../services/sprintService";
 import { StatusAlert } from "../StatusAlert";
+import { Sprint, SprintQuery } from "../../constants/sprints";
 
 const SprintList = () => {
     const { data, isLoading, message, status, sprintQuery, setSprintQuery } =

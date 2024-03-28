@@ -1,12 +1,13 @@
 import { Button, Stack, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { SprintCreationData, addSprint } from "../../services/sprintService";
+import { addSprint } from "../../services/sprintService";
 import { useState } from "react";
 import { add } from "date-fns";
 import NumberInput from "../NumberInput";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import { useNavigate } from "react-router-dom";
+import { SprintCreationData } from "../../constants/sprints";
 
 interface Props {
     projectId: number;

@@ -1,13 +1,5 @@
-import { Project } from "../hooks/useProjects";
+import { Project, ProjectCreationData } from "../constants/projects";
 import handleRequest from "./requestService";
-
-export interface ProjectCreationData {
-    name: string;
-    description: string;
-    client: string;
-    start_date: Date | null;
-    end_date: Date | null;
-}
 
 const formatProjectDates = (projectData: any = null) => {
     if (!projectData) {

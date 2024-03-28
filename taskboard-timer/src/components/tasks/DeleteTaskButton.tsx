@@ -1,7 +1,7 @@
 import { IconButton, Tooltip } from "@mui/material";
-import { Task } from "../../hooks/useTasks";
 import { deleteTask } from "../../services/taskService";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Task } from "../../constants/tasks";
 
 interface Props {
     task: Task;

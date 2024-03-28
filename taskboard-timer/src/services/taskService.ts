@@ -1,12 +1,5 @@
-import { Task } from "../hooks/useTasks";
+import { Task, TaskCreationData } from "../constants/tasks";
 import handleRequest from "./requestService";
-
-export interface TaskCreationData {
-    project_id: number;
-    name: string;
-    estimated_hours: number;
-    hours_worked: number;
-}
 
 const addTask = async (taskData: TaskCreationData) => {
     const responseData = handleRequest("/api/add_task", "POST", taskData);

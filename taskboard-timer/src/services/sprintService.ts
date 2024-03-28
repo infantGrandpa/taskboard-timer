@@ -1,18 +1,6 @@
-import { Sprint } from "../hooks/useSprints";
+import { SprintTaskData } from "../constants/sprintTasks";
+import { Sprint, SprintCreationData } from "../constants/sprints";
 import handleRequest from "./requestService";
-
-export interface SprintCreationData {
-    project_id: number;
-    name: string;
-    total_hours: number;
-    completed_hours: number;
-    start_date: Date | null;
-    end_date: Date | null;
-}
-
-export interface SprintTaskData {
-    task_id: number;
-}
 
 const addSprint = async (sprintData: SprintCreationData) => {
     const responseData = handleRequest("/api/add_sprint", "POST", sprintData);

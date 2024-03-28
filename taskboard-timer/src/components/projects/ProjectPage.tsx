@@ -1,7 +1,7 @@
+import { ProjectQuery } from "../../constants/projects";
 import { ProjectProvider } from "../../providers/ProjectProvider";
 import ProjectView from "./ProjectView";
 import { useParams } from "react-router-dom";
-import { ProjectQuery } from "../../hooks/useProjects";
 
 const ProjectPage = () => {
     let { id } = useParams();

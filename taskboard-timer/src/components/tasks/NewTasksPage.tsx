@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { TaskProvider } from "../../providers/TaskProvider";
 import NewTaskTable from "./NewTaskTable";
-import { TaskQuery } from "../../hooks/useTasks";
+import { TaskQuery } from "../../constants/tasks";
 
 const NewTasksPage = () => {
     let { id } = useParams();

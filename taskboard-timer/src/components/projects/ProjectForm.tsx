@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { Project } from "../../hooks/useProjects";
 import { Button, Stack, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { add } from "date-fns";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
-import {
-    ProjectCreationData,
-    addProject,
-    editProject,
-} from "../../services/projectService";
+import { addProject, editProject } from "../../services/projectService";
+import { Project, ProjectCreationData } from "../../constants/projects";
 
 interface Props {
     project?: Project;

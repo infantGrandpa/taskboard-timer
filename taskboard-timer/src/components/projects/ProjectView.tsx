@@ -4,12 +4,12 @@ import Grid from "@mui/material/Unstable_Grid2";
 import NewTaskTable from "../tasks/NewTaskTable";
 import { TaskProvider } from "../../providers/TaskProvider";
 import { useProjectContext } from "../../providers/ProjectProvider";
-import { TaskQuery } from "../../hooks/useTasks";
 import { SprintProvider } from "../../providers/SprintProvider";
 import SprintList from "../sprints/SprintList";
-import { SprintQuery } from "../../hooks/useSprints";
 import { StatusAlert } from "../StatusAlert";
-import { Project } from "../../hooks/useProjects";
+import { Project } from "../../constants/projects";
+import { SprintQuery } from "../../constants/sprints";
+import { TaskQuery } from "../../constants/tasks";
 
 const ProjectView = () => {
     const { data, isLoading, message, status } = useProjectContext();

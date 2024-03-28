@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useProjectContext } from "../../providers/ProjectProvider";
 import { useEffect } from "react";
 import { StatusAlert } from "../StatusAlert";
-import { Project } from "../../hooks/useProjects";
+import { Project } from "../../constants/projects";
 
 const ProjectsGrid = () => {
     const { data, isLoading, message, status, setProjectQuery } =

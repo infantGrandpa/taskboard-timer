@@ -1,4 +1,3 @@
-import { TaskQuery } from "../../hooks/useTasks";
 import ErrorMessage from "../ErrorMessage";
 import LoadingBackdrop from "../LoadingBackdrop";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -7,6 +6,7 @@ import TaskRow from "./TaskRow";
 import { useTaskContext } from "../../providers/TaskProvider";
 import { Typography } from "@mui/material";
 import { StatusAlert } from "../StatusAlert";
+import { TaskQuery } from "../../constants/tasks";
 
 const NewTaskTable = () => {
     const { data, isLoading, message, status, taskQuery, setTaskQuery } =

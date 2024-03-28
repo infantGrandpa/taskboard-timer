@@ -1,11 +1,12 @@
 import { Button, Typography } from "@mui/material";
-import { SprintTaskData, addTasksToSprint } from "../../services/sprintService";
+import { addTasksToSprint } from "../../services/sprintService";
 import { useTaskContext } from "../../providers/TaskProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import { useState } from "react";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { StatusAlert } from "../StatusAlert";
+import { SprintTaskData } from "../../constants/sprintTasks";
 
 interface Props {
     sprintId: number;

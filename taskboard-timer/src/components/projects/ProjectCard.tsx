@@ -6,9 +6,10 @@ import {
     SxProps,
     Typography,
 } from "@mui/material";
-import { Project } from "../../hooks/useProjects";
+
 import { Link } from "react-router-dom";
 import DateRange from "../DateRange";
+import { Project } from "../../constants/projects";
 
 interface Props {
     project: Project;

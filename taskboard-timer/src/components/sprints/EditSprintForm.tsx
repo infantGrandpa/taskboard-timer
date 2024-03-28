@@ -1,15 +1,15 @@
 import { IconButton, Paper, Stack, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { SprintCreationData, editSprint } from "../../services/sprintService";
+import { editSprint } from "../../services/sprintService";
 import { useEffect, useState } from "react";
 import NumberInput from "../NumberInput";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SaveIcon from "@mui/icons-material/Save";
 import { useSprintContext } from "../../providers/SprintProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
-import { Sprint } from "../../hooks/useSprints";
 import Grid from "@mui/material/Unstable_Grid2";
 import { StatusAlert } from "../StatusAlert";
+import { Sprint, SprintCreationData } from "../../constants/sprints";
 
 const EditSprintForm = () => {
     const { data, isLoading, message, status } = useSprintContext();
@@ -58,13 +58,7 @@ const EditSprintForm = () => {
 
     const handleSaveSprint = async () => {
         try {
-            console.log("SENDING EDIT SPRINT REQUEST");
-            console.log("SPRINT");
-            console.log(sprint);
-            console.log("SPRINT DATA");
-            console.log(sprintData);
             const response = await editSprint(sprint, sprintData);
-            console.log(`SPRINT EDITED.`);
             console.log(response);
         } catch (error) {
             console.error("Error adding new sprint: ", error);
