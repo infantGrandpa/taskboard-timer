@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
@@ -12,6 +12,7 @@ import {
 import { StatusAlert } from "../StatusAlert";
 import { StatusLabels } from "../../constants/statusLabels";
 import { PriorityLabels } from "../../constants/priorityLabels";
+import { editSprintTask } from "../../services/sprintService";
 
 const SprintTaskPrioritizeList = () => {
     const { data, isLoading, message, status } = useSprintTaskContext();
@@ -55,6 +56,15 @@ const SprintTaskPrioritizeList = () => {
         status: StatusLabels[sprintTask.status],
     }));
 
+    let labelCount = 0;
+
+    const incrementLabelCount = () => {
+        labelCount++;
+        if (labelCount > 3) {
+            labelCount = 0;
+        }
+    };
+
     return (
         <>
             {status && <StatusAlert status={status} message={message} />}
@@ -68,6 +78,23 @@ const SprintTaskPrioritizeList = () => {
                 </Typography>
                 <Typography variant="h4">Tasks: {data?.length}</Typography>
             </Stack>
+            <Button
+                fullWidth
+                variant="contained"
+                onClick={() => {
+                    editSprintTask(
+                        32,
+                        36,
+                        Object.values(PriorityLabels)[labelCount],
+                        Object.values(StatusLabels)[labelCount]
+                    );
+                    incrementLabelCount();
+                }}
+                sx={{ my: 3, fontWeight: "bold" }}
+                color="secondary"
+            >
+                Update Sprint 32 Task 36
+            </Button>
             <DataGrid
                 columns={columns}
                 rows={tableData}

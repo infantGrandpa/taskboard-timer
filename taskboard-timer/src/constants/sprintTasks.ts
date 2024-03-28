@@ -1,6 +1,7 @@
 import { Task } from "./tasks";
 
 export interface SprintTask {
+    // Sprint Tasks do NOT have an id
     task_id: number;
     sprint_id: number;
     priority: "WONT_HAVE" | "COULD_HAVE" | "SHOULD_HAVE" | "MUST_HAVE";

@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from scripts.routes.database import db
 from scripts.utilities.date_handler import strip_time_from_datetime
-from scripts.models.models import Sprint, Task, SprintTask, Priority, Status
+from scripts.models.models import Sprint, Task, SprintTask, Priority, Status, get_priority_from_string, get_status_from_string
 from scripts.utilities.response_middleware import RequestStatus
 
 sprint_blueprint = Blueprint('sprint', __name__)
@@ -151,3 +151,38 @@ def get_tasks_in_sprint():
         return jsonify(sprint_task_data)
     except Exception as e:
         return jsonify({"status": RequestStatus.ERROR, "message": str(e)}), 500
+
+@sprint_blueprint.route('/api/edit_sprint_task', methods=['POST'])
+def edit_tasks_in_sprint():
+    data = request.get_json()
+    sprint_id = data.get('sprint_id')
+    task_id = data.get('task_id')
+    new_priority_value = data.get('priority')
+    new_status_value = data.get('status')
+
+    if new_priority_value is None:
+        return jsonify({"status": RequestStatus.ERROR, "message": "Priority not provided."}), 400
+    
+    if new_status_value is None:
+        return jsonify({"status": RequestStatus.ERROR, "message": "Status not provided."}), 400
+
+    try:
+        new_priority = get_priority_from_string(new_priority_value)
+        new_status = get_status_from_string(new_status_value)
+    except ValueError:
+        # Handle case where provided priority or status is invalid
+        return jsonify({'status': RequestStatus.ERROR, 'message': 'Invalid priority or status value.'}), 400
+    
+    # Fetch the SprintTask to update
+    sprint_task = SprintTask.query.filter_by(sprint_id=sprint_id, task_id=task_id).first()
+
+    print ('sprint_task')
+    print (sprint_task)
+
+    if sprint_task:
+        sprint_task.priority = new_priority
+        sprint_task.status = new_status
+        db.session.commit()
+        return jsonify({'status': RequestStatus.SUCCESS, 'message': f'SprintTask updated successfully.'}), 200
+    else:
+        return jsonify({'status': RequestStatus.ERROR, 'message': 'SprintTask not found.'}), 404

@@ -1,5 +1,7 @@
+import { getPriorityEnumKey } from "../constants/priorityLabels";
 import { SprintTaskData } from "../constants/sprintTasks";
 import { Sprint, SprintCreationData } from "../constants/sprints";
+import { getStatusEnumKey } from "../constants/statusLabels";
 import handleRequest from "./requestService";
 
 const addSprint = async (sprintData: SprintCreationData) => {
@@ -41,4 +43,31 @@ const addTasksToSprint = async (
     return responseData;
 };
 
-export { addSprint, deleteSprint, editSprint, addTasksToSprint };
+const editSprintTask = async (
+    sprintId: number,
+    taskId: number,
+    priority: string,
+    status: string
+) => {
+    const updateData = {
+        sprint_id: sprintId,
+        task_id: taskId,
+        priority: getPriorityEnumKey(priority),
+        status: getStatusEnumKey(status),
+    };
+
+    const responseData = await handleRequest(
+        "/api/edit_sprint_task",
+        "POST",
+        updateData
+    );
+    return responseData;
+};
+
+export {
+    addSprint,
+    deleteSprint,
+    editSprint,
+    addTasksToSprint,
+    editSprintTask,
+};

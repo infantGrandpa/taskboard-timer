@@ -52,12 +52,23 @@ class Priority(enum.Enum):
     SHOULD_HAVE = 2
     MUST_HAVE = 3
 
+def get_priority_from_string(s: str) -> Priority:
+    try:
+        return Priority[s]
+    except KeyError:
+        raise ValueError(f"No matching Priority enum for string '{s}'")
+
 class Status(enum.Enum):
     TODO = 0
     IN_PROGRESS = 1
     REVIEW = 2
     COMPLETE = 3
 
+def get_status_from_string(s: str) -> Status:
+    try:
+        return Status[s]
+    except KeyError:
+        raise ValueError(f"No matching Status enum for string '{s}'")
 
 class SprintTask(db.Model):
     __tablename__ = 'sprint_task'
