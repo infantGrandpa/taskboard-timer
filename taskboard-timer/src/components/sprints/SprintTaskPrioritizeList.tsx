@@ -3,7 +3,12 @@ import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import { useParams } from "react-router-dom";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+    DataGrid,
+    GridColDef,
+    GridRowEditStopParams,
+    MuiEvent,
+} from "@mui/x-data-grid";
 import { StatusAlert } from "../StatusAlert";
 import { StatusLabels } from "../../constants/statusLabels";
 import { PriorityLabels } from "../../constants/priorityLabels";
@@ -66,6 +71,7 @@ const SprintTaskPrioritizeList = () => {
             <DataGrid
                 columns={columns}
                 rows={tableData}
+                editMode="row"
                 initialState={{
                     pagination: {
                         paginationModel: {
@@ -74,6 +80,13 @@ const SprintTaskPrioritizeList = () => {
                     },
                 }}
                 pageSizeOptions={[25]}
+                onRowEditStop={(
+                    params: GridRowEditStopParams,
+                    _event: MuiEvent
+                ) => {
+                    console.log("Row edit complete");
+                    console.log(params);
+                }}
             />
         </>
     );
