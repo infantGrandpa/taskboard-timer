@@ -176,9 +176,6 @@ def edit_tasks_in_sprint():
     # Fetch the SprintTask to update
     sprint_task = SprintTask.query.filter_by(sprint_id=sprint_id, task_id=task_id).first()
 
-    print ('sprint_task')
-    print (sprint_task)
-
     if sprint_task:
         sprint_task.priority = new_priority
         sprint_task.status = new_status

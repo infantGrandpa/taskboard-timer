@@ -1,18 +1,14 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
 import ErrorMessage from "../ErrorMessage";
 import { useParams } from "react-router-dom";
-import {
-    DataGrid,
-    GridColDef,
-    GridRowEditStopParams,
-    MuiEvent,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { StatusAlert } from "../StatusAlert";
 import { StatusLabels } from "../../constants/statusLabels";
 import { PriorityLabels } from "../../constants/priorityLabels";
 import { editSprintTask } from "../../services/sprintService";
+import { SprintTaskCreationData } from "../../constants/sprintTasks";
 
 const SprintTaskPrioritizeList = () => {
     const { data, isLoading, message, status } = useSprintTaskContext();
@@ -56,13 +52,15 @@ const SprintTaskPrioritizeList = () => {
         status: StatusLabels[sprintTask.status],
     }));
 
-    let labelCount = 0;
+    const handleEditSprintTaskRow = (updatedRow: any) => {
+        const newSprintTaskData = {
+            sprint_id: Number(sprintId),
+            task_id: updatedRow.id,
+            priority: updatedRow.priority,
+            status: updatedRow.status,
+        } as SprintTaskCreationData;
 
-    const incrementLabelCount = () => {
-        labelCount++;
-        if (labelCount > 3) {
-            labelCount = 0;
-        }
+        editSprintTask(newSprintTaskData);
     };
 
     return (
@@ -78,23 +76,6 @@ const SprintTaskPrioritizeList = () => {
                 </Typography>
                 <Typography variant="h4">Tasks: {data?.length}</Typography>
             </Stack>
-            <Button
-                fullWidth
-                variant="contained"
-                onClick={() => {
-                    editSprintTask(
-                        32,
-                        36,
-                        Object.values(PriorityLabels)[labelCount],
-                        Object.values(StatusLabels)[labelCount]
-                    );
-                    incrementLabelCount();
-                }}
-                sx={{ my: 3, fontWeight: "bold" }}
-                color="secondary"
-            >
-                Update Sprint 32 Task 36
-            </Button>
             <DataGrid
                 columns={columns}
                 rows={tableData}
@@ -107,13 +88,13 @@ const SprintTaskPrioritizeList = () => {
                     },
                 }}
                 pageSizeOptions={[25]}
-                onRowEditStop={(
-                    params: GridRowEditStopParams,
-                    _event: MuiEvent
-                ) => {
-                    console.log("Row edit complete");
-                    console.log(params);
+                processRowUpdate={(updatedRow) => {
+                    handleEditSprintTaskRow(updatedRow);
+                    <StatusAlert status={status} message={"Updated"} />;
                 }}
+                onProcessRowUpdateError={(errorMessage) =>
+                    console.log(`ERROR: ${errorMessage}`)
+                }
             />
         </>
     );
