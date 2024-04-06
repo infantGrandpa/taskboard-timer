@@ -9,12 +9,12 @@ import React from "react";
 const SprintTaskGrid = () => {
     const { id, sprintId } = useParams();
 
-    const headerColWidth = 4;
-    const columnWidth = 2;
+    const headerColWidth = { xs: 12, sm: 4 } as const;
+    const columnWidth = { xs: 12, sm: 2 } as const;
 
     return (
         <Grid container spacing={2}>
-            <Grid xs={headerColWidth}>
+            <Grid {...headerColWidth}>
                 <SprintProvider
                     initialSprintQuery={{
                         id: Number(sprintId),
@@ -26,20 +26,22 @@ const SprintTaskGrid = () => {
             </Grid>
             {Object.values(StatusLabels).map((status) => (
                 <Grid
-                    xs={columnWidth}
+                    {...columnWidth}
                     key={status}
-                    sx={{ textAlign: "center" }}
+                    sx={{
+                        textAlign: "center",
+                    }}
                 >
                     {status}
                 </Grid>
             ))}
             {Object.values(PriorityLabels).map((priority) => (
                 <React.Fragment key={priority}>
-                    <Grid xs={headerColWidth}>{priority}</Grid>
+                    <Grid {...headerColWidth}>{priority}</Grid>
                     {Array(4)
                         .fill("Task")
                         .map((_, index) => (
-                            <Grid xs={columnWidth} key={index}>
+                            <Grid {...columnWidth} key={index}>
                                 {index}: {priority}
                             </Grid>
                         ))}
