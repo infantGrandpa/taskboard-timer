@@ -12,7 +12,6 @@ import NewTasksPage from "./components/tasks/NewTasksPage";
 import NewSprintPage from "./components/sprints/NewSprintPage";
 import EditSprintPage from "./components/sprints/EditSprintPage";
 import SprintPrioritizePage from "./components/sprints/SprintPrioritizePage";
-import { SprintTaskProvider } from "./providers/SprintTaskProvider";
 import routes from "./constants/routes";
 import ViewSprintPage from "./components/sprints/ViewSprintPage";
 
@@ -75,11 +74,7 @@ function App() {
                                     ":id",
                                     ":sprintId"
                                 )}
-                                element={
-                                    <SprintTaskProvider>
-                                        <SprintPrioritizePage />
-                                    </SprintTaskProvider>
-                                }
+                                element={<SprintPrioritizePage />}
                             />
                             <Route
                                 path={routes.sprint(":id", ":sprintId")}
