@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { AppBar, Button, Container, Toolbar } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import routes from "../constants/routes";
 
 const Navbar = () => {
     return (
@@ -9,7 +10,7 @@ const Navbar = () => {
                 <Toolbar disableGutters>
                     <Button
                         component={Link}
-                        to="/"
+                        to={routes.home()}
                         variant="text"
                         aria-label="home"
                         startIcon={<HomeIcon />}

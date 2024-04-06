@@ -27,7 +27,10 @@ const SprintListItem = ({ sprint }: Props) => {
                 <Stack direction="row">
                     <IconButton
                         component={Link}
-                        to={`/projects/${sprint.project_id}/sprints/${sprint.id}/prioritize`}
+                        to={routes.prioritizeTasks(
+                            sprint.project_id,
+                            sprint.id
+                        )}
                     >
                         <SortIcon />
                     </IconButton>

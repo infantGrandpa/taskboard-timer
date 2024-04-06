@@ -8,6 +8,7 @@ import { SprintProvider } from "../../providers/SprintProvider";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { TaskQuery } from "../../constants/tasks";
 import { SprintQuery } from "../../constants/sprints";
+import routes from "../../constants/routes";
 
 const EditSprintPage = () => {
     const { id, sprintId } = useParams();
@@ -21,14 +22,14 @@ const EditSprintPage = () => {
             >
                 <Button
                     component={Link}
-                    to={`/projects/${id}`}
+                    to={routes.project(id)}
                     startIcon={<ArrowBackIosNewIcon />}
                 >
                     Back to Project
                 </Button>
                 <Button
                     component={Link}
-                    to={`/projects/${id}/sprints/${sprintId}/prioritize`}
+                    to={routes.prioritizeTasks(id, sprintId)}
                     endIcon={<ArrowForwardIosIcon />}
                 >
                     Prioritize Tasks

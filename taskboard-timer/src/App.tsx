@@ -45,21 +45,24 @@ function App() {
                     <Navbar />
                     <Container maxWidth="xl" sx={{ pt: 3 }}>
                         <Routes>
-                            <Route path="/" element={<HomePage />} />
                             <Route
-                                path="/new-project"
+                                path={routes.home()}
+                                element={<HomePage />}
+                            />
+                            <Route
+                                path={routes.newProject()}
                                 element={<CreateNewProject />}
                             />
                             <Route
-                                path="/projects/:id"
+                                path={routes.project(":id")}
                                 element={<ProjectPage />}
                             />
                             <Route
-                                path="/projects/:id/new-tasks"
+                                path={routes.newTasks(":id")}
                                 element={<NewTasksPage />}
                             />
                             <Route
-                                path="/projects/:id/new-sprint"
+                                path={routes.newSprint(":id")}
                                 element={<NewSprintPage />}
                             />
                             <Route
@@ -67,7 +70,7 @@ function App() {
                                 element={<EditSprintPage />}
                             />
                             <Route
-                                path="/projects/:id/sprints/:sprintId/prioritize"
+                                path={routes.prioritizeTasks(":id", ":sprintId")}
                                 element={
                                     <SprintTaskProvider>
                                         <SprintPrioritizePage />

@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import DateRange from "../DateRange";
 import { Project } from "../../constants/projects";
+import routes from "../../constants/routes";
 
 interface Props {
     project: Project;
@@ -30,7 +31,7 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
         >
             <CardActionArea
                 component={Link}
-                to={`/projects/${project.id}`}
+                to={routes.project(project.id)}
                 sx={{ ...(isFeatured && { height: "100%" }) }}
             >
                 <CardContent>

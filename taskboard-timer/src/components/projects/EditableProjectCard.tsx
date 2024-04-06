@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ProjectForm from "./ProjectForm";
 import { Project } from "../../constants/projects";
+import routes from "../../constants/routes";
 
 interface Props {
     project: Project;
@@ -75,7 +76,7 @@ const EditableProjectCard = ({ project }: Props) => {
                     </IconButton>
                     <DeleteProjectButton
                         project={project}
-                        onDeleteSuccess={() => navigate("/")}
+                        onDeleteSuccess={() => navigate(routes.home())}
                     />
                 </CardActions>
             </Card>

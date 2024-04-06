@@ -1,6 +1,7 @@
 import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
+import routes from "../../constants/routes";
 
 interface Props {
     projectId: number;
@@ -13,7 +14,7 @@ const NewSprintButton = ({ projectId }: Props) => {
     return (
         <IconButton
             aria-label="new sprint"
-            onClick={() => navigate(`/projects/${projectId}/new-sprint`)}
+            onClick={() => navigate(routes.newSprint(projectId))}
         >
             <AddIcon />
         </IconButton>

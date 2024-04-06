@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { SprintTaskProvider } from "../../providers/SprintTaskProvider";
 import SprintTaskPrioritizeList from "./SprintTaskPrioritizeList";
+import routes from "../../constants/routes";
 
 const SprintPrioritizePage = () => {
     const { id, sprintId } = useParams();
@@ -11,7 +12,7 @@ const SprintPrioritizePage = () => {
         <>
             <Button
                 component={Link}
-                to={`/projects/${id}`}
+                to={routes.project(id)}
                 startIcon={<ArrowBackIosNewIcon />}
             >
                 Back to Project

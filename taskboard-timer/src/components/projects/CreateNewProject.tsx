@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import ProjectForm from "./ProjectForm";
 import { useNavigate } from "react-router-dom";
+import routes from "../../constants/routes";
 
 const CreateNewProject = () => {
     const navigate = useNavigate();
@@ -9,9 +10,7 @@ const CreateNewProject = () => {
         <Container maxWidth="sm">
             <ProjectForm
                 type="new"
-                onSave={(projectId) =>
-                    navigate(`/projects/${projectId}/new-tasks`)
-                }
+                onSave={(projectId) => navigate(routes.project(projectId))}
             />
         </Container>
     );

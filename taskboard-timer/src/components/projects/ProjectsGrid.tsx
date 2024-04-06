@@ -7,6 +7,7 @@ import { useProjectContext } from "../../providers/ProjectProvider";
 import { useEffect } from "react";
 import { StatusAlert } from "../StatusAlert";
 import { Project } from "../../constants/projects";
+import routes from "../../constants/routes";
 
 const ProjectsGrid = () => {
     const { data, isLoading, message, status, setProjectQuery } =
@@ -25,7 +26,7 @@ const ProjectsGrid = () => {
             </Typography>
             <Fab
                 component={Link}
-                to="/new-project"
+                to={routes.newProject()}
                 color="primary"
                 aria-label="create new project"
                 size="large"
