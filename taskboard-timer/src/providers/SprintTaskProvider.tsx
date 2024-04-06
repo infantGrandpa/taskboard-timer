@@ -1,8 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import useSprintTasks, {
-    SprintTask,
-    SprintTaskQuery,
-} from "../hooks/useSprintTasks";
+import useSprintTasks from "../hooks/useSprintTasks";
+import { SprintTask, SprintTaskQuery } from "../constants/sprintTasks";
 
 interface SprintTaskContentType {
     data: SprintTask[] | null;

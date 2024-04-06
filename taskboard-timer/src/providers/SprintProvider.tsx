@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import useSprints, { Sprint, SprintQuery } from "../hooks/useSprints";
+import useSprints from "../hooks/useSprints";
+import { Sprint, SprintQuery } from "../constants/sprints";
 
 interface SprintContentType {
     data: Sprint[] | null;

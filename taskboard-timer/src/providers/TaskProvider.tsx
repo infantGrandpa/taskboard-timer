@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import useTasks, { Task, TaskQuery } from "../hooks/useTasks";
+import useTasks from "../hooks/useTasks";
+import { Task, TaskQuery } from "../constants/tasks";
 
 interface TaskContentType {
     data: Task[] | null;

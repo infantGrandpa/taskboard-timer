@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import useProjects, { Project, ProjectQuery } from "../hooks/useProjects";
+import useProjects from "../hooks/useProjects";
+import { Project, ProjectQuery } from "../constants/projects";
 
 interface ProjectContentType {
     data: Project[] | null | Project;
