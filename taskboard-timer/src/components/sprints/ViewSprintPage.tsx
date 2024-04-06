@@ -1,18 +1,16 @@
 import { useParams } from "react-router-dom";
-import { SprintProvider } from "../../providers/SprintProvider";
-import SprintInfo from "./ViewSprint/SprintInfo";
+
+import { SprintTaskProvider } from "../../providers/SprintTaskProvider";
+import SprintTaskGrid from "./ViewSprint/SprintTaskGrid";
 
 const ViewSprintPage = () => {
-    const { id, sprintId } = useParams();
+    const { sprintId } = useParams();
     return (
-        <SprintProvider
-            initialSprintQuery={{
-                id: Number(sprintId),
-                project_id: Number(id),
-            }}
+        <SprintTaskProvider
+            initialSprintTaskQuery={{ sprint_id: Number(sprintId) }}
         >
-            <SprintInfo />
-        </SprintProvider>
+            <SprintTaskGrid />
+        </SprintTaskProvider>
     );
 };
 
