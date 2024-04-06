@@ -56,12 +56,12 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
                     <Typography variant="body2">
                         {project.description}
                     </Typography>
-                    <DateRange
-                        startDate={project.start_date}
-                        endDate={project.end_date}
-                        variant="subtitle2"
-                        sx={{ pt: 2 }}
-                    />
+                    <Typography variant="subtitle2" sx={{ pt: 2 }}>
+                        <DateRange
+                            startDate={project.start_date}
+                            endDate={project.end_date}
+                        />
+                    </Typography>
                 </CardContent>
             </CardActionArea>
         </Card>

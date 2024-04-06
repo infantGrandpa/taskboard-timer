@@ -48,11 +48,12 @@ const EditableProjectCard = ({ project }: Props) => {
                                 <Typography variant="subtitle1">
                                     {project.client}
                                 </Typography>
-                                <DateRange
-                                    startDate={project.start_date}
-                                    endDate={project.end_date}
-                                    variant="subtitle2"
-                                />
+                                <Typography variant="subtitle2">
+                                    <DateRange
+                                        startDate={project.start_date}
+                                        endDate={project.end_date}
+                                    />
+                                </Typography>
                             </Stack>
                             <Typography variant="body1">
                                 {project.description}

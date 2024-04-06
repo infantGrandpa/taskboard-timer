@@ -1,7 +1,6 @@
-import { Typography, TypographyProps } from "@mui/material";
 import { format } from "date-fns";
 
-interface Props extends TypographyProps {
+interface Props {
     startDate: Date | null;
     endDate: Date | null;
     dateFormat?: string;
@@ -11,7 +10,6 @@ const DateRange = ({
     startDate,
     endDate,
     dateFormat = "MMM dd, yyyy",
-    ...typographyProps
 }: Props) => {
     const formatDate = (dateToFormat: Date) => {
         const date = new Date(dateToFormat); //We get an error if we directly use dateToFormat.getTime()
@@ -23,11 +21,11 @@ const DateRange = ({
     };
 
     return (
-        <Typography {...typographyProps}>
+        <span>
             {startDate && formatDate(startDate)}
             {startDate && endDate && "\u2013" /* &ndash; "–" */}
             {endDate && formatDate(endDate)}
-        </Typography>
+        </span>
     );
 };
 
