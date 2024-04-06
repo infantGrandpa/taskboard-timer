@@ -10,6 +10,7 @@ import { deleteSprint } from "../../services/sprintService";
 import { Link } from "react-router-dom";
 import SortIcon from "@mui/icons-material/Sort";
 import DeleteIcon from "@mui/icons-material/Delete";
+import routes from "../../constants/routes";
 
 interface Props {
     sprint: Sprint;
@@ -38,7 +39,7 @@ const SprintListItem = ({ sprint }: Props) => {
         >
             <ListItemButton
                 component={Link}
-                to={`/projects/${sprint.project_id}/sprints/${sprint.id}`}
+                to={routes.editSprint(sprint.project_id, sprint.id)}
             >
                 <ListItemText>
                     {sprint.name.length > 0
