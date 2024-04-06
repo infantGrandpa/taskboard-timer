@@ -13,10 +13,6 @@ const DateRange = ({
     dateFormat = "MMM dd, yyyy",
     ...typographyProps
 }: Props) => {
-    if (!startDate || !endDate) {
-        return;
-    }
-
     const formatDate = (dateToFormat: Date) => {
         const date = new Date(dateToFormat); //We get an error if we directly use dateToFormat.getTime()
         const adjustedDate = new Date(
@@ -28,9 +24,9 @@ const DateRange = ({
 
     return (
         <Typography {...typographyProps}>
-            {formatDate(startDate)}
-            &ndash;
-            {formatDate(endDate)}
+            {startDate && formatDate(startDate)}
+            {startDate && endDate && "\u2013" /* &ndash; "–" */}
+            {endDate && formatDate(endDate)}
         </Typography>
     );
 };
