@@ -8,6 +8,8 @@ const routes = {
         `/projects/${projectId}/sprints/${sprintId}/edit`,
     prioritizeTasks: (projectId: any, sprintId: any) =>
         `/projects/${projectId}/sprints/${sprintId}/prioritize`,
+    sprint: (projectId: any, sprintId: any) =>
+        `/projects/${projectId}/sprints/${sprintId}`,
 };
 
 export default routes;

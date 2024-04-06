@@ -10,6 +10,7 @@ import { deleteSprint } from "../../services/sprintService";
 import { Link } from "react-router-dom";
 import SortIcon from "@mui/icons-material/Sort";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import routes from "../../constants/routes";
 
 interface Props {
@@ -27,6 +28,12 @@ const SprintListItem = ({ sprint }: Props) => {
                 <Stack direction="row">
                     <IconButton
                         component={Link}
+                        to={routes.editSprint(sprint.project_id, sprint.id)}
+                    >
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton
+                        component={Link}
                         to={routes.prioritizeTasks(
                             sprint.project_id,
                             sprint.id
@@ -42,7 +49,7 @@ const SprintListItem = ({ sprint }: Props) => {
         >
             <ListItemButton
                 component={Link}
-                to={routes.editSprint(sprint.project_id, sprint.id)}
+                to={routes.sprint(sprint.project_id, sprint.id)}
             >
                 <ListItemText>
                     {sprint.name.length > 0

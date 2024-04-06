@@ -14,6 +14,7 @@ import EditSprintPage from "./components/sprints/EditSprintPage";
 import SprintPrioritizePage from "./components/sprints/SprintPrioritizePage";
 import { SprintTaskProvider } from "./providers/SprintTaskProvider";
 import routes from "./constants/routes";
+import ViewSprintPage from "./components/sprints/ViewSprintPage";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -70,12 +71,19 @@ function App() {
                                 element={<EditSprintPage />}
                             />
                             <Route
-                                path={routes.prioritizeTasks(":id", ":sprintId")}
+                                path={routes.prioritizeTasks(
+                                    ":id",
+                                    ":sprintId"
+                                )}
                                 element={
                                     <SprintTaskProvider>
                                         <SprintPrioritizePage />
                                     </SprintTaskProvider>
                                 }
+                            />
+                            <Route
+                                path={routes.sprint(":id", ":sprintId")}
+                                element={<ViewSprintPage />}
                             />
                         </Routes>
                     </Container>
