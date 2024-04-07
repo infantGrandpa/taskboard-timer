@@ -142,6 +142,7 @@ def get_tasks_in_sprint():
 
         # Convert tasks to a dict format for JSON response
         sprint_task_data = [{
+            'sprint_id': this_sprint_task.sprint_id,
             'task_id': this_sprint_task.task_id, 
             'priority': this_sprint_task.priority.name, 
             'status': this_sprint_task.status.name, 

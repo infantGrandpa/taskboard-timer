@@ -9,6 +9,9 @@ interface Props {
 }
 
 const SprintTaskCard = ({ sprintTask }: Props) => {
+    console.log("IN CARD");
+    console.log(sprintTask);
+
     return (
         <Card>
             <CardContent>

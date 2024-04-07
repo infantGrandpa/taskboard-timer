@@ -20,6 +20,9 @@ const SprintTaskGrid = () => {
     const { id, sprintId } = useParams();
     const { data, isLoading, message, status } = useSprintTaskContext();
 
+    console.log("IN GRID");
+    console.log(data);
+
     if (isLoading) {
         return <LoadingBackdrop />;
     }

@@ -16,6 +16,10 @@ const ReversePriorityLabels: ReverseMapping = Object.entries(
 
 // Use this to convert "Won't Have" into "WONT_HAVE"
 export const getPriorityEnumKey = (label: string): string | null => {
+    if (label in PriorityLabels) {
+        return label;
+    }
+
     return ReversePriorityLabels[label] || null;
 };
 

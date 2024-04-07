@@ -9,6 +9,9 @@ interface Props {
 }
 
 const SprintTaskCell = ({ tasks, priority, status }: Props) => {
+    console.log("IN CELL");
+    console.log(tasks);
+
     return (
         <Stack spacing={1}>
             <Stack direction="row" justifyContent="space-between">
