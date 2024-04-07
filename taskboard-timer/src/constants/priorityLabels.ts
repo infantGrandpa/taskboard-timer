@@ -1,8 +1,8 @@
 export const PriorityLabels: { [key: string]: string } = {
-    WONT_HAVE: "Won't Have",
-    COULD_HAVE: "Could Have",
-    SHOULD_HAVE: "Should Have",
     MUST_HAVE: "Must Have",
+    SHOULD_HAVE: "Should Have",
+    COULD_HAVE: "Could Have",
+    WONT_HAVE: "Won't Have",
 };
 
 type ReverseMapping = { [key: string]: string };
@@ -14,7 +14,12 @@ const ReversePriorityLabels: ReverseMapping = Object.entries(
     return accumulator;
 }, {});
 
-// Function to get enum key from value
+// Use this to convert "Won't Have" into "WONT_HAVE"
 export const getPriorityEnumKey = (label: string): string | null => {
     return ReversePriorityLabels[label] || null;
+};
+
+export const getPriorityByIndex = (index: number): string => {
+    const priorityValues = Object.values(PriorityLabels);
+    return priorityValues[index];
 };

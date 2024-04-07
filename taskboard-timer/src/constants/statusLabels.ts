@@ -7,14 +7,20 @@ export const StatusLabels: { [key: string]: string } = {
 
 type ReverseMapping = { [key: string]: string };
 
-const ReverseStatusLabels: ReverseMapping = Object.entries(
-    StatusLabels
-).reduce((accumulator: ReverseMapping, [key, value]) => {
-    accumulator[value] = key;
-    return accumulator;
-}, {});
+const ReverseStatusLabels: ReverseMapping = Object.entries(StatusLabels).reduce(
+    (accumulator: ReverseMapping, [key, value]) => {
+        accumulator[value] = key;
+        return accumulator;
+    },
+    {}
+);
 
-// Function to get enum key from value
+// Use this to convert "To Do" into "TODO"
 export const getStatusEnumKey = (label: string): string | null => {
     return ReverseStatusLabels[label] || null;
+};
+
+export const getStatusByIndex = (index: number): string => {
+    const statusValues = Object.values(StatusLabels);
+    return statusValues[index];
 };
