@@ -24,3 +24,7 @@ export const getStatusByIndex = (index: number): string => {
     const statusValues = Object.values(StatusLabels);
     return statusValues[index];
 };
+
+export const getStatusLabel = (enumKey: string): string => {
+    return StatusLabels[enumKey];
+};

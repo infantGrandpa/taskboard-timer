@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import {
     StatusLabels,
-    getStatusByIndex,
     getStatusEnumKey,
 } from "../../../constants/statusLabels";
 import { SprintProvider } from "../../../providers/SprintProvider";
@@ -49,7 +48,8 @@ const SprintTaskGrid = () => {
                 spacing={2}
                 sx={{
                     "& > div": {
-                        border: "1px dashed grey",
+                        borderRight: "1px dashed grey",
+                        borderBottom: "1px dashed grey",
                     },
                 }}
             >
@@ -79,20 +79,15 @@ const SprintTaskGrid = () => {
                         <Grid {...headerColWidth} sx={{ minHeight: "200px" }}>
                             {priority}
                         </Grid>
-                        {Array(4)
-                            .fill("Task")
-                            .map((_, index) => (
-                                <Grid {...columnWidth} key={index}>
-                                    <SprintTaskCell
-                                        tasks={filterTasks(
-                                            priority,
-                                            getStatusByIndex(index)
-                                        )}
-                                        priority={priority}
-                                        status={getStatusByIndex(index)}
-                                    />
-                                </Grid>
-                            ))}
+                        {Object.values(StatusLabels).map((status) => (
+                            <Grid {...columnWidth} key={status}>
+                                <SprintTaskCell
+                                    tasks={filterTasks(priority, status)}
+                                    priority={priority}
+                                    status={status}
+                                />
+                            </Grid>
+                        ))}
                     </React.Fragment>
                 ))}
             </Grid>

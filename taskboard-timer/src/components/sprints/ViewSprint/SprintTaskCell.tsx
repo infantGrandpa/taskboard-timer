@@ -11,9 +11,10 @@ interface Props {
 const SprintTaskCell = ({ tasks, priority, status }: Props) => {
     return (
         <Stack spacing={1}>
-            <Typography variant="caption">
-                {priority} {status}
-            </Typography>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography variant="caption">{priority}</Typography>
+                <Typography variant="caption">{status}</Typography>
+            </Stack>
             {tasks?.map((task) => (
                 <SprintTaskCard sprintTask={task} key={task.task_id} />
             ))}

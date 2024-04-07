@@ -23,3 +23,7 @@ export const getPriorityByIndex = (index: number): string => {
     const priorityValues = Object.values(PriorityLabels);
     return priorityValues[index];
 };
+
+export const getPriorityLabel = (enumKey: string): string => {
+    return PriorityLabels[enumKey];
+};
