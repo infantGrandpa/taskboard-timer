@@ -2,23 +2,15 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { SprintTask } from "../../../constants/sprintTasks";
 
 interface Props {
-    tasks: SprintTask[] | undefined;
-    priority: string;
-    status: string;
+    sprintTask: SprintTask;
 }
 
-const SprintTaskCard = ({ tasks, priority, status }: Props) => {
+const SprintTaskCard = ({ sprintTask }: Props) => {
     return (
         <Card>
             <CardContent>
-                <Typography variant="h5">
-                    {tasks ? tasks.length : "???"} Tasks
-                </Typography>
-                <Typography variant="subtitle1" display="block">
-                    {priority}
-                </Typography>
-                <Typography variant="subtitle2" display="block">
-                    {status}
+                <Typography variant="body1">
+                    {sprintTask.task_details.name}
                 </Typography>
             </CardContent>
         </Card>

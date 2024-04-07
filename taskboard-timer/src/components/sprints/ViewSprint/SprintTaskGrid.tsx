@@ -12,7 +12,7 @@ import {
     getPriorityEnumKey,
 } from "../../../constants/priorityLabels";
 import React from "react";
-import SprintTaskCard from "./SprintTaskCard";
+import SprintTaskCell from "./SprintTaskCell";
 import { useSprintTaskContext } from "../../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../../LoadingBackdrop";
 import { StatusAlert } from "../../StatusAlert";
@@ -28,9 +28,6 @@ const SprintTaskGrid = () => {
     const headerColWidth = { xs: 12, sm: 4 } as const;
     const columnWidth = { xs: 12, sm: 2 } as const;
 
-    console.log("data");
-    console.log(data);
-
     const filterTasks = (priority: string, status: string) => {
         if (!data) {
             console.error("NO DATA FOR FILTERING");
@@ -44,13 +41,18 @@ const SprintTaskGrid = () => {
         );
     };
 
-    console.log("filter");
-    console.log(filterTasks("WONT_HAVE", "TODO"));
-
     return (
         <>
             {status && <StatusAlert status={status} message={message} />}
-            <Grid container spacing={2}>
+            <Grid
+                container
+                spacing={2}
+                sx={{
+                    "& > div": {
+                        border: "1px dashed grey",
+                    },
+                }}
+            >
                 <Grid {...headerColWidth}>
                     <SprintProvider
                         initialSprintQuery={{
@@ -74,12 +76,14 @@ const SprintTaskGrid = () => {
                 ))}
                 {Object.values(PriorityLabels).map((priority) => (
                     <React.Fragment key={priority}>
-                        <Grid {...headerColWidth}>{priority}</Grid>
+                        <Grid {...headerColWidth} sx={{ minHeight: "200px" }}>
+                            {priority}
+                        </Grid>
                         {Array(4)
                             .fill("Task")
                             .map((_, index) => (
                                 <Grid {...columnWidth} key={index}>
-                                    <SprintTaskCard
+                                    <SprintTaskCell
                                         tasks={filterTasks(
                                             priority,
                                             getStatusByIndex(index)
