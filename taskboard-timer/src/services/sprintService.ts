@@ -5,10 +5,7 @@ import {
 import { Sprint, SprintCreationData } from "../constants/sprints";
 import { PriorityLabels } from "../constants/priorityLabels";
 import { StatusLabels } from "../constants/statusLabels";
-import {
-    getEnumKeyFromLabel,
-    getLabelByEnumKey,
-} from "../utilities/labelHelper";
+import { getEnumKeyFromLabel } from "../utilities/labelHelper";
 import handleRequest from "./requestService";
 
 const addSprint = async (sprintData: SprintCreationData) => {
