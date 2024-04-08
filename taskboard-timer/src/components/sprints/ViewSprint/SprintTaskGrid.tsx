@@ -24,7 +24,7 @@ const SprintTaskGrid = () => {
 
     const filterTasks = (priority: string, status: string) => {
         if (!data) {
-            console.error("NO TASK DATA TO FILTERING");
+            console.error("ERROR: NO TASK DATA TO FILTER");
             return;
         }
 

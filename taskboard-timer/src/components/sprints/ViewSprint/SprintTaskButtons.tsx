@@ -15,12 +15,15 @@ import {
     getPreviousLabel,
 } from "../../../utilities/labelHelper";
 import { PriorityLabels } from "../../../constants/priorityLabels";
+import { useSprintTaskContext } from "../../../providers/SprintTaskProvider";
 
 interface Props {
     sprintTask: SprintTask;
 }
 
 const SprintTaskButtons = ({ sprintTask }: Props) => {
+    const { updateTask } = useSprintTaskContext();
+
     const handleChangeStatus = (newStatus: string | null) => {
         if (!newStatus) {
             console.error(`ERROR: Status ${newStatus} is invalid.`);
@@ -36,7 +39,8 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
 
         console.log(newSprintTaskData);
 
-        editSprintTask(newSprintTaskData);
+        /* editSprintTask(newSprintTaskData); */
+        updateTask(newSprintTaskData).catch(console.error);
     };
 
     const handleChangePriority = (newPriority: string | null) => {
@@ -54,7 +58,8 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
 
         console.log(newSprintTaskData);
 
-        editSprintTask(newSprintTaskData);
+        /* editSprintTask(newSprintTaskData); */
+        updateTask(newSprintTaskData).catch(console.error);
     };
 
     return (

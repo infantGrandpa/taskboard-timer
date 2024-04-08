@@ -1,6 +1,17 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+    ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import useSprintTasks from "../hooks/useSprintTasks";
-import { SprintTask, SprintTaskQuery } from "../constants/sprintTasks";
+import {
+    SprintTask,
+    SprintTaskCreationData,
+    SprintTaskQuery,
+} from "../constants/sprintTasks";
+import { editSprintTask } from "../services/sprintService";
 
 interface SprintTaskContentType {
     data: SprintTask[] | null;
@@ -9,6 +20,7 @@ interface SprintTaskContentType {
     status: string | undefined;
     sprintTaskQuery?: SprintTaskQuery;
     setSprintTaskQuery: (query: SprintTaskQuery) => void;
+    updateTask: (newSprintTaskData: SprintTaskCreationData) => Promise<void>;
 }
 
 const SprintTaskContext = createContext<SprintTaskContentType>({
@@ -17,7 +29,8 @@ const SprintTaskContext = createContext<SprintTaskContentType>({
     message: undefined,
     status: undefined,
     sprintTaskQuery: undefined,
-    setSprintTaskQuery: () => void 0,
+    setSprintTaskQuery: () => {},
+    updateTask: async () => {},
 });
 
 interface Props {
@@ -35,15 +48,45 @@ const SprintTaskProvider = ({ children, initialSprintTaskQuery }: Props) => {
     const { data, isLoading, message, status } =
         useSprintTasks(sprintTaskQuery);
 
+    const [sprintTaskData, setSprintTaskData] = useState(data);
+
+    useEffect(() => {
+        setSprintTaskData(data);
+    }, [data]);
+
+    const updateTask = async (newSprintTaskData: SprintTaskCreationData) => {
+        // Optimistically update the state
+        const optimisticData = sprintTaskData.map((sprintTask) => {
+            console.log(sprintTask);
+            if (sprintTask.task_id === newSprintTaskData.task_id) {
+                // Log to see when a match is found
+                console.log(`Match found for task_id: ${sprintTask.task_id}`);
+                return { ...sprintTask, ...newSprintTaskData }; // Update the matched task
+            } else {
+                return sprintTask; // Return the task unchanged
+            }
+        });
+
+        setSprintTaskData(optimisticData);
+
+        try {
+            await editSprintTask(newSprintTaskData);
+        } catch (error) {
+            setSprintTaskData(data);
+            console.error(error);
+        }
+    };
+
     return (
         <SprintTaskContext.Provider
             value={{
-                data: data,
+                data: sprintTaskData,
                 isLoading: isLoading,
                 message: message,
                 status: status,
                 sprintTaskQuery: sprintTaskQuery,
                 setSprintTaskQuery: setSprintTaskQuery,
+                updateTask: updateTask,
             }}
         >
             {children}
