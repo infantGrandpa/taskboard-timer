@@ -5,7 +5,10 @@ import {
 import { Sprint, SprintCreationData } from "../constants/sprints";
 import { PriorityLabels } from "../constants/priorityLabels";
 import { StatusLabels } from "../constants/statusLabels";
-import { getLabelByEnumKey } from "../utilities/labelHelper";
+import {
+    getEnumKeyFromLabel,
+    getLabelByEnumKey,
+} from "../utilities/labelHelper";
 import handleRequest from "./requestService";
 
 const addSprint = async (sprintData: SprintCreationData) => {
@@ -48,11 +51,21 @@ const addTasksToSprint = async (
 };
 
 const editSprintTask = async (newSprintTaskData: SprintTaskCreationData) => {
+    const priorityKey = getEnumKeyFromLabel(
+        newSprintTaskData.priority,
+        PriorityLabels
+    );
+
+    const statusKey = getEnumKeyFromLabel(
+        newSprintTaskData.status,
+        StatusLabels
+    );
+
     const updateData = {
         sprint_id: newSprintTaskData.sprint_id,
         task_id: newSprintTaskData.task_id,
-        priority: getLabelByEnumKey(newSprintTaskData.priority, PriorityLabels),
-        status: getLabelByEnumKey(newSprintTaskData.status, StatusLabels),
+        priority: priorityKey,
+        status: statusKey,
     };
 
     const responseData = await handleRequest(

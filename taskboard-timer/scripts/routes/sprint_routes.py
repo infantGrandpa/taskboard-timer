@@ -167,12 +167,17 @@ def edit_tasks_in_sprint():
     if new_status_value is None:
         return jsonify({"status": RequestStatus.ERROR, "message": "Status not provided."}), 400
 
+    # Get Priority
     try:
         new_priority = get_priority_from_string(new_priority_value)
+    except ValueError:
+        return jsonify({'status': RequestStatus.ERROR, 'message': f'Provided priority {new_priority_value} is invalid.'}), 400
+    
+    # Get Status
+    try:
         new_status = get_status_from_string(new_status_value)
     except ValueError:
-        # Handle case where provided priority or status is invalid
-        return jsonify({'status': RequestStatus.ERROR, 'message': 'Invalid priority or status value.'}), 400
+        return jsonify({'status': RequestStatus.ERROR, 'message': f'Provided status {new_status_value} is invalid.'}), 400
     
     # Fetch the SprintTask to update
     sprint_task = SprintTask.query.filter_by(sprint_id=sprint_id, task_id=task_id).first()

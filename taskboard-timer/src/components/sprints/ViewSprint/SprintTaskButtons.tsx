@@ -9,7 +9,12 @@ import {
 } from "../../../constants/sprintTasks";
 import { StatusLabels } from "../../../constants/statusLabels";
 import { editSprintTask } from "../../../services/sprintService";
-import { getNextLabel, getPreviousLabel } from "../../../utilities/labelHelper";
+import {
+    getEnumKeyFromLabel,
+    getNextLabel,
+    getPreviousLabel,
+} from "../../../utilities/labelHelper";
+import { PriorityLabels } from "../../../constants/priorityLabels";
 
 interface Props {
     sprintTask: SprintTask;
@@ -19,14 +24,35 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
     const handleChangeStatus = (newStatus: string | null) => {
         if (!newStatus) {
             console.error(`ERROR: Status ${newStatus} is invalid.`);
+            return;
         }
 
         const newSprintTaskData = {
             sprint_id: sprintTask.sprint_id,
             task_id: sprintTask.task_id,
             priority: sprintTask.priority,
-            status: newStatus,
+            status: getEnumKeyFromLabel(newStatus, StatusLabels),
         } as SprintTaskCreationData;
+
+        console.log(newSprintTaskData);
+
+        editSprintTask(newSprintTaskData);
+    };
+
+    const handleChangePriority = (newPriority: string | null) => {
+        if (!newPriority) {
+            console.error(`ERROR: Priority ${newPriority} is invalid.`);
+            return;
+        }
+
+        const newSprintTaskData = {
+            sprint_id: sprintTask.sprint_id,
+            task_id: sprintTask.task_id,
+            priority: newPriority,
+            status: sprintTask.status,
+        } as SprintTaskCreationData;
+
+        console.log(newSprintTaskData);
 
         editSprintTask(newSprintTaskData);
     };
@@ -59,10 +85,28 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
                     alignItems="center"
                     spacing={2}
                 >
-                    <IconButton>
+                    <IconButton
+                        onClick={() =>
+                            handleChangePriority(
+                                getPreviousLabel(
+                                    sprintTask.priority,
+                                    PriorityLabels
+                                )
+                            )
+                        }
+                    >
                         <KeyboardArrowUpIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                        onClick={() =>
+                            handleChangePriority(
+                                getNextLabel(
+                                    sprintTask.priority,
+                                    PriorityLabels
+                                )
+                            )
+                        }
+                    >
                         <KeyboardArrowDownIcon />
                     </IconButton>
                 </Stack>
