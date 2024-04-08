@@ -57,10 +57,8 @@ const SprintTaskProvider = ({ children, initialSprintTaskQuery }: Props) => {
     const updateTask = async (newSprintTaskData: SprintTaskCreationData) => {
         // Optimistically update the state
         const optimisticData = sprintTaskData.map((sprintTask) => {
-            console.log(sprintTask);
             if (sprintTask.task_id === newSprintTaskData.task_id) {
                 // Log to see when a match is found
-                console.log(`Match found for task_id: ${sprintTask.task_id}`);
                 return { ...sprintTask, ...newSprintTaskData }; // Update the matched task
             } else {
                 return sprintTask; // Return the task unchanged

@@ -8,7 +8,6 @@ import {
     SprintTaskCreationData,
 } from "../../../constants/sprintTasks";
 import { StatusLabels } from "../../../constants/statusLabels";
-import { editSprintTask } from "../../../services/sprintService";
 import {
     getEnumKeyFromLabel,
     getNextLabel,
@@ -52,7 +51,7 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
         const newSprintTaskData = {
             sprint_id: sprintTask.sprint_id,
             task_id: sprintTask.task_id,
-            priority: newPriority,
+            priority: getEnumKeyFromLabel(newPriority, PriorityLabels),
             status: sprintTask.status,
         } as SprintTaskCreationData;
 
