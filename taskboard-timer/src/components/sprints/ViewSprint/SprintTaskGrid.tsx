@@ -1,27 +1,19 @@
 import Grid from "@mui/material/Unstable_Grid2";
-import {
-    StatusLabels,
-    getStatusEnumKey,
-} from "../../../constants/statusLabels";
+import { StatusLabels } from "../../../constants/statusLabels";
 import { SprintProvider } from "../../../providers/SprintProvider";
 import SprintInfo from "./SprintInfo";
 import { useParams } from "react-router-dom";
-import {
-    PriorityLabels,
-    getPriorityEnumKey,
-} from "../../../constants/priorityLabels";
+import { PriorityLabels } from "../../../constants/priorityLabels";
 import React from "react";
 import SprintTaskCell from "./SprintTaskCell";
 import { useSprintTaskContext } from "../../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../../LoadingBackdrop";
 import { StatusAlert } from "../../StatusAlert";
+import { getEnumKeyFromLabel } from "../../../utilities/labelHelper";
 
 const SprintTaskGrid = () => {
     const { id, sprintId } = useParams();
     const { data, isLoading, message, status } = useSprintTaskContext();
-
-    console.log("IN GRID");
-    console.log(data);
 
     if (isLoading) {
         return <LoadingBackdrop />;
@@ -32,14 +24,17 @@ const SprintTaskGrid = () => {
 
     const filterTasks = (priority: string, status: string) => {
         if (!data) {
-            console.error("NO DATA FOR FILTERING");
+            console.error("NO TASK DATA TO FILTERING");
             return;
         }
 
+        const priorityEnumKey = getEnumKeyFromLabel(priority, PriorityLabels);
+        const statusEnumKey = getEnumKeyFromLabel(status, StatusLabels);
+
         return data.filter(
             (task) =>
-                task.priority === getPriorityEnumKey(priority) &&
-                task.status === getStatusEnumKey(status)
+                task.priority === priorityEnumKey &&
+                task.status === statusEnumKey
         );
     };
 

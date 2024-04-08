@@ -7,20 +7,15 @@ import {
     SprintTask,
     SprintTaskCreationData,
 } from "../../../constants/sprintTasks";
-import {
-    getNextStatus,
-    getPreviousStatus,
-} from "../../../constants/statusLabels";
+import { StatusLabels } from "../../../constants/statusLabels";
 import { editSprintTask } from "../../../services/sprintService";
+import { getNextLabel, getPreviousLabel } from "../../../utilities/labelHelper";
 
 interface Props {
     sprintTask: SprintTask;
 }
 
 const SprintTaskButtons = ({ sprintTask }: Props) => {
-    console.log("IN BUTTONS");
-    console.log(sprintTask);
-
     const handleChangeStatus = (newStatus: string | null) => {
         if (!newStatus) {
             console.error(`ERROR: Status ${newStatus} is invalid.`);
@@ -32,9 +27,6 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
             priority: sprintTask.priority,
             status: newStatus,
         } as SprintTaskCreationData;
-
-        console.log("newSprintTaskData");
-        console.log(newSprintTaskData);
 
         editSprintTask(newSprintTaskData);
     };
@@ -53,7 +45,9 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
             >
                 <IconButton
                     onClick={() =>
-                        handleChangeStatus(getPreviousStatus(sprintTask.status))
+                        handleChangeStatus(
+                            getPreviousLabel(sprintTask.status, StatusLabels)
+                        )
                     }
                 >
                     <KeyboardArrowLeftIcon />
@@ -75,7 +69,9 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
 
                 <IconButton
                     onClick={() =>
-                        handleChangeStatus(getNextStatus(sprintTask.status))
+                        handleChangeStatus(
+                            getNextLabel(sprintTask.status, StatusLabels)
+                        )
                     }
                 >
                     <KeyboardArrowRightIcon />

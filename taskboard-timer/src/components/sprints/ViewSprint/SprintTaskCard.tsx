@@ -1,17 +1,15 @@
 import { Card, CardContent, Stack, Typography } from "@mui/material";
 import { SprintTask } from "../../../constants/sprintTasks";
-import { getPriorityLabel } from "../../../constants/priorityLabels";
-import { getStatusLabel } from "../../../constants/statusLabels";
+import { PriorityLabels } from "../../../constants/priorityLabels";
+import { StatusLabels } from "../../../constants/statusLabels";
 import SprintTaskButtons from "./SprintTaskButtons";
+import { getLabelByEnumKey } from "../../../utilities/labelHelper";
 
 interface Props {
     sprintTask: SprintTask;
 }
 
 const SprintTaskCard = ({ sprintTask }: Props) => {
-    console.log("IN CARD");
-    console.log(sprintTask);
-
     return (
         <Card>
             <CardContent>
@@ -20,10 +18,10 @@ const SprintTaskCard = ({ sprintTask }: Props) => {
                 </Typography>
                 <Stack direction="row" justifyContent="space-between">
                     <Typography variant="caption" display="block">
-                        {getPriorityLabel(sprintTask.priority)}
+                        {getLabelByEnumKey(sprintTask.priority, PriorityLabels)}
                     </Typography>
                     <Typography variant="caption" display="block">
-                        {getStatusLabel(sprintTask.status)}
+                        {getLabelByEnumKey(sprintTask.status, StatusLabels)}
                     </Typography>
                 </Stack>
                 <SprintTaskButtons sprintTask={sprintTask} />

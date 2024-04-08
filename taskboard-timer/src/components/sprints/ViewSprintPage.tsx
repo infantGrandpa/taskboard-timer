@@ -5,6 +5,7 @@ import SprintTaskGrid from "./ViewSprint/SprintTaskGrid";
 
 const ViewSprintPage = () => {
     const { sprintId } = useParams();
+
     return (
         <SprintTaskProvider
             initialSprintTaskQuery={{ sprint_id: Number(sprintId) }}
