@@ -36,8 +36,6 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
             status: getEnumKeyFromLabel(newStatus, StatusLabels),
         } as SprintTaskCreationData;
 
-        console.log(newSprintTaskData);
-
         /* editSprintTask(newSprintTaskData); */
         updateTask(newSprintTaskData).catch(console.error);
     };
@@ -54,8 +52,6 @@ const SprintTaskButtons = ({ sprintTask }: Props) => {
             priority: getEnumKeyFromLabel(newPriority, PriorityLabels),
             status: sprintTask.status,
         } as SprintTaskCreationData;
-
-        console.log(newSprintTaskData);
 
         /* editSprintTask(newSprintTaskData); */
         updateTask(newSprintTaskData).catch(console.error);
