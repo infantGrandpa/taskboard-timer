@@ -1,6 +1,13 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+    ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import useSprints from "../hooks/useSprints";
 import { Sprint, SprintQuery } from "../constants/sprints";
+import { deleteSprint } from "../services/sprintService";
 
 interface SprintContentType {
     data: Sprint[] | null;
@@ -9,6 +16,7 @@ interface SprintContentType {
     status: string | undefined;
     sprintQuery?: SprintQuery;
     setSprintQuery: (query: SprintQuery) => void;
+    deleteSprint: (sprintToDelete: Sprint) => Promise<void>;
 }
 
 const SprintContext = createContext<SprintContentType>({
@@ -17,7 +25,8 @@ const SprintContext = createContext<SprintContentType>({
     message: undefined,
     status: undefined,
     sprintQuery: undefined,
-    setSprintQuery: () => void 0,
+    setSprintQuery: () => {},
+    deleteSprint: async () => {},
 });
 
 interface Props {
@@ -32,15 +41,37 @@ const SprintProvider = ({ children, initialSprintQuery }: Props) => {
 
     const { data, isLoading, message, status } = useSprints(sprintQuery);
 
+    const [sprintData, setSprintData] = useState(data);
+
+    useEffect(() => {
+        setSprintData(data);
+    }, [data]);
+
+    const deleteSprintOptimistic = async (sprintToDelete: Sprint) => {
+        const optimisticData = sprintData.filter(
+            (sprint) => sprint.id !== sprintToDelete.id
+        );
+
+        setSprintData(optimisticData);
+
+        try {
+            await deleteSprint(sprintToDelete);
+        } catch (error) {
+            setSprintData(data);
+            console.error(error);
+        }
+    };
+
     return (
         <SprintContext.Provider
             value={{
-                data: data,
+                data: sprintData,
                 isLoading: isLoading,
                 message: message,
                 status: status,
                 sprintQuery: sprintQuery,
                 setSprintQuery: setSprintQuery,
+                deleteSprint: deleteSprintOptimistic,
             }}
         >
             {children}

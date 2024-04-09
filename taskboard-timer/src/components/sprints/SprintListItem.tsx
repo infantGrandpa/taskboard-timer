@@ -6,20 +6,22 @@ import {
     ListItemText,
     Stack,
 } from "@mui/material";
-import { deleteSprint } from "../../services/sprintService";
 import { Link } from "react-router-dom";
 import SortIcon from "@mui/icons-material/Sort";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import routes from "../../constants/routes";
+import { useSprintContext } from "../../providers/SprintProvider";
 
 interface Props {
     sprint: Sprint;
 }
 
 const SprintListItem = ({ sprint }: Props) => {
-    const handleDeleteSprint = async (sprint: Sprint) => {
-        await deleteSprint(sprint);
+    const { deleteSprint } = useSprintContext();
+
+    const handleDeleteSprint = (sprint: Sprint) => {
+        deleteSprint(sprint).catch(console.error);
     };
 
     return (
