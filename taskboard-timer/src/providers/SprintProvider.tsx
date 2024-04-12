@@ -44,6 +44,12 @@ const SprintProvider = ({ children, initialSprintQuery }: Props) => {
     const [sprintData, setSprintData] = useState(data);
 
     useEffect(() => {
+        setSprintQuery(
+            initialSprintQuery ? initialSprintQuery : ({} as SprintQuery)
+        );
+    }, [initialSprintQuery]);
+
+    useEffect(() => {
         setSprintData(data);
     }, [data]);
 

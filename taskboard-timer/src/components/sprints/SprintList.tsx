@@ -17,24 +17,25 @@ const SprintList = () => {
 
     const projectId = sprintQuery?.project_id;
 
-    if (!projectId) {
-        return <ErrorMessage message="No project id!" />;
-    }
-
     return (
         <>
             {status && <StatusAlert status={status} message={message} />}
+            {!projectId && (
+                <ErrorMessage message="The sprint list is missing a project id!" />
+            )}
             <Accordion defaultExpanded>
                 <AccordionSummary
                     expandIcon={
-                        <NewSprintButton
-                            projectId={projectId}
-                            onCreateNew={() =>
-                                setSprintQuery({
-                                    project_id: projectId,
-                                } as SprintQuery)
-                            }
-                        />
+                        projectId && (
+                            <NewSprintButton
+                                projectId={projectId}
+                                onCreateNew={() =>
+                                    setSprintQuery({
+                                        project_id: projectId,
+                                    } as SprintQuery)
+                                }
+                            />
+                        )
                     }
                     aria-controls="sprint-list-content"
                     id="sprint-list-header"
