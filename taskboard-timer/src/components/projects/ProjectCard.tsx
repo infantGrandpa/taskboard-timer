@@ -2,6 +2,8 @@ import {
     Card,
     CardActionArea,
     CardContent,
+    ListItemIcon,
+    ListItemText,
     Menu,
     MenuItem,
     Stack,
@@ -14,6 +16,8 @@ import DateRange from "../DateRange";
 import { Project } from "../../constants/projects";
 import routes from "../../constants/routes";
 import React, { useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteProject } from "../../services/projectService";
 
 interface Props {
     project: Project;
@@ -44,6 +48,11 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
         setContextMenu(null);
     };
 
+    const handleDelete = async () => {
+        await deleteProject(project);
+        handleCloseContextMenu();
+    };
+
     return (
         <div onContextMenu={handleContextMenu}>
             <Menu
@@ -56,7 +65,12 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
                         : undefined
                 }
             >
-                <MenuItem onClick={handleCloseContextMenu}>Test Item</MenuItem>
+                <MenuItem onClick={handleDelete}>
+                    <ListItemIcon>
+                        <DeleteIcon />
+                    </ListItemIcon>
+                    <ListItemText>Delete Project</ListItemText>
+                </MenuItem>
             </Menu>
             <Card
                 sx={{
