@@ -10,6 +10,7 @@ import { useSprintTaskContext } from "../../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../../LoadingBackdrop";
 import { StatusAlert } from "../../StatusAlert";
 import { getEnumKeyFromLabel } from "../../../utilities/labelHelper";
+import ErrorMessage from "../../ErrorMessage";
 
 const SprintTaskGrid = () => {
     const { id, sprintId } = useParams();
@@ -23,8 +24,7 @@ const SprintTaskGrid = () => {
     const columnWidth = { xs: 12, sm: 2 } as const;
 
     const filterTasks = (priority: string, status: string) => {
-        if (!data) {
-            console.error("ERROR: NO TASK DATA TO FILTER");
+        if (!Array.isArray(data)) {
             return;
         }
 
