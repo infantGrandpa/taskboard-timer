@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+    ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import useTasks from "../hooks/useTasks";
 import { Task, TaskQuery } from "../constants/tasks";
 
@@ -31,6 +37,10 @@ const TaskProvider = ({ children, initialTaskQuery }: Props) => {
     );
 
     const { data, isLoading, message, status } = useTasks(taskQuery);
+
+    useEffect(() => {
+        setTaskQuery(initialTaskQuery ? initialTaskQuery : ({} as TaskQuery));
+    }, [initialTaskQuery]);
 
     return (
         <TaskContext.Provider
