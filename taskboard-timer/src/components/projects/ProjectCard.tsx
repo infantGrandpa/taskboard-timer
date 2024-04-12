@@ -1,7 +1,13 @@
 import {
+    Button,
     Card,
     CardActionArea,
     CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     ListItemIcon,
     ListItemText,
     Menu,
@@ -24,6 +30,7 @@ interface Props {
 
 const ProjectCard = ({ project, variant }: Props) => {
     const { deleteProject } = useProjectContext();
+    const [openDialog, setOpenDialog] = useState(false);
 
     const isFeatured = variant === "featured";
     const [contextMenu, setContextMenu] = useState<{
@@ -49,7 +56,16 @@ const ProjectCard = ({ project, variant }: Props) => {
 
     const handleDelete = () => {
         deleteProject(project).catch(console.error);
+        handleCloseDialog();
+    };
+
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
         handleCloseContextMenu();
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
     };
 
     return (
@@ -57,6 +73,23 @@ const ProjectCard = ({ project, variant }: Props) => {
             onContextMenu={handleContextMenu}
             style={{ display: "flex", width: "100%" }}
         >
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle>Delete "{project.name}" Project?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to delete the "{project.name}"
+                        project? This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={handleCloseDialog}>
+                        Cancel
+                    </Button>
+                    <Button color="error" onClick={handleDelete}>
+                        Delete Project
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Menu
                 open={contextMenu !== null}
                 onClose={handleCloseContextMenu}
@@ -67,7 +100,7 @@ const ProjectCard = ({ project, variant }: Props) => {
                         : undefined
                 }
             >
-                <MenuItem onClick={handleDelete}>
+                <MenuItem onClick={handleOpenDialog}>
                     <ListItemIcon>
                         <DeleteIcon />
                     </ListItemIcon>
