@@ -6,11 +6,9 @@ import TaskRow from "./TaskRow";
 import { useTaskContext } from "../../providers/TaskProvider";
 import { Divider, Stack, Typography } from "@mui/material";
 import { StatusAlert } from "../StatusAlert";
-import { TaskQuery } from "../../constants/tasks";
 
 const NewTaskTable = () => {
-    const { data, isLoading, message, status, taskQuery, setTaskQuery } =
-        useTaskContext();
+    const { data, isLoading, message, status, taskQuery } = useTaskContext();
 
     const projectId = taskQuery?.project_id;
 
@@ -26,14 +24,7 @@ const NewTaskTable = () => {
                 <Typography variant="h5">
                     Tasks for Project {projectId}
                 </Typography>
-                {projectId && (
-                    <NewTask
-                        projectId={projectId}
-                        onCreateNew={() =>
-                            setTaskQuery({ project_id: projectId } as TaskQuery)
-                        }
-                    />
-                )}
+                {projectId && <NewTask projectId={projectId} />}
             </Stack>
             <Divider sx={{ my: 1 }} />
             {data && (
