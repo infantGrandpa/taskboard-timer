@@ -1,7 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
-import ErrorMessage from "../ErrorMessage";
 import { useParams } from "react-router-dom";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { StatusAlert } from "../StatusAlert";
@@ -21,7 +20,7 @@ const SprintTaskPrioritizeList = () => {
     }
 
     if (!data || data?.length === 0 || !data[0].hasOwnProperty("task_id")) {
-        return <ErrorMessage message="No data!" />;
+        return <Typography variant="h2">No tasks yet!</Typography>;
     }
 
     const columns: GridColDef[] = [
