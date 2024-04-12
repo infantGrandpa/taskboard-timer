@@ -1,13 +1,7 @@
 import {
-    Button,
     Card,
     CardActionArea,
     CardContent,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
     ListItemIcon,
     ListItemText,
     Menu,
@@ -22,6 +16,7 @@ import routes from "../../constants/routes";
 import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useProjectContext } from "../../providers/ProjectProvider";
+import ConfirmationDialog from "../ConfirmationDialog";
 
 interface Props {
     project: Project;
@@ -73,23 +68,16 @@ const ProjectCard = ({ project, variant }: Props) => {
             onContextMenu={handleContextMenu}
             style={{ display: "flex", width: "100%" }}
         >
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Delete "{project.name}" Project?</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure you want to delete the "{project.name}"
-                        project? This action cannot be undone.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleCloseDialog}>
-                        Cancel
-                    </Button>
-                    <Button color="error" onClick={handleDelete}>
-                        Delete Project
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <ConfirmationDialog
+                isOpen={openDialog}
+                onClose={handleCloseDialog}
+                dialogTitle={`Delete "${project.name}" Project?`}
+                dialogText={`Are you sure you want to delete the "${project.name}"
+                        project? This action cannot be undone.`}
+                confirmButtonText="Delete Project"
+                onConfirm={handleDelete}
+                confirmButtonColor="error"
+            />
             <Menu
                 open={contextMenu !== null}
                 onClose={handleCloseContextMenu}
