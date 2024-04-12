@@ -1,6 +1,7 @@
 import { TaskCreationData } from "../../constants/tasks";
 import { addTask } from "../../services/taskService";
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 interface Props {
     projectId: number;
@@ -25,9 +26,9 @@ const NewTask = ({ projectId, onCreateNew }: Props) => {
     };
 
     return (
-        <Button onClick={handleSaveTask} variant="contained">
-            Add New Task
-        </Button>
+        <IconButton onClick={handleSaveTask}>
+            <AddIcon />
+        </IconButton>
     );
 };
 
