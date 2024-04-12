@@ -7,25 +7,24 @@ import {
     Menu,
     MenuItem,
     Stack,
-    SxProps,
     Typography,
 } from "@mui/material";
-
 import { Link } from "react-router-dom";
 import DateRange from "../DateRange";
 import { Project } from "../../constants/projects";
 import routes from "../../constants/routes";
 import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteProject } from "../../services/projectService";
+import { useProjectContext } from "../../providers/ProjectProvider";
 
 interface Props {
     project: Project;
     variant?: "featured";
-    sx?: SxProps;
 }
 
-const ProjectCard = ({ project, variant, sx }: Props) => {
+const ProjectCard = ({ project, variant }: Props) => {
+    const { deleteProject } = useProjectContext();
+
     const isFeatured = variant === "featured";
     const [contextMenu, setContextMenu] = useState<{
         mouseX: number;
@@ -48,13 +47,16 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
         setContextMenu(null);
     };
 
-    const handleDelete = async () => {
-        await deleteProject(project);
+    const handleDelete = () => {
+        deleteProject(project).catch(console.error);
         handleCloseContextMenu();
     };
 
     return (
-        <div onContextMenu={handleContextMenu}>
+        <div
+            onContextMenu={handleContextMenu}
+            style={{ display: "flex", width: "100%" }}
+        >
             <Menu
                 open={contextMenu !== null}
                 onClose={handleCloseContextMenu}
@@ -72,13 +74,7 @@ const ProjectCard = ({ project, variant, sx }: Props) => {
                     <ListItemText>Delete Project</ListItemText>
                 </MenuItem>
             </Menu>
-            <Card
-                sx={{
-                    ...sx,
-                    display: "flex",
-                    width: "100%",
-                }}
-            >
+            <Card sx={{ display: "flex", width: "100%" }}>
                 <CardActionArea
                     component={Link}
                     to={routes.project(project.id)}
