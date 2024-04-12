@@ -7,6 +7,7 @@ import {
 } from "react";
 import useTasks from "../hooks/useTasks";
 import { Task, TaskQuery } from "../constants/tasks";
+import { deleteTask } from "../services/taskService";
 
 interface TaskContentType {
     data: Task[] | null;
@@ -15,6 +16,7 @@ interface TaskContentType {
     status: string | undefined;
     taskQuery?: TaskQuery;
     setTaskQuery: (query: TaskQuery) => void;
+    deleteTask: (taskToDelete: Task) => Promise<void>;
 }
 
 const TaskContext = createContext<TaskContentType>({
@@ -23,7 +25,8 @@ const TaskContext = createContext<TaskContentType>({
     message: undefined,
     status: undefined,
     taskQuery: undefined,
-    setTaskQuery: () => void 0,
+    setTaskQuery: () => {},
+    deleteTask: async () => {},
 });
 
 interface Props {
@@ -38,19 +41,41 @@ const TaskProvider = ({ children, initialTaskQuery }: Props) => {
 
     const { data, isLoading, message, status } = useTasks(taskQuery);
 
+    const [taskData, setTaskData] = useState(data);
+
     useEffect(() => {
         setTaskQuery(initialTaskQuery ? initialTaskQuery : ({} as TaskQuery));
     }, [initialTaskQuery]);
 
+    useEffect(() => {
+        setTaskData(data);
+    }, [data]);
+
+    const deleteTaskOptimistic = async (taskToDelete: Task) => {
+        const optimisticData = taskData.filter(
+            (task) => task.id !== taskToDelete.id
+        );
+
+        setTaskData(optimisticData);
+
+        try {
+            await deleteTask(taskToDelete);
+        } catch (error) {
+            setTaskData(data);
+            console.error(error);
+        }
+    };
+
     return (
         <TaskContext.Provider
             value={{
-                data: data,
+                data: taskData,
                 isLoading: isLoading,
                 message: message,
                 status: status,
                 taskQuery: taskQuery,
                 setTaskQuery: setTaskQuery,
+                deleteTask: deleteTaskOptimistic,
             }}
         >
             {children}
