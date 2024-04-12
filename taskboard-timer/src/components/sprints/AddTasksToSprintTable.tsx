@@ -1,12 +1,13 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { addTasksToSprint } from "../../services/sprintService";
 import { useTaskContext } from "../../providers/TaskProvider";
 import LoadingBackdrop from "../LoadingBackdrop";
-import ErrorMessage from "../ErrorMessage";
 import { useState } from "react";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { StatusAlert } from "../StatusAlert";
 import { SprintTaskData } from "../../constants/sprintTasks";
+import NewTask from "../tasks/NewTask";
+import { useSprintContext } from "../../providers/SprintProvider";
 
 interface Props {
     sprintId: number;
@@ -14,14 +15,13 @@ interface Props {
 
 const AddTasksToSprintTable = ({ sprintId }: Props) => {
     const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
-    const { data, isLoading, message, status } = useTaskContext();
+    const { data: taskData, isLoading, message, status } = useTaskContext();
+    const { data: sprintData } = useSprintContext();
+
+    const thisSprint = sprintData ? sprintData[0] : undefined;
 
     if (isLoading) {
         return <LoadingBackdrop />;
-    }
-
-    if (!data) {
-        return <ErrorMessage message="No data!" />;
     }
 
     const handleSaveTasksToSprint = () => {
@@ -37,42 +37,60 @@ const AddTasksToSprintTable = ({ sprintId }: Props) => {
         { field: "hours_worked", headerName: "Hours Worked", width: 150 },
     ];
 
-    const tableData = data.map((task) => ({
-        id: task.id,
-        name: task.name,
-        estimated_hours: task.estimated_hours,
-        hours_worked: task.hours_worked,
-    }));
+    const tableData =
+        taskData && taskData.length > 0
+            ? taskData.map((task) => ({
+                  id: task.id,
+                  name: task.name,
+                  estimated_hours: task.estimated_hours,
+                  hours_worked: task.hours_worked,
+              }))
+            : [
+                  {
+                      id: 0,
+                      name: null,
+                      estimated_hours: null,
+                      hours_worked: null,
+                  },
+              ];
 
     return (
         <>
             {status && <StatusAlert status={status} message={message} />}
-            <Typography variant="h4" sx={{ mt: 2 }}>
-                Add Tasks to Sprint {sprintId}
-            </Typography>
-            <DataGrid
-                rows={tableData}
-                columns={columns}
-                checkboxSelection
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 25,
-                        },
-                    },
-                }}
-                pageSizeOptions={[25]}
-                onRowSelectionModelChange={(newSelection) => {
-                    setSelectedRows(newSelection);
-                }}
-            />
-            <Button
-                variant="contained"
-                sx={{ mt: 2 }}
-                onClick={handleSaveTasksToSprint}
-            >
-                Add Selected Tasks to Sprint
-            </Button>
+
+            <Stack direction="row" justifyContent="space-between">
+                <Typography variant="h4" sx={{ mt: 2 }}>
+                    Add Tasks to Sprint {sprintId}
+                </Typography>
+                {thisSprint && <NewTask projectId={thisSprint.project_id} />}
+            </Stack>
+            {tableData && (
+                <>
+                    <DataGrid
+                        rows={tableData}
+                        columns={columns}
+                        checkboxSelection
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 25,
+                                },
+                            },
+                        }}
+                        pageSizeOptions={[25]}
+                        onRowSelectionModelChange={(newSelection) => {
+                            setSelectedRows(newSelection);
+                        }}
+                    />
+                    <Button
+                        variant="contained"
+                        sx={{ mt: 2 }}
+                        onClick={handleSaveTasksToSprint}
+                    >
+                        Add Selected Tasks to Sprint
+                    </Button>
+                </>
+            )}
         </>
     );
 };

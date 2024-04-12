@@ -39,8 +39,8 @@ const EditSprintPage = () => {
                 initialSprintQuery={{ id: Number(sprintId) } as SprintQuery}
             >
                 <EditSprintForm />
+                <AddTasksToSprintTable sprintId={Number(sprintId)} />
             </SprintProvider>
-            <AddTasksToSprintTable sprintId={Number(sprintId)} />
         </TaskProvider>
     );
 };
