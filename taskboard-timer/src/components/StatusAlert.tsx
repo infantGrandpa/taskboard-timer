@@ -40,6 +40,10 @@ export const StatusAlert = ({ status, message }: Props) => {
         setOpen(true);
     }, []);
 
+    if (status === "success") {
+        return;
+    }
+
     return (
         <Snackbar
             open={open}
