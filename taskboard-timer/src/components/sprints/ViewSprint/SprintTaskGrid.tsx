@@ -10,7 +10,6 @@ import { useSprintTaskContext } from "../../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../../LoadingBackdrop";
 import { StatusAlert } from "../../StatusAlert";
 import { getEnumKeyFromLabel } from "../../../utilities/labelHelper";
-import ErrorMessage from "../../ErrorMessage";
 
 const SprintTaskGrid = () => {
     const { id, sprintId } = useParams();
