@@ -5,6 +5,7 @@ import {
     ListItemButton,
     ListItemText,
     Stack,
+    Tooltip,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import SortIcon from "@mui/icons-material/Sort";
@@ -28,24 +29,30 @@ const SprintListItem = ({ sprint }: Props) => {
         <ListItem
             secondaryAction={
                 <Stack direction="row">
-                    <IconButton
-                        component={Link}
-                        to={routes.editSprint(sprint.project_id, sprint.id)}
-                    >
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton
-                        component={Link}
-                        to={routes.prioritizeTasks(
-                            sprint.project_id,
-                            sprint.id
-                        )}
-                    >
-                        <SortIcon />
-                    </IconButton>
-                    <IconButton onClick={() => handleDeleteSprint(sprint)}>
-                        <DeleteIcon />
-                    </IconButton>
+                    <Tooltip title="Edit Sprint">
+                        <IconButton
+                            component={Link}
+                            to={routes.editSprint(sprint.project_id, sprint.id)}
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Prioritize Tasks">
+                        <IconButton
+                            component={Link}
+                            to={routes.prioritizeTasks(
+                                sprint.project_id,
+                                sprint.id
+                            )}
+                        >
+                            <SortIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Sprint">
+                        <IconButton onClick={() => handleDeleteSprint(sprint)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
                 </Stack>
             }
         >
