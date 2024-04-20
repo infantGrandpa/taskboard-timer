@@ -2,7 +2,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { StatusLabels } from "../../../constants/statusLabels";
 import { SprintProvider } from "../../../providers/SprintProvider";
 import SprintInfo from "./SprintInfo";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PriorityLabels } from "../../../constants/priorityLabels";
 import React from "react";
 import SprintTaskCell from "./SprintTaskCell";
@@ -10,6 +10,8 @@ import { useSprintTaskContext } from "../../../providers/SprintTaskProvider";
 import LoadingBackdrop from "../../LoadingBackdrop";
 import { StatusAlert } from "../../StatusAlert";
 import { getEnumKeyFromLabel } from "../../../utilities/labelHelper";
+import { Button } from "@mui/material";
+import routes from "../../../constants/routes";
 
 const SprintTaskGrid = () => {
     const { id, sprintId } = useParams();
@@ -18,6 +20,8 @@ const SprintTaskGrid = () => {
     if (isLoading) {
         return <LoadingBackdrop />;
     }
+
+    const navigate = useNavigate();
 
     const headerColWidth = { xs: 12, sm: 4 } as const;
     const columnWidth = { xs: 12, sm: 2 } as const;
@@ -40,6 +44,12 @@ const SprintTaskGrid = () => {
     return (
         <>
             {status && <StatusAlert status={status} message={message} />}
+            <Button
+                variant="outlined"
+                onClick={() => navigate(routes.project(id))}
+            >
+                Back to Project
+            </Button>
             <Grid
                 container
                 spacing={2}
