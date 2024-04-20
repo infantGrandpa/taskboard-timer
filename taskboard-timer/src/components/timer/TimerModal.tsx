@@ -12,6 +12,7 @@ import {
 import PauseIcon from "@mui/icons-material/Pause";
 import StopIcon from "@mui/icons-material/Stop";
 import MinimizeIcon from "@mui/icons-material/Minimize";
+import { useEffect, useState } from "react";
 
 interface Props {
     isOpen: boolean;
@@ -19,6 +20,18 @@ interface Props {
 }
 
 const TimerModal = ({ isOpen, onClose }: Props) => {
+    const [timeLeft, setTimeLeft] = useState(20 * 60);
+
+    useEffect(() => {
+        if (!timeLeft) return;
+
+        const intervalId = setInterval(() => {
+            setTimeLeft(timeLeft - 1);
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [timeLeft]);
+
     return (
         <Dialog
             open={isOpen}
@@ -48,7 +61,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                         }}
                     >
                         <Typography variant="h1" component="p">
-                            15:02
+                            {timeLeft}
                         </Typography>
                     </Box>
                     <Typography variant="h4" textAlign="center" sx={{ mt: 2 }}>
