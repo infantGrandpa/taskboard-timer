@@ -14,12 +14,11 @@ const SprintTaskPrioritizeList = () => {
 
     const { sprintId } = useParams();
 
-    console.log(data);
     if (isLoading) {
         return <LoadingBackdrop />;
     }
 
-    if (!data || data?.length === 0 || !data[0].hasOwnProperty("task_id")) {
+    if (!data || data?.length === 0) {
         return <Typography variant="h2">No tasks yet!</Typography>;
     }
 

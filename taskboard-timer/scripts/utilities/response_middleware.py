@@ -26,15 +26,20 @@ def standardize_api_response(app):
         new_data = None
 
         if original_data:
+            #We can't use the original data as "data" if status or message is in it 
+            can_use_original_data = True
+
             #Get status from data
             if "status" in original_data:
                 new_status = original_data["status"]
+                can_use_original_data = False
             else:
                 new_status = get_status_from_code(response.status_code)
 
             #Get message from data
             if "message" in original_data:
                 new_message = original_data["message"]
+                can_use_original_data = False
             else:
                 new_message = get_generic_message_from_status(new_status)
 
@@ -42,7 +47,7 @@ def standardize_api_response(app):
             if "data" in original_data:
                 new_data = original_data["data"]
             else:
-                new_data = original_data
+                new_data = original_data if can_use_original_data else None
         else:
             new_status = get_status_from_code(response.status_code)
             new_message = get_generic_message_from_status(new_status)
