@@ -32,6 +32,14 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
         return () => clearInterval(intervalId);
     }, [timeLeft]);
 
+    const formatTimeLeft = () => {
+        // Convert time left into minutes and seconds
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        // Pad with zeros if necessary
+        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    };
+
     return (
         <Dialog
             open={isOpen}
@@ -61,7 +69,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                         }}
                     >
                         <Typography variant="h1" component="p">
-                            {timeLeft}
+                            {formatTimeLeft()}
                         </Typography>
                     </Box>
                     <Typography variant="h4" textAlign="center" sx={{ mt: 2 }}>
