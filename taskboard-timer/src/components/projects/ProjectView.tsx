@@ -1,7 +1,7 @@
 import LoadingBackdrop from "../LoadingBackdrop";
 import EditableProjectCard from "./EditableProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
-import NewTaskTable from "../tasks/NewTaskTable";
+import ProjectTaskList from "../tasks/ProjectTaskList";
 import { TaskProvider } from "../../providers/TaskProvider";
 import { useProjectContext } from "../../providers/ProjectProvider";
 import { SprintProvider } from "../../providers/SprintProvider";
@@ -45,7 +45,7 @@ const ProjectView = () => {
                                     { project_id: thisProject.id } as TaskQuery
                                 }
                             >
-                                <NewTaskTable />
+                                <ProjectTaskList />
                             </TaskProvider>
                         </Grid>
                     </>

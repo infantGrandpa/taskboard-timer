@@ -3,11 +3,11 @@ import Grid from "@mui/material/Unstable_Grid2";
 import NewTask from "./NewTask";
 import TaskRow from "./TaskRow";
 import { useTaskContext } from "../../providers/TaskProvider";
-import { Container, Divider, Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import { StatusAlert } from "../StatusAlert";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-const NewTaskTable = () => {
+const ProjectTaskList = () => {
     const { data, isLoading, message, status, taskQuery } = useTaskContext();
 
     const projectId = taskQuery?.project_id;
@@ -65,4 +65,4 @@ const NewTaskTable = () => {
     );
 };
 
-export default NewTaskTable;
+export default ProjectTaskList;
