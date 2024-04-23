@@ -25,6 +25,7 @@ const SprintTaskCard = ({ sprintTask }: Props) => {
                     </Typography>
                 </Stack>
                 <SprintTaskButtons sprintTask={sprintTask} />
+                <Typography variant="caption">{sprintTask.task_id}</Typography>
             </CardContent>
         </Card>
     );
