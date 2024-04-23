@@ -93,7 +93,11 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                             borderRadius: "6px",
                         }}
                     >
-                        <Typography variant="h1" component="p">
+                        <Typography
+                            variant="h1"
+                            textAlign="center"
+                            component="p"
+                        >
                             {formatTimeLeft()}
                         </Typography>
                     </Box>
