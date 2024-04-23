@@ -14,6 +14,7 @@ import StopIcon from "@mui/icons-material/Stop";
 import MinimizeIcon from "@mui/icons-material/Minimize";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useEffect, useState } from "react";
+import TimerTaskSelection from "./TimerTaskSelection";
 
 interface Props {
     isOpen: boolean;
@@ -96,9 +97,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                             {formatTimeLeft()}
                         </Typography>
                     </Box>
-                    <Typography variant="h4" textAlign="center" sx={{ mt: 2 }}>
-                        Current Task
-                    </Typography>
+                    <TimerTaskSelection />
                 </DialogContent>
                 <DialogActions>
                     <Button
