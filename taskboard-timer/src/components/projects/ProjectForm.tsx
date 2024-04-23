@@ -53,7 +53,7 @@ const ProjectForm = ({ project: originalProject, type, onSave }: Props) => {
         };
         try {
             const response = await addProject(projectData);
-            onSave?.(response.data.id);
+            onSave?.(response.data); //Get project id
         } catch (error) {
             console.error("Error adding new project: ", error);
         }
