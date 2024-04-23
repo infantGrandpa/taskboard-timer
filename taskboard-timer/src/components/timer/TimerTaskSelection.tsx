@@ -6,8 +6,14 @@ import {
     SelectChangeEvent,
 } from "@mui/material";
 import { useState } from "react";
+import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
 
 const TimerTaskSelection = () => {
+    const { data } = useSprintTaskContext();
+
+    console.log("SPRINT TASK DATA");
+    console.log(data);
+
     const [currentTask, setCurrentTask] = useState<string | undefined>(
         undefined
     );
@@ -18,7 +24,7 @@ const TimerTaskSelection = () => {
 
     return (
         <FormControl variant="filled" fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <InputLabel id="demo-simple-select-label">Current Task</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -26,9 +32,11 @@ const TimerTaskSelection = () => {
                 label="Age"
                 onChange={handleTaskChange}
             >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {data?.map((task) => (
+                    <MenuItem key={task.task_id} value={task.task_id}>
+                        {task.task_details.name}
+                    </MenuItem>
+                ))}
             </Select>
         </FormControl>
     );
