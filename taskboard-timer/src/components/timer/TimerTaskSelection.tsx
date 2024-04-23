@@ -24,12 +24,12 @@ const TimerTaskSelection = () => {
 
     return (
         <FormControl variant="filled" fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">Current Task</InputLabel>
+            <InputLabel id="current-task-select-label">Current Task</InputLabel>
             <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="current-task-select-label"
+                id="current-task-select"
                 value={currentTask}
-                label="Age"
+                label="Current Task"
                 onChange={handleTaskChange}
             >
                 {data?.map((task) => (
