@@ -84,7 +84,9 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                 <MinimizeIcon />
             </IconButton>
             <Stack direction="column" alignItems="center" sx={{ pb: 2 }}>
-                <DialogTitle>Timer is Active</DialogTitle>
+                <DialogTitle>
+                    {timerActive ? "Timer is Active" : "Set Timer"}
+                </DialogTitle>
                 <DialogContent>
                     <Box
                         sx={{
