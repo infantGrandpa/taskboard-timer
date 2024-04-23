@@ -12,6 +12,7 @@ import {
 import PauseIcon from "@mui/icons-material/Pause";
 import StopIcon from "@mui/icons-material/Stop";
 import MinimizeIcon from "@mui/icons-material/Minimize";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -20,24 +21,47 @@ interface Props {
 }
 
 const TimerModal = ({ isOpen, onClose }: Props) => {
-    const [timeLeft, setTimeLeft] = useState(20 * 60);
+    const secsOnTimer = 20 * 60; //20 minutes
+    const [timeLeft, setTimeLeft] = useState(secsOnTimer);
+    const [timerActive, setTimerActive] = useState(false);
 
     useEffect(() => {
-        if (!timeLeft) return;
+        if (!timerActive) {
+            return;
+        }
 
+        if (!timeLeft) {
+            setTimerActive(false);
+            return;
+        }
+
+        //Subtract a second from time left
         const intervalId = setInterval(() => {
             setTimeLeft(timeLeft - 1);
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, [timeLeft]);
+    }, [timeLeft, timerActive]);
 
     const formatTimeLeft = () => {
         // Convert time left into minutes and seconds
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        // Pad with zeros if necessary
+        // Pad with zeros if necessary (turn 1:9 into 1:09)
         return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    };
+
+    const unpauseTimer = () => {
+        setTimerActive(true);
+    };
+
+    const pauseTimer = () => {
+        setTimerActive(false);
+    };
+
+    const resetTimer = () => {
+        setTimeLeft(secsOnTimer);
+        setTimerActive(false);
     };
 
     return (
@@ -77,13 +101,20 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                     </Typography>
                 </DialogContent>
                 <DialogActions>
-                    <Button startIcon={<PauseIcon />} variant="contained">
-                        Pause
+                    <Button
+                        startIcon={
+                            timerActive ? <PauseIcon /> : <PlayArrowIcon />
+                        }
+                        variant="contained"
+                        onClick={timerActive ? pauseTimer : unpauseTimer}
+                    >
+                        {timerActive ? "Pause" : "Play"}
                     </Button>
                     <Button
                         startIcon={<StopIcon />}
                         variant="outlined"
                         color="warning"
+                        onClick={resetTimer}
                     >
                         Stop
                     </Button>
