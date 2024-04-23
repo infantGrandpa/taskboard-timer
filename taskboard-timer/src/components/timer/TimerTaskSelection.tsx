@@ -4,23 +4,45 @@ import {
     MenuItem,
     Select,
     SelectChangeEvent,
+    Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
+import { SprintTask } from "../../constants/sprintTasks";
+import ErrorMessage from "../ErrorMessage";
 
-const TimerTaskSelection = () => {
+interface Props {
+    timerActive: boolean;
+}
+
+const TimerTaskSelection = ({ timerActive }: Props) => {
     const { data } = useSprintTaskContext();
 
-    console.log("SPRINT TASK DATA");
-    console.log(data);
+    if (!data) {
+        return <ErrorMessage message="Sprint Task data is empty!" />;
+    }
 
-    const [currentTask, setCurrentTask] = useState<string | undefined>(
+    const [currentTask, setCurrentTask] = useState<SprintTask | undefined>(
         undefined
     );
 
     const handleTaskChange = (event: SelectChangeEvent) => {
-        setCurrentTask(event.target.value as string);
+        const selectedTaskId = Number(event.target.value);
+
+        const selectedTask = data.find(
+            (task) => task.task_id === selectedTaskId
+        );
+
+        setCurrentTask(selectedTask);
     };
+
+    if (timerActive) {
+        return (
+            <Typography variant="h4" sx={{ mt: 2 }}>
+                {currentTask?.task_details.name}
+            </Typography>
+        );
+    }
 
     return (
         <FormControl variant="filled" fullWidth sx={{ mt: 2 }}>
@@ -28,7 +50,7 @@ const TimerTaskSelection = () => {
             <Select
                 labelId="current-task-select-label"
                 id="current-task-select"
-                value={currentTask}
+                value={currentTask ? currentTask.task_id.toString() : ""}
                 label="Current Task"
                 onChange={handleTaskChange}
             >

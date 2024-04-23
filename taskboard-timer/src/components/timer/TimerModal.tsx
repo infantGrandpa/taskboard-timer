@@ -97,7 +97,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                             {formatTimeLeft()}
                         </Typography>
                     </Box>
-                    <TimerTaskSelection />
+                    <TimerTaskSelection timerActive={timerActive} />
                 </DialogContent>
                 <DialogActions>
                     <Button
