@@ -47,6 +47,8 @@ def standardize_api_response(app):
             if "data" in original_data:
                 new_data = original_data["data"]
             else:
+                #TODO strip original data of status and message 
+                #so we can use everything from original data
                 new_data = original_data if can_use_original_data else None
         else:
             new_status = get_status_from_code(response.status_code)
