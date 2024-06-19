@@ -1,5 +1,4 @@
 import {
-    Box,
     Button,
     Dialog,
     DialogActions,
@@ -15,6 +14,8 @@ import MinimizeIcon from "@mui/icons-material/Minimize";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import TimerTaskSelection from "./TimerTaskSelection";
 import { useTimerContext } from "../../providers/TimerProvider";
+import { useState } from "react";
+import EditTimerModal from "./EditTimerModal";
 
 interface Props {
     isOpen: boolean;
@@ -30,6 +31,16 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
         resetTimer,
         currentTask,
     } = useTimerContext();
+
+    const [openEditTimer, setOpenEditTimer] = useState<boolean>(false);
+
+    const handleOpenEditModal = () => {
+        setOpenEditTimer(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setOpenEditTimer(false);
+    };
 
     return (
         <Dialog
@@ -54,13 +65,19 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                     {timerActive ? "Timer is Active" : "Set Timer"}
                 </DialogTitle>
                 <DialogContent>
-                    <Box
+                    <Stack
                         sx={{
                             backgroundColor: "#121212",
                             p: 2,
                             borderRadius: "6px",
                         }}
                     >
+                        {openEditTimer && (
+                            <EditTimerModal
+                                isOpen={openEditTimer}
+                                onClose={handleCloseEditModal}
+                            />
+                        )}
                         <Typography
                             variant="h1"
                             textAlign="center"
@@ -68,7 +85,14 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                         >
                             {formattedTimeLeft}
                         </Typography>
-                    </Box>
+                        <Button
+                            variant="text"
+                            size="small"
+                            onClick={handleOpenEditModal}
+                        >
+                            Edit Timer
+                        </Button>
+                    </Stack>
                     <TimerTaskSelection timerActive={timerActive} />
                 </DialogContent>
                 <DialogActions>
