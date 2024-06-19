@@ -5,7 +5,6 @@ import {
     DialogContent,
     DialogTitle,
     Stack,
-    Typography,
 } from "@mui/material";
 import NumberInput from "../NumberInput";
 import { useTimerContext } from "../../providers/TimerProvider";
@@ -51,10 +50,6 @@ const EditTimerModal = ({ isOpen, onClose }: Props) => {
                         onChange={(newValue) => setSeconds(newValue)}
                     />
                 </Stack>
-
-                <Typography>
-                    {minutes}:{seconds}
-                </Typography>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
