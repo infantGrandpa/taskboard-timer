@@ -5,21 +5,26 @@ import {
     useEffect,
     useState,
 } from "react";
+import { Task } from "../constants/tasks";
 
 interface TimerContextType {
     timeLeft: number;
+    formattedTimeLeft: string;
     timerActive: boolean;
     unpauseTimer: () => void;
     pauseTimer: () => void;
     resetTimer: () => void;
+    currentTask: Task | null | undefined;
 }
 
 const TimerContext = createContext<TimerContextType>({
     timeLeft: 20 * 60, // Default time (20 minutes)
+    formattedTimeLeft: "20:00",
     timerActive: false,
     unpauseTimer: () => {},
     pauseTimer: () => {},
     resetTimer: () => {},
+    currentTask: null,
 });
 
 interface Props {
@@ -62,14 +67,24 @@ const TimerProvider = ({ children }: Props) => {
         setTimerActive(false);
     };
 
+    const formatTimeLeft = () => {
+        // Convert time left into minutes and seconds
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        // Pad with zeros if necessary (turn 1:9 into 1:09)
+        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    };
+
     return (
         <TimerContext.Provider
             value={{
-                timeLeft,
-                timerActive,
-                unpauseTimer,
-                pauseTimer,
-                resetTimer,
+                timeLeft: timeLeft,
+                formattedTimeLeft: formatTimeLeft(),
+                timerActive: timerActive,
+                unpauseTimer: unpauseTimer,
+                pauseTimer: pauseTimer,
+                resetTimer: resetTimer,
+                currentTask: null,
             }}
         >
             {children}
