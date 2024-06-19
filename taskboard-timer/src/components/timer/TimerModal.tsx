@@ -22,16 +22,13 @@ interface Props {
 }
 
 const TimerModal = ({ isOpen, onClose }: Props) => {
-    const { timeLeft, timerActive, unpauseTimer, pauseTimer, resetTimer } =
-        useTimerContext();
-
-    const formatTimeLeft = () => {
-        // Convert time left into minutes and seconds
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        // Pad with zeros if necessary (turn 1:9 into 1:09)
-        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-    };
+    const {
+        formattedTimeLeft,
+        timerActive,
+        unpauseTimer,
+        pauseTimer,
+        resetTimer,
+    } = useTimerContext();
 
     return (
         <Dialog
@@ -68,7 +65,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                             textAlign="center"
                             component="p"
                         >
-                            {formatTimeLeft()}
+                            {formattedTimeLeft}
                         </Typography>
                     </Box>
                     <TimerTaskSelection timerActive={timerActive} />
