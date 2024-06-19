@@ -30,12 +30,21 @@ const EditableProjectCard = ({ project }: Props) => {
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
+    const onEditComplete = () => {
+        setIsEditing(false);
+        /* TO DO - update the current value of project.description after editing is complete */
+    };
+
     return (
         <Grow in={true} timeout={200}>
             <Card>
                 <CardContent>
                     {isEditing ? (
-                        <ProjectForm project={project} type="edit" />
+                        <ProjectForm
+                            project={project}
+                            type="edit"
+                            onSave={onEditComplete}
+                        />
                     ) : (
                         <>
                             <Typography variant="h2">{project.name}</Typography>
