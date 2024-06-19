@@ -5,7 +5,7 @@ import {
     useEffect,
     useState,
 } from "react";
-import { Task } from "../constants/tasks";
+import { SprintTask } from "../constants/sprintTasks";
 
 interface TimerContextType {
     timeLeft: number;
@@ -14,7 +14,8 @@ interface TimerContextType {
     unpauseTimer: () => void;
     pauseTimer: () => void;
     resetTimer: () => void;
-    currentTask: Task | null | undefined;
+    currentTask: SprintTask | null | undefined;
+    setCurrentTask: (task?: SprintTask) => void;
 }
 
 const TimerContext = createContext<TimerContextType>({
@@ -25,6 +26,7 @@ const TimerContext = createContext<TimerContextType>({
     pauseTimer: () => {},
     resetTimer: () => {},
     currentTask: null,
+    setCurrentTask: () => {},
 });
 
 interface Props {
@@ -35,6 +37,9 @@ const TimerProvider = ({ children }: Props) => {
     const secsOnTimer = 20 * 60; //20 minutes
     const [timeLeft, setTimeLeft] = useState(secsOnTimer);
     const [timerActive, setTimerActive] = useState(false);
+    const [currentTask, setCurrentTask] = useState<
+        SprintTask | null | undefined
+    >(null);
 
     useEffect(() => {
         if (!timerActive) {
@@ -84,7 +89,8 @@ const TimerProvider = ({ children }: Props) => {
                 unpauseTimer: unpauseTimer,
                 pauseTimer: pauseTimer,
                 resetTimer: resetTimer,
-                currentTask: null,
+                currentTask: currentTask,
+                setCurrentTask: setCurrentTask,
             }}
         >
             {children}

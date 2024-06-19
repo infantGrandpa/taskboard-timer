@@ -6,10 +6,9 @@ import {
     SelectChangeEvent,
     Typography,
 } from "@mui/material";
-import { useState } from "react";
 import { useSprintTaskContext } from "../../providers/SprintTaskProvider";
-import { SprintTask } from "../../constants/sprintTasks";
 import ErrorMessage from "../ErrorMessage";
+import { useTimerContext } from "../../providers/TimerProvider";
 
 interface Props {
     timerActive: boolean;
@@ -17,14 +16,11 @@ interface Props {
 
 const TimerTaskSelection = ({ timerActive }: Props) => {
     const { data } = useSprintTaskContext();
+    const { currentTask, setCurrentTask } = useTimerContext();
 
     if (!data) {
         return <ErrorMessage message="Sprint Task data is empty!" />;
     }
-
-    const [currentTask, setCurrentTask] = useState<SprintTask | undefined>(
-        undefined
-    );
 
     const handleTaskChange = (event: SelectChangeEvent) => {
         const selectedTaskId = Number(event.target.value);
