@@ -44,8 +44,20 @@ const Navbar = () => {
                         spacing={2}
                         divider={<Divider orientation="vertical" flexItem />}
                     >
+                        {currentTask && (
+                            <Button
+                                variant="text"
+                                component={Link}
+                                to={routes.sprint(
+                                    currentTask.task_details.project_id,
+                                    currentTask.sprint_id
+                                )}
+                            >
+                                {currentTask.task_details.name}
+                            </Button>
+                        )}
                         <Button
-                            variant="text"
+                            variant="contained"
                             disabled={!currentTask}
                             startIcon={
                                 timerActive ? <PauseIcon /> : <PlayArrowIcon />
