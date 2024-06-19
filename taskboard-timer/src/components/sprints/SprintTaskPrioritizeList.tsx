@@ -8,11 +8,17 @@ import { StatusLabels } from "../../constants/statusLabels";
 import { PriorityLabels } from "../../constants/priorityLabels";
 import { editSprintTask } from "../../services/sprintService";
 import { SprintTaskCreationData } from "../../constants/sprintTasks";
+import { useSprintContext } from "../../providers/SprintProvider";
 
 const SprintTaskPrioritizeList = () => {
     const { data, isLoading, message, status } = useSprintTaskContext();
-
     const { sprintId } = useParams();
+
+    const { data: sprintData } = useSprintContext();
+    const thisSprint = sprintData ? sprintData[0] : undefined;
+
+    console.log("data");
+    console.log(data);
 
     if (isLoading) {
         return <LoadingBackdrop />;
@@ -70,7 +76,8 @@ const SprintTaskPrioritizeList = () => {
                 sx={{ my: 2 }}
             >
                 <Typography variant="h4">
-                    Prioritization for Sprint {sprintId}
+                    Prioritization for{" "}
+                    {thisSprint ? thisSprint.name : "Sprint " + sprintId}
                 </Typography>
                 <Typography variant="h4">Tasks: {data?.length}</Typography>
             </Stack>

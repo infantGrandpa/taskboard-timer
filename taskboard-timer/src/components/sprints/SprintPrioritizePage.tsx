@@ -4,6 +4,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { SprintTaskProvider } from "../../providers/SprintTaskProvider";
 import SprintTaskPrioritizeList from "./SprintTaskPrioritizeList";
 import routes from "../../constants/routes";
+import { SprintProvider } from "../../providers/SprintProvider";
 
 const SprintPrioritizePage = () => {
     const { id, sprintId } = useParams();
@@ -18,11 +19,18 @@ const SprintPrioritizePage = () => {
                 Back to Project
             </Button>
             {sprintId && (
-                <SprintTaskProvider
-                    initialSprintTaskQuery={{ sprint_id: Number(sprintId) }}
+                <SprintProvider
+                    initialSprintQuery={{
+                        id: Number(sprintId),
+                        project_id: Number(id),
+                    }}
                 >
-                    <SprintTaskPrioritizeList />
-                </SprintTaskProvider>
+                    <SprintTaskProvider
+                        initialSprintTaskQuery={{ sprint_id: Number(sprintId) }}
+                    >
+                        <SprintTaskPrioritizeList />
+                    </SprintTaskProvider>
+                </SprintProvider>
             )}
         </>
     );
