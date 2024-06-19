@@ -1,4 +1,4 @@
-import { Fab, Typography } from "@mui/material";
+import { Fab } from "@mui/material";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import { useState } from "react";
 import TimerModal from "./TimerModal";
@@ -21,16 +21,14 @@ const TimerFab = () => {
                 color="primary"
                 aria-label="Start Timer"
                 onClick={handleOpenTimer}
-                variant="extended"
                 sx={{
                     position: "fixed",
                     bottom: 24,
                     right: 24,
+                    width: "100px",
+                    height: "100px",
                 }}
             >
-                <Typography variant="h5" mr={2} sx={{ fontWeight: "600" }}>
-                    Start Timer
-                </Typography>
                 <AccessAlarmIcon sx={{ fontSize: "3rem" }} />
             </Fab>
             <TimerModal isOpen={openTimer} onClose={handleCloseTimer} />
