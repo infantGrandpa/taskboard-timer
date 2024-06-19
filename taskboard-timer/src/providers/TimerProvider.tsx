@@ -16,6 +16,7 @@ interface TimerContextType {
     resetTimer: () => void;
     currentTask: SprintTask | null | undefined;
     setCurrentTask: (task?: SprintTask) => void;
+    setTimerLength: (minutes: number, seconds: number) => void;
 }
 
 const TimerContext = createContext<TimerContextType>({
@@ -27,6 +28,7 @@ const TimerContext = createContext<TimerContextType>({
     resetTimer: () => {},
     currentTask: null,
     setCurrentTask: () => {},
+    setTimerLength: () => {},
 });
 
 interface Props {
@@ -72,6 +74,12 @@ const TimerProvider = ({ children }: Props) => {
         setTimerActive(false);
     };
 
+    const setTimerLength = (minutes: number, seconds: number) => {
+        const totalSeconds = minutes * 60 + seconds;
+        setTimerActive(false);
+        setTimeLeft(totalSeconds);
+    };
+
     const formatTimeLeft = () => {
         // Convert time left into minutes and seconds
         const minutes = Math.floor(timeLeft / 60);
@@ -91,6 +99,7 @@ const TimerProvider = ({ children }: Props) => {
                 resetTimer: resetTimer,
                 currentTask: currentTask,
                 setCurrentTask: setCurrentTask,
+                setTimerLength: setTimerLength,
             }}
         >
             {children}

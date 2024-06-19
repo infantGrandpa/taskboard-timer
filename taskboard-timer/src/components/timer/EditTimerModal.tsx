@@ -17,7 +17,7 @@ interface Props {
 }
 
 const EditTimerModal = ({ isOpen, onClose }: Props) => {
-    const { timeLeft } = useTimerContext();
+    const { timeLeft, setTimerLength } = useTimerContext();
 
     const initialMinutes = timeLeft / 60;
     const initialSeconds = timeLeft % 60;
@@ -25,7 +25,10 @@ const EditTimerModal = ({ isOpen, onClose }: Props) => {
     const [minutes, setMinutes] = useState(initialMinutes);
     const [seconds, setSeconds] = useState(initialSeconds);
 
-    const handleSave = () => {};
+    const handleSave = () => {
+        setTimerLength(minutes, seconds);
+        onClose();
+    };
 
     return (
         <Dialog open={isOpen} onClose={onClose}>
@@ -55,7 +58,7 @@ const EditTimerModal = ({ isOpen, onClose }: Props) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button type="submit" variant="contained">
+                <Button type="submit" variant="contained" onClick={handleSave}>
                     Save
                 </Button>
             </DialogActions>
