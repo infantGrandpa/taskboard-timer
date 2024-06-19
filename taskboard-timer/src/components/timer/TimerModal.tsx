@@ -35,6 +35,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
     const [openEditTimer, setOpenEditTimer] = useState<boolean>(false);
 
     const handleOpenEditModal = () => {
+        resetTimer();
         setOpenEditTimer(true);
     };
 
@@ -85,13 +86,15 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                         >
                             {formattedTimeLeft}
                         </Typography>
-                        <Button
-                            variant="text"
-                            size="small"
-                            onClick={handleOpenEditModal}
-                        >
-                            Edit Timer
-                        </Button>
+                        {!timerActive && (
+                            <Button
+                                variant="text"
+                                size="small"
+                                onClick={handleOpenEditModal}
+                            >
+                                Edit Timer
+                            </Button>
+                        )}
                     </Stack>
                     <TimerTaskSelection timerActive={timerActive} />
                 </DialogContent>
