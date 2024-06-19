@@ -28,6 +28,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
         unpauseTimer,
         pauseTimer,
         resetTimer,
+        currentTask,
     } = useTimerContext();
 
     return (
@@ -76,6 +77,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                             timerActive ? <PauseIcon /> : <PlayArrowIcon />
                         }
                         variant="contained"
+                        disabled={!currentTask}
                         onClick={timerActive ? pauseTimer : unpauseTimer}
                     >
                         {timerActive ? "Pause" : "Play"}
