@@ -54,13 +54,15 @@ const AddTasksToSprintTable = ({ sprintId }: Props) => {
                   },
               ];
 
+
     return (
         <>
             {status && <StatusAlert status={status} message={message} />}
 
             <Stack direction="row" justifyContent="space-between">
                 <Typography variant="h4" sx={{ mt: 2 }}>
-                    Add Tasks to Sprint {sprintId}
+                    Add Tasks to{" "}
+                    {thisSprint ? thisSprint.name : "Sprint " + sprintId}
                 </Typography>
                 {thisSprint && <NewTask projectId={thisSprint.project_id} />}
             </Stack>
