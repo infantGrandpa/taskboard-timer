@@ -48,8 +48,10 @@ const TimerProvider = ({ children }: Props) => {
             return;
         }
 
+        //Is the timer done?
         if (!timeLeft) {
             setTimerActive(false);
+            handleTimerComplete();
             return;
         }
 
@@ -78,6 +80,20 @@ const TimerProvider = ({ children }: Props) => {
         const totalSeconds = minutes * 60 + seconds;
         setTimerActive(false);
         setTimeLeft(totalSeconds);
+    };
+
+    const handleTimerComplete = () => {
+        const timeToAdd = secsOnTimer - timeLeft;
+
+        if (currentTask) {
+            console.log("Timer completed.");
+            console.log(`Hours to add: ${timeToAdd}`);
+            console.log(
+                `New Hours: ${
+                    currentTask.task_details.hours_worked + timeToAdd
+                }`
+            );
+        }
     };
 
     const formatTimeLeft = () => {
