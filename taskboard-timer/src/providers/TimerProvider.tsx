@@ -6,6 +6,8 @@ import {
     useState,
 } from "react";
 import { SprintTask } from "../constants/sprintTasks";
+import { editTask } from "../services/taskService";
+import { TaskCreationData } from "../constants/tasks";
 
 interface TimerContextType {
     timeLeft: number;
@@ -36,7 +38,7 @@ interface Props {
 }
 
 const TimerProvider = ({ children }: Props) => {
-    const secsOnTimer = 20 * 60; //20 minutes
+    const [secsOnTimer, setSecsOnTimer] = useState(20 * 60); //20 minutes
     const [timeLeft, setTimeLeft] = useState(secsOnTimer);
     const [timerActive, setTimerActive] = useState(false);
     const [currentTask, setCurrentTask] = useState<
@@ -79,19 +81,44 @@ const TimerProvider = ({ children }: Props) => {
     const setTimerLength = (minutes: number, seconds: number) => {
         const totalSeconds = minutes * 60 + seconds;
         setTimerActive(false);
+        setSecsOnTimer(totalSeconds);
         setTimeLeft(totalSeconds);
     };
 
     const handleTimerComplete = () => {
-        const timeToAdd = secsOnTimer - timeLeft;
+        if (!currentTask) {
+            return;
+        }
 
-        if (currentTask) {
-            console.log("Timer completed.");
-            console.log(`Hours to add: ${timeToAdd}`);
-            console.log(
-                `New Hours: ${
-                    currentTask.task_details.hours_worked + timeToAdd
-                }`
+        const timeToAdd = secsOnTimer - timeLeft;
+        const hoursToAdd = convertTimerSecondsToHours(timeToAdd);
+
+        handleUpdateTaskHours(hoursToAdd);
+    };
+
+    const convertTimerSecondsToHours = (seconds: number) => {
+        const minutes = seconds / 60;
+        const hours = minutes / 60;
+        return hours;
+    };
+
+    const handleUpdateTaskHours = async (hoursToAdd: number) => {
+        if (!currentTask) {
+            return;
+        }
+
+        const newTaskData: TaskCreationData = {
+            project_id: currentTask.task_details.project_id,
+            name: currentTask.task_details.name,
+            estimated_hours: currentTask.task_details.estimated_hours,
+            hours_worked: hoursToAdd + currentTask.task_details.hours_worked,
+        };
+
+        try {
+            await editTask(currentTask.task_details, newTaskData);
+        } catch (error) {
+            console.error(
+                `Error editing task ${currentTask.task_details.id}: ${error}`
             );
         }
     };
