@@ -18,7 +18,7 @@ interface Props {
 const EditTimerModal = ({ isOpen, onClose }: Props) => {
     const { timeLeft, setTimerLength } = useTimerContext();
 
-    const initialMinutes = timeLeft / 60;
+    const initialMinutes = Math.floor(timeLeft / 60);
     const initialSeconds = timeLeft % 60;
 
     const [minutes, setMinutes] = useState(initialMinutes);
