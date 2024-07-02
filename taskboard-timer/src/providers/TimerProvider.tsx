@@ -8,6 +8,7 @@ import {
 import { SprintTask } from "../constants/sprintTasks";
 import { editTask } from "../services/taskService";
 import { TaskCreationData } from "../constants/tasks";
+import { playAlarmSound } from "../utilities/sounds";
 
 interface TimerContextType {
     timeLeft: number;
@@ -92,7 +93,7 @@ const TimerProvider = ({ children }: Props) => {
 
         const timeToAdd = secsOnTimer - timeLeft;
         const hoursToAdd = convertTimerSecondsToHours(timeToAdd);
-
+        playAlarmSound();
         handleUpdateTaskHours(hoursToAdd);
     };
 
