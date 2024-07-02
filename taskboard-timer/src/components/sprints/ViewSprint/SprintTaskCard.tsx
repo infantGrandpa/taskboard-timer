@@ -1,9 +1,6 @@
 import { Card, CardContent, Stack, Typography } from "@mui/material";
 import { SprintTask } from "../../../constants/sprintTasks";
-import { PriorityLabels } from "../../../constants/priorityLabels";
-import { StatusLabels } from "../../../constants/statusLabels";
 import SprintTaskButtons from "./SprintTaskButtons";
-import { getLabelByEnumKey } from "../../../utilities/labelHelper";
 
 interface Props {
     sprintTask: SprintTask;
@@ -18,10 +15,12 @@ const SprintTaskCard = ({ sprintTask }: Props) => {
                 </Typography>
                 <Stack direction="row" justifyContent="space-between">
                     <Typography variant="caption" display="block">
-                        {getLabelByEnumKey(sprintTask.priority, PriorityLabels)}
+                        Est Hrs: {sprintTask.task_details.estimated_hours}
                     </Typography>
                     <Typography variant="caption" display="block">
-                        {getLabelByEnumKey(sprintTask.status, StatusLabels)}
+                        Hrs Worked:{" "}
+                        {sprintTask.task_details.hours_worked.toFixed(2)}
+                        {/* TODO: When the timer goes off, this doesn't update until refresh. */}
                     </Typography>
                 </Stack>
                 <SprintTaskButtons sprintTask={sprintTask} />
