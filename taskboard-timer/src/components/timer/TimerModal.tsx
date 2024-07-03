@@ -1,10 +1,15 @@
 import {
+    Box,
     Button,
+    Container,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     IconButton,
+    List,
+    ListItem,
+    ListItemButton,
     Stack,
     Typography,
 } from "@mui/material";
@@ -16,6 +21,8 @@ import TimerTaskSelection from "./TimerTaskSelection";
 import { useTimerContext } from "../../providers/TimerProvider";
 import { useState } from "react";
 import EditTimerModal from "./EditTimerModal";
+import Grid from "@mui/material/Unstable_Grid2";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 
 interface Props {
     isOpen: boolean;
@@ -64,64 +71,121 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
             >
                 <MinimizeIcon />
             </IconButton>
-            <Stack direction="column" alignItems="center" sx={{ pb: 2 }}>
-                <DialogTitle>
-                    {timerActive ? "Timer is Active" : "Set Timer"}
-                </DialogTitle>
-                <DialogContent>
+            <Grid container>
+                <Grid
+                    xs={3}
+                    sx={{
+                        border: "2px dashed grey",
+                        p: "1em",
+                    }}
+                >
                     <Stack
                         sx={{
-                            backgroundColor: "#121212",
-                            p: 2,
+                            backgroundColor: "rgba(0, 0, 0, 0.4)",
+                            mt: "4em",
+                            py: "1em",
                             borderRadius: "6px",
                         }}
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
                     >
-                        {openEditTimer && (
-                            <EditTimerModal
-                                isOpen={openEditTimer}
-                                onClose={handleCloseEditModal}
-                            />
-                        )}
-                        <Typography
-                            variant="h1"
-                            textAlign="center"
-                            component="p"
+                        <Button
+                            variant="outlined"
+                            startIcon={<AccessAlarmIcon />}
                         >
-                            {formattedTimeLeft}
-                        </Typography>
-                        {!timerActive && (
-                            <Button
-                                variant="text"
-                                size="small"
-                                onClick={handleOpenEditModal}
-                            >
-                                Edit Timer
-                            </Button>
-                        )}
+                            20:00
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            startIcon={<AccessAlarmIcon />}
+                        >
+                            30:00
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            startIcon={<AccessAlarmIcon />}
+                        >
+                            40:00
+                        </Button>
                     </Stack>
-                    <TimerTaskSelection timerActive={timerActive} />
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        startIcon={
-                            timerActive ? <PauseIcon /> : <PlayArrowIcon />
-                        }
-                        variant="contained"
-                        disabled={playerButtonDisabled}
-                        onClick={timerActive ? pauseTimer : unpauseTimer}
-                    >
-                        {timerActive ? "Pause" : "Play"}
-                    </Button>
-                    <Button
-                        startIcon={<StopIcon />}
-                        variant="outlined"
-                        color="warning"
-                        onClick={resetTimer}
-                    >
-                        Stop
-                    </Button>
-                </DialogActions>
-            </Stack>
+                </Grid>
+                <Grid
+                    xs={6}
+                    alignItems="center"
+                    sx={{ border: "2px dashed grey", pb: 2 }}
+                >
+                    <DialogTitle textAlign="center">
+                        {timerActive ? "Timer is Active" : "Set Timer"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <Stack
+                            sx={{
+                                backgroundColor: "#121212",
+                                p: 2,
+                                borderRadius: "6px",
+                            }}
+                        >
+                            {openEditTimer && (
+                                <EditTimerModal
+                                    isOpen={openEditTimer}
+                                    onClose={handleCloseEditModal}
+                                />
+                            )}
+                            <Typography
+                                variant="h1"
+                                textAlign="center"
+                                component="p"
+                            >
+                                {formattedTimeLeft}
+                            </Typography>
+                            {!timerActive && (
+                                <Button
+                                    variant="text"
+                                    size="small"
+                                    onClick={handleOpenEditModal}
+                                >
+                                    Edit Timer
+                                </Button>
+                            )}
+                        </Stack>
+                        <TimerTaskSelection timerActive={timerActive} />
+                    </DialogContent>
+                    <DialogActions>
+                        <Stack
+                            direction="row"
+                            justifyContent="space-evenly"
+                            sx={{ width: "100%" }}
+                        >
+                            <Button
+                                startIcon={
+                                    timerActive ? (
+                                        <PauseIcon />
+                                    ) : (
+                                        <PlayArrowIcon />
+                                    )
+                                }
+                                variant="contained"
+                                disabled={playerButtonDisabled}
+                                onClick={
+                                    timerActive ? pauseTimer : unpauseTimer
+                                }
+                            >
+                                {timerActive ? "Pause" : "Play"}
+                            </Button>
+                            <Button
+                                startIcon={<StopIcon />}
+                                variant="outlined"
+                                color="warning"
+                                onClick={resetTimer}
+                            >
+                                Stop
+                            </Button>
+                        </Stack>
+                    </DialogActions>
+                </Grid>
+            </Grid>
         </Dialog>
     );
 };
