@@ -1,15 +1,10 @@
 import {
-    Box,
     Button,
-    Container,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     IconButton,
-    List,
-    ListItem,
-    ListItemButton,
     Stack,
     Typography,
 } from "@mui/material";
@@ -71,54 +66,49 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
             >
                 <MinimizeIcon />
             </IconButton>
+            <DialogTitle textAlign="center" sx={{ pb: 0 }}>
+                {timerActive ? "Timer is Active" : "Set Timer"}
+            </DialogTitle>
             <Grid container>
-                <Grid
-                    xs={3}
-                    sx={{
-                        border: "2px dashed grey",
-                        p: "1em",
-                    }}
-                >
-                    <Stack
-                        sx={{
-                            backgroundColor: "rgba(0, 0, 0, 0.4)",
-                            mt: "4em",
-                            py: "1em",
-                            borderRadius: "6px",
-                        }}
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2}
-                    >
-                        <Button
-                            variant="outlined"
-                            startIcon={<AccessAlarmIcon />}
+                <Grid xs={3}>
+                    <DialogContent>
+                        <Stack
+                            sx={{
+                                backgroundColor: "rgba(0, 0, 0, 0.4)",
+                                py: "1em",
+                                px: "2em",
+                                borderRadius: "6px",
+                            }}
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={2}
                         >
-                            20:00
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            startIcon={<AccessAlarmIcon />}
-                        >
-                            30:00
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            startIcon={<AccessAlarmIcon />}
-                        >
-                            40:00
-                        </Button>
-                    </Stack>
+                            <Button
+                                variant="outlined"
+                                startIcon={<AccessAlarmIcon />}
+                                fullWidth
+                            >
+                                20:00
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                startIcon={<AccessAlarmIcon />}
+                                fullWidth
+                            >
+                                30:00
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                startIcon={<AccessAlarmIcon />}
+                                fullWidth
+                            >
+                                40:00
+                            </Button>
+                        </Stack>
+                    </DialogContent>
                 </Grid>
-                <Grid
-                    xs={6}
-                    alignItems="center"
-                    sx={{ border: "2px dashed grey", pb: 2 }}
-                >
-                    <DialogTitle textAlign="center">
-                        {timerActive ? "Timer is Active" : "Set Timer"}
-                    </DialogTitle>
+                <Grid xs={6} alignItems="center" sx={{ pb: 2 }}>
                     <DialogContent>
                         <Stack
                             sx={{
