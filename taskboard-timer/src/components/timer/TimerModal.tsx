@@ -33,6 +33,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
         pauseTimer,
         resetTimer,
         currentTask,
+        setTimerLength,
     } = useTimerContext();
 
     const [openEditTimer, setOpenEditTimer] = useState<boolean>(false);
@@ -88,6 +89,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                                 variant="outlined"
                                 startIcon={<AccessAlarmIcon />}
                                 fullWidth
+                                onClick={() => setTimerLength(20, 0)}
                             >
                                 20:00
                             </Button>
@@ -95,6 +97,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                                 variant="outlined"
                                 startIcon={<AccessAlarmIcon />}
                                 fullWidth
+                                onClick={() => setTimerLength(30, 0)}
                             >
                                 30:00
                             </Button>
@@ -102,6 +105,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                                 variant="outlined"
                                 startIcon={<AccessAlarmIcon />}
                                 fullWidth
+                                onClick={() => setTimerLength(40, 0)}
                             >
                                 40:00
                             </Button>
