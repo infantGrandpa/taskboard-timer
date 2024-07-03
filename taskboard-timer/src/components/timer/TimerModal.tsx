@@ -24,6 +24,7 @@ interface Props {
 
 const TimerModal = ({ isOpen, onClose }: Props) => {
     const {
+        timeLeft,
         formattedTimeLeft,
         timerActive,
         unpauseTimer,
@@ -42,6 +43,8 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
     const handleCloseEditModal = () => {
         setOpenEditTimer(false);
     };
+
+    const playerButtonDisabled = !currentTask || timeLeft == 0;
 
     return (
         <Dialog
@@ -104,7 +107,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                             timerActive ? <PauseIcon /> : <PlayArrowIcon />
                         }
                         variant="contained"
-                        disabled={!currentTask}
+                        disabled={playerButtonDisabled}
                         onClick={timerActive ? pauseTimer : unpauseTimer}
                     >
                         {timerActive ? "Pause" : "Play"}
