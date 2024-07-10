@@ -1,8 +1,8 @@
 [package]
 name = "taskboard-timer"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "1.0.0"
+description = "Taskboard Timer App"
+authors = ["Brett Abraham <babraham341@gmail.com>"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
