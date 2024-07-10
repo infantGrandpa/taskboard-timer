@@ -191,3 +191,4 @@ taskboard-timer/scripts/migrations/versions
 taskboard-timer/src-tauri/bin/api/
 taskboard-timer/src-tauri/bin/api/main-x86_64-pc-windows-msvc.exe
 taskboard-timer/src-tauri/bin/api/*
+.exe
