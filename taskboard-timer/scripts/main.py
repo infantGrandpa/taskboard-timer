@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -10,13 +11,28 @@ from scripts.routes.sprint_routes import sprint_blueprint
 from scripts.routes.database import db
 from scripts.utilities.response_middleware import standardize_api_response
 
+IS_DEBUG = False
+
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": [
      "GET", "POST", "OPTIONS", "DELETE", "PUT"], "allow_headers": ["Content-Type", "Authorization"]}})
 
 # Database Configuration
+def get_db_directory():
+    if IS_DEBUG:
+        return 'sqlite:///taskboard.db'
+    else: 
+        #TODO Make this work for other platforms. 
+        #This only works for Windows right now.
+        #return os.getenv('APPDATA') & "/taskboard-timer/taskboard.db"
+
+        #TODO This was to check if things are working.
+        #With it "in production" it launches but gets a network error
+        #in the temp folder, no db is being created. We need to make sure a db gets created.
+        return "C:/Temp/taskboard-timer/taskboard.db"
+
 # Defines the database URI
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///taskboard.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = get_db_directory()
 # Disables modification notifications
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
