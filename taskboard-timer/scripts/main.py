@@ -11,7 +11,7 @@ from scripts.routes.sprint_routes import sprint_blueprint
 from scripts.routes.database import db
 from scripts.utilities.response_middleware import standardize_api_response
 
-IS_DEBUG = False
+IS_DEBUG = True
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": [
@@ -24,12 +24,9 @@ def get_db_directory():
     else: 
         #TODO Make this work for other platforms. 
         #This only works for Windows right now.
-        #return os.getenv('APPDATA') & "/taskboard-timer/taskboard.db"
-
-        #TODO This was to check if things are working.
-        #With it "in production" it launches but gets a network error
-        #in the temp folder, no db is being created. We need to make sure a db gets created.
-        return "C:/Temp/taskboard-timer/taskboard.db"
+        db_path = os.getenv('APPDATA') + "/taskboard-timer/taskboard.db"
+        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        return f'sqlite:///{db_path}'
 
 # Defines the database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = get_db_directory()
@@ -37,6 +34,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = get_db_directory()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)  # Initializes the database connection
+
+with app.app_context():
+    db.create_all()
 
 migrate = Migrate(app, db, render_as_batch=True)
 
