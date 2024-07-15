@@ -11,7 +11,7 @@ from scripts.routes.sprint_routes import sprint_blueprint
 from scripts.routes.database import db
 from scripts.utilities.response_middleware import standardize_api_response
 
-IS_DEBUG = True
+IS_DEBUG = False
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": [
@@ -25,7 +25,9 @@ def get_db_directory():
         #TODO Make this work for other platforms. 
         #This only works for Windows right now.
         db_path = os.getenv('APPDATA') + "/taskboard-timer/taskboard.db"
-        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        #db_path = "C:/Temp/taskboard-timer/taskboard.db"
+        # TODO: This doesn't create a db if in actual production.
+        os.makedirs(os.path.dirname(db_path), exist_ok=True)    
         return f'sqlite:///{db_path}'
 
 # Defines the database URI
