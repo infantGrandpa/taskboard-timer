@@ -18,6 +18,7 @@ import { useState } from "react";
 import EditTimerModal from "./EditTimerModal";
 import Grid from "@mui/material/Unstable_Grid2";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 interface Props {
     isOpen: boolean;
@@ -34,6 +35,7 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
         resetTimer,
         currentTask,
         setTimerLength,
+        addTimeToTaskAndReset,
     } = useTimerContext();
 
     const [openEditTimer, setOpenEditTimer] = useState<boolean>(false);
@@ -172,9 +174,17 @@ const TimerModal = ({ isOpen, onClose }: Props) => {
                                 startIcon={<StopIcon />}
                                 variant="outlined"
                                 color="warning"
-                                onClick={resetTimer}
+                                disabled={playerButtonDisabled}
+                                onClick={addTimeToTaskAndReset}
                             >
                                 Stop
+                            </Button>
+                            <Button
+                                startIcon={<RestartAltIcon />}
+                                variant="outlined"
+                                onClick={resetTimer}
+                            >
+                                Reset Timer
                             </Button>
                         </Stack>
                     </DialogActions>

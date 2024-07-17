@@ -20,6 +20,7 @@ interface TimerContextType {
     currentTask: SprintTask | null | undefined;
     setCurrentTask: (task?: SprintTask) => void;
     setTimerLength: (minutes: number, seconds: number) => void;
+    addTimeToTaskAndReset: () => void;
 }
 
 const TimerContext = createContext<TimerContextType>({
@@ -32,6 +33,7 @@ const TimerContext = createContext<TimerContextType>({
     currentTask: null,
     setCurrentTask: () => {},
     setTimerLength: () => {},
+    addTimeToTaskAndReset: () => {},
 });
 
 interface Props {
@@ -86,14 +88,22 @@ const TimerProvider = ({ children }: Props) => {
         setTimeLeft(totalSeconds);
     };
 
-    const handleTimerComplete = () => {
+    const addTimeToTaskAndReset = () => {
+        handleTimerComplete(false);
+        resetTimer();
+    };
+
+    const handleTimerComplete = (playAlarm: boolean = true) => {
         if (!currentTask) {
             return;
         }
 
         const timeToAdd = secsOnTimer - timeLeft;
         const hoursToAdd = convertTimerSecondsToHours(timeToAdd);
-        playAlarmSound();
+
+        if (playAlarm) {
+            playAlarmSound();
+        }
         handleUpdateTaskHours(hoursToAdd);
     };
 
@@ -144,6 +154,7 @@ const TimerProvider = ({ children }: Props) => {
                 currentTask: currentTask,
                 setCurrentTask: setCurrentTask,
                 setTimerLength: setTimerLength,
+                addTimeToTaskAndReset: addTimeToTaskAndReset,
             }}
         >
             {children}
